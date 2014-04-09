@@ -7,7 +7,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 	public MyGLSurfaceView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
+		
+		setEGLContextClientVersion(2);
+		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+		setRenderer(new MyRenderer());
+		
+		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
 
 }
