@@ -3,14 +3,14 @@ package com.chinonbattenonjava.saproject;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-public class MyGLSurfaceView extends GLSurfaceView {
+public class GameGLSurfaceView extends GLSurfaceView {
 
-	public MyGLSurfaceView(Context context) {
+	public GameGLSurfaceView(Context context) {
 		super(context);
 		
 		setEGLContextClientVersion(2);
 		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-		setRenderer(new MyRenderer());
+		setRenderer(new GameRenderer());
 		
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
