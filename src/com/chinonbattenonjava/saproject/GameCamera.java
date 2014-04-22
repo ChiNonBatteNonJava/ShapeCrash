@@ -32,10 +32,9 @@ public class GameCamera {
 	
 	public void setEye(final float[] eye)
 	{
-		for (int i=0; i < eye.length; i++)
-		{
-			this.eye[i] = eye[i];
-		}
+		this.eye[0] = eye[0];
+		this.eye[1] = eye[1];
+		this.eye[2] = eye[2];
 	}
 	
 	public void setEye(final float eyeX, final float eyeY, final float eyeZ)
@@ -47,16 +46,15 @@ public class GameCamera {
 	
 	public void setTarget(final float[] target)
 	{
-		for (int i=0; i < target.length; i++)
-		{
-			this.target[i] = target[i];
-		}
+		this.target[0] = target[0];
+		this.target[1] = target[1];
+		this.target[2] = target[2];
 	}
 	
 	public void setTarget(final float targetX, final float targetY, final float targetZ)
 	{
 		this.target[0] = targetX;
-		this.target[1]	= targetY;
+		this.target[1] = targetY;
 		this.target[2] = targetZ;
 	}
 	

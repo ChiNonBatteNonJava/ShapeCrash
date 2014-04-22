@@ -1,23 +1,30 @@
 package com.chinonbattenonjava.saproject;
 
-import java.util.HashSet;
-
 
 public class GameState {
-	private HashSet<GameComponent> components;
+	private static GameState instance;
 	
-	public GameState()
+	private RendererState rendererState;
+	
+	private GameState()
 	{
-		components = new HashSet<GameComponent>();
+		rendererState = RendererState.NOT_READY;
 	}
 	
-	public void registerComponent(GameComponent component)
+	public static GameState getInstance()
 	{
-		components.add(component);
+		if (instance == null)
+			instance = new GameState();
+		return instance;
 	}
 	
-	public HashSet<GameComponent> getGameComponents()
+	public RendererState getRendererState()
 	{
-		return components;
+		return rendererState;
+	}
+	
+	public void setRendererState(RendererState state)
+	{
+		rendererState = state;
 	}
 }

@@ -12,7 +12,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	public void onDrawFrame(GL10 unused) {
 		//clear color buffer
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-		
 	}
 
 	@Override
@@ -23,9 +22,15 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+		GameState.getInstance().setRendererState(RendererState.READY);
+		
+		GameResourceManager.getInstance().loadShaders();
+		GameResourceManager.getInstance().compileShaders();
+		
 		//clear screen to black
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
+		// TODO load textures
 	}
 
 }
