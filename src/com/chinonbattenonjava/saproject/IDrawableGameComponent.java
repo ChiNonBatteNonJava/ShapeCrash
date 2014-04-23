@@ -1,5 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
+
 public interface IDrawableGameComponent {
-	public void draw();
+	public IPainter getPainter();
+	public float[] getMVPMatrix();
 }

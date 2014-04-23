@@ -58,6 +58,20 @@ public class GameCamera {
 		this.target[2] = targetZ;
 	}
 	
+	public void setUp(final float[] up)
+	{
+		this.up[0] = up[0];
+		this.up[1] = up[1];
+		this.up[2] = up[2];
+	}
+	
+	public void setUp(final float upX, final float upY, final float upZ)
+	{
+		this.up[0] = upX;
+		this.up[1] = upY;
+		this.up[2] = upZ;
+	}
+	
 	public void setFrustum(final float near, final float far, final float ratio)
 	{
 		Matrix.frustumM(projMatrix, 0, -ratio, ratio, -1, 1, near, far);

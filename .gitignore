@@ -24,3 +24,13 @@ proguard/
 *.ps
 
 *.vs
+
+*.class
+
+bin/classes/com/chinonbattenonjava/saproject/R$string.class
+
+bin/classes/com/chinonbattenonjava/saproject/R$style.class
+
+bin/classes/com/chinonbattenonjava/saproject/R$string.class
+
+*.class

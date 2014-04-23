@@ -16,6 +16,7 @@ public class GameResourceManager {
 	
 	// constants
 	private static final String shadersPath = "shaders";
+	private static final String modelsPath = "models";
 	
 	// singleton instance
 	private static GameResourceManager instance;
@@ -23,10 +24,12 @@ public class GameResourceManager {
 	// locals
 	private Resources androidRes;
 	private HashMap<String, GameShader> shaders;
+	private HashMap<String, Game3DModel> models;
 	
 	private GameResourceManager()
 	{
 		shaders = new HashMap<String, GameShader>();
+		models = new HashMap<String, Game3DModel>();
 		
 		androidRes = null;
 	}
@@ -43,6 +46,11 @@ public class GameResourceManager {
 		return shadersPath;
 	}
 	
+	public static String getModelsPath()
+	{
+		return modelsPath;
+	}
+	
 	public void bindAndroidResources(Resources res)
 	{
 		androidRes = res;
@@ -56,6 +64,11 @@ public class GameResourceManager {
 	public GameShader getShaderByName(String shaderName)
 	{
 		return shaders.get(shaderName);
+	}
+	
+	public Game3DModel get3DModelByName(String modelName)
+	{
+		return models.get(modelName);
 	}
 	
 	public void loadShaders()
@@ -114,6 +127,48 @@ public class GameResourceManager {
 			GameShader s = entry.getValue();
 			
 			s.compileShader();
+		}
+	}
+	
+	public void load3DModel(String modelFileName)
+	{
+		if (androidRes != null && GameResourceManager.getInstance().get3DModelByName(modelFileName) == null)
+		{
+			try {
+				// read file
+				BufferedReader reader = new BufferedReader(new InputStreamReader(androidRes.getAssets().open(GameResourceManager.getModelsPath() + File.separator + modelFileName)));
+				
+				String modelString = "";
+				
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					modelString = modelString + line + " ";
+				}
+				
+				String[] verticesString = modelString.split(",");
+				float[] vertices = new float[verticesString.length];
+				
+				Log.d(TAG, modelString);
+				
+				for (int i = 0; i < vertices.length; i++)
+				{
+					vertices[i] = Float.parseFloat(verticesString[i]);
+				}
+				
+				// initialize Game3DModel
+				Game3DModel m = new Game3DModel(vertices);
+				
+				// add to collection
+				models.put(modelFileName, m);
+				
+				Log.d(TAG, "Model loaded: " + modelFileName);
+			} catch (IOException e) {
+	            e.printStackTrace();
+			}
+		}
+		else
+		{
+			Log.e(TAG, "load3DModels() called before Android Resources binding!");
 		}
 	}
 }
