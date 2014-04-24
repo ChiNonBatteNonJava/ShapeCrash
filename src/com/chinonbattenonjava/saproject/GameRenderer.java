@@ -9,21 +9,22 @@ import android.opengl.GLSurfaceView;
 public class GameRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
-		// TODO Auto-generated method stub
+		// This method will be called only once
+		// Landscape mode is fixed
 		GLES20.glViewport(0, 0, width, height);
 		
 		float ratio = (float)width/height;
 		
-		GameState.getInstance().getCamera().setFrustum(1.0f, 10.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(1.0f, 10.0f, ratio);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
-		GameState.getInstance().getCamera().setEye(0.0f, 0.0f, -3.0f);
-		GameState.getInstance().getCamera().setTarget(0.0f, 0.0f, 0.0f);
-		GameState.getInstance().getCamera().setUp(0.0f, 1.0f, 0.0f);
-		GameState.getInstance().getCamera().updateViewMatrix();
+		GameState.getInstance().getCamera("MainCam").setEye(0.0f, 0.0f, -3.0f);
+		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
+		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
+		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
 		Car player1 = new Car();
 		
@@ -42,7 +43,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
-		GameState.getInstance().getCamera().updateViewMatrix();
+		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
 		for (IUpdatableGameComponent updatable : GameState.getInstance().getUpdatables())
 		{

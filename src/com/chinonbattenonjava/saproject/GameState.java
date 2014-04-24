@@ -1,5 +1,6 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameState {
@@ -10,7 +11,7 @@ public class GameState {
 	private RendererState rendererState;
 	private HashSet<IDrawableGameComponent> drawables;
 	private HashSet<IUpdatableGameComponent> updatables;
-	private GameCamera camera;
+	private HashMap<String, GameCamera> cameras;
 	
 	private GameState()
 	{
@@ -18,8 +19,7 @@ public class GameState {
 		
 		drawables = new HashSet<IDrawableGameComponent>();
 		updatables = new HashSet<IUpdatableGameComponent>();
-		
-		camera = new GameCamera();
+		cameras = new HashMap<String, GameCamera>();
 	}
 	
 	public static GameState getInstance()
@@ -49,9 +49,11 @@ public class GameState {
 		return updatables;
 	}
 	
-	public GameCamera getCamera()
+	public GameCamera getCamera(String cameraName)
 	{
-		return camera;
+		if (!cameras.containsKey(cameraName))
+			cameras.put(cameraName, new GameCamera());
+		return cameras.get(cameraName);
 	}
 	
 	public void registerDrawable(IDrawableGameComponent drawable)
