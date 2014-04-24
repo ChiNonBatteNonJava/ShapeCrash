@@ -51,7 +51,7 @@ public class GameShader {
 	public void compileShader()
 	{
 			// compile
-			int shader = GLES20.glCreateShader(shaderType);
+			this.shader = GLES20.glCreateShader(shaderType);
 			
 			GLES20.glShaderSource(shader, shaderCode);
 			GLES20.glCompileShader(shader);
