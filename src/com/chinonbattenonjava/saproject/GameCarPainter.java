@@ -35,7 +35,7 @@ public class GameCarPainter implements IPainter {
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, car.getMVPMatrix(), 0);
 		
 		// draw
-		GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, 3);
+		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 	}

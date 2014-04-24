@@ -94,7 +94,7 @@ public class GameResourceManager {
 						
 						String line = null;
 						while ((line = reader.readLine()) != null) {
-						    shaderCode = shaderCode + line + "\n";
+						    shaderCode = shaderCode + line + " \n ";
 						}
 						
 						// initialize GameShader object

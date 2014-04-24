@@ -7,7 +7,6 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
-
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
 		// TODO Auto-generated method stub
@@ -34,8 +33,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameResourceManager.getInstance().loadShaders();
 		GameResourceManager.getInstance().compileShaders();
 		
-		//clear screen to black
-		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		//clear screen to white
+		GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		// TODO load textures
 	}

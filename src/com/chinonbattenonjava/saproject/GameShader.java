@@ -51,7 +51,7 @@ public class GameShader {
 	public void compileShader()
 	{
 			// compile
-			int shader = GLES20.glCreateShader(shaderType);
+			shader = GLES20.glCreateShader(shaderType);
 			
 			GLES20.glShaderSource(shader, shaderCode);
 			GLES20.glCompileShader(shader);
@@ -59,7 +59,7 @@ public class GameShader {
 			// check if successfully compiled
 			int[] compiled = new int[1];
             GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
-            if (compiled[0] == 0) {
+            if (compiled[0] != GLES20.GL_TRUE) {
             	Log.e(TAG, "Could not compile shader " + shaderName + ":");
                 Log.e(TAG, GLES20.glGetShaderInfoLog(shader));
                 Log.e(TAG, shaderCode);
