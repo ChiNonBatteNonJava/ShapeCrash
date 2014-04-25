@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import Physics.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
@@ -35,7 +36,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameResourceManager.getInstance().compileShaders();
 		
 		//clear screen to white
-		GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 		
 		// TODO load textures
 	}
@@ -49,6 +50,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		{
 			updatable.update(0.0f);
 		}
+		
+		//PhysicsUpdate 
+		
+		PhysicsWorld.instance("MainWorld").update();
+		
 		
 		// draw logic
 		//clear color buffer
