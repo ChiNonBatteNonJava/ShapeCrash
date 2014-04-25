@@ -29,7 +29,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		whell[2]=new Vector3(1,0.3f,-2);
 		name="car"+PhysicsWorld.instance("MainWorld").getVehicleCount();
 		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1,0.5f,1)), 800, whell, name, "MainWorld");
-		PhysicsWorld.instance("MainWorld").AddVehicle(myCar, name);
+		
 		
 	}
 	@Override

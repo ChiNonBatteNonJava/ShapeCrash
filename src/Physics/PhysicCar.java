@@ -109,7 +109,7 @@ public class PhysicCar {
 			
 		}
 		
-		//PhysicsWorld.instance(world).AddVehicle(this, name);
+		PhysicsWorld.instance(world).AddVehicle(this, name);
 		//compound.release();
 		//tr.release();
 	
