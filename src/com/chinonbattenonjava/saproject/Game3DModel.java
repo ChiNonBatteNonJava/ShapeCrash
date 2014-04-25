@@ -10,7 +10,7 @@ public class Game3DModel {
 	// class TAG for Log
 	private static final String TAG = "Game3DModel";
 	
-	public static final int COORDS_PER_VERTEX = 3;
+	public   int COORDS_PER_VERTEX = 3;
 	
 	private float[] vertices;
 	private FloatBuffer vertexBuffer;
@@ -21,6 +21,13 @@ public class Game3DModel {
 		this.vertices = vertices;
 		this.vertexCount = 0;
 	}
+	public Game3DModel(float[] vertices,int cordXvertex)
+	{
+		this.vertices = vertices;
+		this.vertexCount = 0;
+		this.COORDS_PER_VERTEX=cordXvertex;
+	}
+	
 	
 	public float[] getVertices()
 	{

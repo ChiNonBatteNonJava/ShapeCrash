@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 public class GameCarPainter implements IPainter {
 	private static final String CAR_MODEL_FILE = "car.m";
 	
+	
 	private Car car;
 	
 	private Game3DModel m;
@@ -15,6 +16,8 @@ public class GameCarPainter implements IPainter {
 		this.car = car;
 		GameResourceManager.getInstance().load3DModel(CAR_MODEL_FILE);
 		m = GameResourceManager.getInstance().get3DModelByName(CAR_MODEL_FILE);
+		
+	
 		
 		program = new GameShaderProgram(GameResourceManager.getInstance().getShaderByName("car.vs"), GameResourceManager.getInstance().getShaderByName("car.ps"));
 	}
@@ -28,7 +31,7 @@ public class GameCarPainter implements IPainter {
 		
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
 		
-		GLES20.glVertexAttribPointer(mPositionHandle, Game3DModel.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, Game3DModel.COORDS_PER_VERTEX * 4, m.getVertexBuffer());
+		GLES20.glVertexAttribPointer(mPositionHandle, m.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, m.COORDS_PER_VERTEX * 4, m.getVertexBuffer());
 		
 		// mvpMatrix
 		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uMVPMatrix");

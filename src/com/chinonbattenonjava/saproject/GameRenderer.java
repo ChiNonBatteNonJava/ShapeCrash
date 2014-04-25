@@ -16,18 +16,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		float ratio = (float)width/height;
 		
-		GameState.getInstance().getCamera("MainCam").setFrustum(1.0f, 10.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f, 10.0f, ratio);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
-		GameState.getInstance().getCamera("MainCam").setEye(0.0f, 0.0f, -3.0f);
+		GameState.getInstance().getCamera("MainCam").setEye(0.01f, 2.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
-		Car player1 = new Car();
+		//Car player1 = new Car();
+		Terrain t =new Terrain();
 		
 		// render initialization
 		GameState.getInstance().setRendererState(RendererState.READY);
@@ -37,7 +38,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		//clear screen to white
 		GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
-		
+		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		// TODO load textures
 	}
 	
