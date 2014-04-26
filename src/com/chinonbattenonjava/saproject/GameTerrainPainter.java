@@ -13,8 +13,8 @@ public class GameTerrainPainter implements IPainter {
 		GameResourceManager.getInstance().load3DObjModel(TERRAIN_MODEL);
 		m = GameResourceManager.getInstance().get3DModelByName(TERRAIN_MODEL);
 		program = new GameShaderProgram(GameResourceManager.getInstance()
-				.getShaderByName("car.vs"), GameResourceManager.getInstance()
-				.getShaderByName("car.ps"));
+				.getShaderByName("terrain.vs"), GameResourceManager.getInstance()
+				.getShaderByName("terrain.ps"));
 		terrain=t;
 	}
 	public Game3DModel getGame3dModel(){
