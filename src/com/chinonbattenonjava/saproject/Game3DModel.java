@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import com.badlogic.gdx.math.Vector3;
+
 import android.util.Log;
 
 public class Game3DModel {
@@ -31,7 +33,29 @@ public class Game3DModel {
 	
 	public float[] getVertices()
 	{
-		return vertices;
+		float[] vertex=new float[(vertices.length/COORDS_PER_VERTEX) * 3];
+		int a=0;
+		for (int i=0;i<vertices.length;i+=COORDS_PER_VERTEX)
+		{
+			vertex[a]=vertices[i];a++;
+			vertex[a]=vertices[i+1];a++;
+			vertex[a]=vertices[i+2];a++;
+			
+			
+		}
+		return vertex;
+	}
+	public Vector3[] getVerticesVector3()
+	{
+		Vector3[] vertex=new Vector3[(vertices.length/COORDS_PER_VERTEX)];
+		int a=0;
+		for (int i=0;i<vertices.length;i+=COORDS_PER_VERTEX)
+		{
+		
+			vertex[a]=new Vector3(vertices[i],vertices[i+1],vertices[i+2]);a++;
+			
+		}
+		return vertex;
 	}
 	
 	public FloatBuffer getVertexBuffer()

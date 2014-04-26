@@ -56,7 +56,9 @@ public class PhysicsWorld {
 		dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase,
 				solver, collisionConfiguration);
 
+
 		dynamicsWorld.setGravity(new Vector3(0, -9.8f, 0));
+
 
 	
 	}

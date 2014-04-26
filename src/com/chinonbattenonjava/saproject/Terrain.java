@@ -1,5 +1,8 @@
 package com.chinonbattenonjava.saproject;
 
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
+
 import Physics.PhysicsWorld;
 import android.opengl.Matrix;
 
@@ -12,8 +15,15 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
+		
 	}
 	
+	private void initPhysics(){
+		
+		PhysicsWorld.instance("MainWorld").addMeshCollider(painter.getGame3dModel().getVerticesVector3(), new Vector3(0,-7,0), new Quaternion(0,0,0,1), 0, "terrain1");
+		
+		
+	}
 	@Override
 	public void update(float delta) {
 	float[] mModelMatrix = new float[16];
@@ -30,6 +40,7 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 	public IPainter getPainter() {
 		if (painter == null)
 			painter = new GameTerrainPainter(this);
+			initPhysics();
 		return painter;
 	}
 

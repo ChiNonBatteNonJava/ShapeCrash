@@ -29,6 +29,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		whell[2]=new Vector3(1,0.3f,-2);
 		name="car"+PhysicsWorld.instance("MainWorld").getVehicleCount();
 		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1,0.5f,1)), 800, whell, name, "MainWorld");
+		myCar.setCarPosition(new Vector3(0,6,1));
 		
 		
 	}
@@ -36,6 +37,10 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	public float[] getMVPMatrix()
 	{
 		return mvpMatrix;
+	}
+	public Vector3 getCarPos(){
+		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
+		
 	}
 
 	@Override

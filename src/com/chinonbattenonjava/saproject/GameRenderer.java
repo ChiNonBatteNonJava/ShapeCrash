@@ -3,6 +3,8 @@ package com.chinonbattenonjava.saproject;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.badlogic.gdx.math.Vector3;
+
 import Physics.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -16,18 +18,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		float ratio = (float)width/height;
 		
-		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f, 10.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f,400.0f, ratio);
 	}
-
+	Car player1;
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
-		GameState.getInstance().getCamera("MainCam").setEye(0.01f, 2.0f, 0.0f);
+		GameState.getInstance().getCamera("MainCam").setEye(0.01f, 3.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
-		//Car player1 = new Car();
+		 player1 = new Car();
+		
 		Terrain t =new Terrain();
 		
 		// render initialization
@@ -45,6 +48,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
+		Vector3 carPos=player1.getCarPos();
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x+0.01f, carPos.y+1, carPos.z);
+		GameState.getInstance().getCamera("MainCam").setTarget(carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
 		for (IUpdatableGameComponent updatable : GameState.getInstance().getUpdatables())

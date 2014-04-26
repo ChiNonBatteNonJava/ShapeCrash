@@ -35,7 +35,7 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 350.f;
+	float gEngineForce = 250.f;
 	float gBreakingForce =0.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent

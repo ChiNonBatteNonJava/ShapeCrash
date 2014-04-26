@@ -3,7 +3,7 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameTerrainPainter implements IPainter {
-	private static final String TERRAIN_MODEL = "cube.obj";
+	private static final String TERRAIN_MODEL = "pista1.obj";
 	private Game3DModel m;
 	private GameShaderProgram program;
 	private Terrain terrain;
@@ -16,6 +16,9 @@ public class GameTerrainPainter implements IPainter {
 				.getShaderByName("car.vs"), GameResourceManager.getInstance()
 				.getShaderByName("car.ps"));
 		terrain=t;
+	}
+	public Game3DModel getGame3dModel(){
+		return this.m;
 	}
 
 	@Override
