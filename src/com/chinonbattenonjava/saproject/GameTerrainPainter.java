@@ -33,7 +33,7 @@ public class GameTerrainPainter implements IPainter {
 				GLES20.GL_FLOAT, false, m.COORDS_PER_VERTEX * 4,
 				m.getVertexBuffer());
 		
-	/*	
+		
 		 m.getVertexBuffer().position(3);
 		int mUvs = GLES20.glGetAttribLocation(program.getProgram(),
 				"vUvs");
@@ -50,7 +50,7 @@ public class GameTerrainPainter implements IPainter {
 			 GLES20.glVertexAttribPointer(mNormal, 3,
 						GLES20.GL_FLOAT, true, m.COORDS_PER_VERTEX * 4,
 						m.getVertexBuffer().position(5));
-*/
+
 		// mvpMatrix
 		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(),
 				"uMVPMatrix");

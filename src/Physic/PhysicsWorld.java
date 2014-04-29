@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
+import com.badlogic.gdx.physics.bullet.BulletBase;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
@@ -32,20 +33,25 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBodyConstructionInfo;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
+import com.badlogic.gdx.utils.Disposable;
+
 
 public class PhysicsWorld {
 	private static HashMap<String, PhysicsWorld> physicsWorld = new HashMap<String, PhysicsWorld>();
 	private btDiscreteDynamicsWorld dynamicsWorld;
 
+	
 	private PhysicsWorld() {
 
-		Bullet.init();
+		Bullet.init(false,true);
 		map = new HashMap<String, btRigidBody>();
 		cars = new HashMap<String, PhysicCar>();
-
+		 
 		btDefaultCollisionConfiguration collisionConfiguration = new btDefaultCollisionConfiguration();
 		btCollisionDispatcher dispatcher = new btCollisionDispatcher(
 				collisionConfiguration);
+	
+		
 		btDbvtBroadphase broadphase = new btDbvtBroadphase();
 		btSequentialImpulseConstraintSolver solver = new btSequentialImpulseConstraintSolver();
 		dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase,
@@ -60,8 +66,8 @@ public class PhysicsWorld {
 
 	public void addBox(Vector3 position, String name, Vector3 size, float mass) {
 		long heapSize = Runtime.getRuntime().totalMemory();
-		Log.i("heap", this.getClass().getName() + " addBox " + heapSize);
-		Bullet.init();
+		Log.i("heap", this.getClass().getName() + " addnjBox " + heapSize);
+	
 		btCollisionShape fallShape = new btBoxShape(size);
 		btDefaultMotionState fallMotionState = new btDefaultMotionState();
 		btTransform as = new btTransform();
@@ -84,12 +90,11 @@ public class PhysicsWorld {
 		map.put(name, myRigidBody);
 
 		dynamicsWorld.addRigidBody(myRigidBody);
-		heapSize = Runtime.getRuntime().totalMemory();
-		Log.i("heap", this.getClass().getName() + "  " + heapSize);
-		fallShape.releaseOwnership();
-		fallMotionState.releaseOwnership();
-		fallRigidBodyCI.releaseOwnership();
-		as.releaseOwnership();
+	
+		//fallShape.dispose();
+		//fallMotionState.dispose();
+		//fallRigidBodyCI. dispose();
+		//as.dispose();
 
 	}
 
@@ -112,12 +117,6 @@ public class PhysicsWorld {
 		btCollisionShape mTriMeshShape = new btBvhTriangleMeshShape(mTriMesh,
 				true);
 
-		/*
-		 * btConvexShape tmpshape = new btConvexTriangleMeshShape(mTriMesh);
-		 * btShapeHull hull = new btShapeHull(tmpshape); float margin =
-		 * mTriMeshShape.getMargin(); hull.buildHull(margin);
-		 * mTriMeshShape.setUserPointer(hull.getCPointer());
-		 */
 		btDefaultMotionState fallMotionStateTriangle = new btDefaultMotionState();
 		fallMotionStateTriangle.setStartWorldTrans(new btTransform(rotation,
 				position));
@@ -132,10 +131,11 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myNewBody);
 		map.put(name, myNewBody);
 
-		mTriMesh.release();
-		mTriMeshShape.release();
-		fallRigidBodyCIT.release();
-		fallInertiaT = null;
+		
+		//fallRigidBodyCIT.dispose();
+		//fallInertiaT = null;
+		//fallMotionStateTriangle.dispose();
+	    //mTriMesh.dispose();
 		// System.gc();
 
 	}
@@ -152,14 +152,14 @@ public class PhysicsWorld {
 	public void update() {
 
 		
-		dynamicsWorld.stepSimulation(1.0f / 30.0f, 5, 1.0f / 60.0f);
+		dynamicsWorld.stepSimulation(1.0f / 30.0f, 1, 1.0f / 60.0f);
 		
-
+		Log.i("car", ""+cars.size());
 		for (PhysicCar p : cars.values()) {
 			p.updateCar();
 		}
 		// System.gc();
-		dynamicsWorld.updateVehicles(1f / 30.0f);
+		//dynamicsWorld.updateVehicles(1f / 30.0f);
 	
 
 	}
@@ -201,10 +201,11 @@ public class PhysicsWorld {
 
 		world.addRigidBody(body);
 
-		myMotionState.dispose();
-		cInfo.release();
-		myMotionState.release();
-		// localInertia=null;
+		//myMotionState.dispose();
+	//	cInfo.dispose();
+	//	myMotionState.dispose();
+	//	startTransform.dispose();
+	//	 localInertia=null;
 		return body;
 	}
 
@@ -252,10 +253,10 @@ public class PhysicsWorld {
 	public void finalize() {
 		Log.i("Delete", "PhyisicWorld");
 		for (btRigidBody b : map.values()) {
-			b.release();
+			b.dispose();
 
 		}
-		dynamicsWorld.release();
+		dynamicsWorld.dispose();
 		try {
 			super.finalize();
 		} catch (Throwable e) {

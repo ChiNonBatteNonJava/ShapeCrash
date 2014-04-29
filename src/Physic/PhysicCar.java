@@ -1,6 +1,8 @@
 package Physic;
 
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.Collision;
@@ -33,7 +35,7 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 950.f;
+	float gEngineForce = 950f;
 	float gBreakingForce =0.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent
@@ -66,7 +68,7 @@ public class PhysicCar {
 		btTransform tr = new btTransform();
 		tr.setIdentity();
 		tr.setOrigin(new Vector3(0, 4, 0));
-	//	tr.release();
+      
 		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld);// chassisShape);
 
 		m_wheelShape = new btCylinderShapeX(new Vector3(wheelWidth,
@@ -105,15 +107,15 @@ public class PhysicCar {
 			wheel.setWheelsDampingCompression(suspensionCompression);
 			wheel.setFrictionSlip(wheelFriction);
 			wheel.setRollInfluence(rollInfluence);
-			wheel.release();
+			//wheel.dispose();
 			
 		}
 		
 		PhysicsWorld.instance(world).AddVehicle(this, name);
 		
+		// tr.dispose();
+		// compound.dispose();
 		
-		compound.release();
-		tr.release();
 	
 	}
 
@@ -133,9 +135,9 @@ public class PhysicCar {
 		btRigidBody body = new btRigidBody(cInfo);
 
 		world.addRigidBody(body);
-		myMotionState.release();
-		 cInfo.release();
-	
+	//	myMotionState.dispose();
+	//	 cInfo.dispose();
+	//	 startTransform.dispose();
 		return body;
 	}
 
@@ -198,14 +200,15 @@ public class PhysicCar {
 		m_carChassis.setMotionState(myMotionState);
 		
 		localTrans=null;
-		myMotionState.release();
+		//myMotionState.dispose();
 		
 	}
 	public Vector3 getCarPosition(){
 		Matrix4 worldTrans=new Matrix4();
 		m_carChassis.getMotionState().getWorldTransform(worldTrans);
 		Vector3 pos=new Vector3();
-		return worldTrans.getTranslation(pos);
+		worldTrans.getTranslation(pos);
+		return pos;
 		
 	}
 	public void RightSteering(){
@@ -244,12 +247,12 @@ public class PhysicCar {
 	
 	@Override
 	public void finalize(){
-		//Log.i("Delete", "Car");
-		 m_tuning.release();;
-		 m_vehicleRayCaster.release();
-		 m_vehicle.release();
-		 m_wheelShape.release();
-		 m_carChassis.release();
+		Log.i("Delete", "C1ar");
+		 m_tuning.dispose();;
+		 m_vehicleRayCaster.dispose();
+		 m_vehicle.dispose();
+		 m_wheelShape.dispose();
+		 m_carChassis.dispose();
 		
 		try {
 			super.finalize();

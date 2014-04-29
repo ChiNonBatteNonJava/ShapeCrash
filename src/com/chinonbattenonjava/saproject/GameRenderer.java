@@ -25,6 +25,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f,40.0f, ratio);
 	}
 	Car player1;
+	Terrain t;
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
@@ -39,7 +40,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		player1 = new Car();
 		
-		Terrain t =new Terrain();
+		t =new Terrain();
 		
 		// render initialization
 		GameState.getInstance().setRendererState(RendererState.READY);

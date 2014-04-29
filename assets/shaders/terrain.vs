@@ -10,6 +10,6 @@ void main()
 	if( vPosition.y > -1.0 ){
 		c=1.0;
 	}
-	color=vec3(0,0,c);
+	color=vec3(vUvs,c);
 
 }
