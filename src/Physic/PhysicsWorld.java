@@ -152,13 +152,13 @@ public class PhysicsWorld {
 	public void update() {
 
 		
-		dynamicsWorld.stepSimulation(1.0f / 30.0f, 1, 1.0f / 60.0f);
+		dynamicsWorld.stepSimulation(1.0f / 30.0f, 2, 1.0f / 60.0f);
 		
 		Log.i("car", ""+cars.size());
 		for (PhysicCar p : cars.values()) {
 			p.updateCar();
 		}
-		// System.gc();
+		// Systesm.gc();
 		//dynamicsWorld.updateVehicles(1f / 30.0f);
 	
 
