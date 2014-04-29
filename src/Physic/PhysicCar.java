@@ -165,7 +165,7 @@ public class PhysicCar {
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 
-		System.out.print(" "+m_carChassis.getLinearVelocity().z+'\n');
+		//System.out.print(" "+m_carChassis.getLinearVelocity().z+'\n');
 		
 	}
 

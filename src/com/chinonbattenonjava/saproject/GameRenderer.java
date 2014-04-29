@@ -22,7 +22,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		float ratio = (float)width/height;
 		
-		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f,15.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f,40.0f, ratio);
 	}
 	Car player1;
 	@Override
@@ -37,7 +37,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	
 		
 		
-		 player1 = new Car();
+		player1 = new Car();
 		
 		Terrain t =new Terrain();
 		
@@ -50,16 +50,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		//clear screen to white
 		GLES20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+		GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+		GLES20.glDepthMask(true);
+		GLES20.glClearDepthf(1.0f);
 		// TODO load textures
 	}
 	
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
-		long heapSize = Runtime.getRuntime().totalMemory(); 
-		Log.i("heap",this.getClass().getName()+" c "+heapSize);
+		//long heapSize = Runtime.getRuntime().totalMemory(); 
+		//Log.i("heap",this.getClass().getName()+" c "+heapSize);
 		Vector3 carPos=player1.getCarPos();
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x+0.01f, carPos.y+2, carPos.z);
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x+0.01f, carPos.y+35, carPos.z);
 		GameState.getInstance().getCamera("MainCam").setTarget(carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
@@ -75,14 +78,14 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		// draw logic
 		//clear color buffer
-		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		
 		for (IDrawableGameComponent drawable : GameState.getInstance().getDrawables())
 		{
 			drawable.getPainter().draw();
 		}
 		
-		 heapSize = Runtime.getRuntime().totalMemory(); 
-		Log.i("heap",this.getClass().getName()+" c1 "+heapSize);
+		//heapSize = Runtime.getRuntime().totalMemory(); 
+		//Log.i("heap",this.getClass().getName()+" c1 "+heapSize);
 	}
 }
