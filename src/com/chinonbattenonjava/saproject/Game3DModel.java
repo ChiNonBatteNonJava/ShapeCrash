@@ -11,80 +11,84 @@ import android.util.Log;
 public class Game3DModel {
 	// class TAG for Log
 	private static final String TAG = "Game3DModel";
-	
-	public   int COORDS_PER_VERTEX = 3;
-	
+
+	public int COORDS_PER_VERTEX = 3;
+
 	private float[] vertices;
 	private FloatBuffer vertexBuffer;
 	private int vertexCount;
+	private float[] verticesOnly = null;
+	private Vector3[] verticesVector = null;
 	
-	public Game3DModel(float[] vertices)
-	{
+	
+
+	public Game3DModel(float[] vertices) {
 		this.vertices = vertices;
 		this.vertexCount = 0;
 	}
-	public Game3DModel(float[] vertices,int cordXvertex)
-	{
+
+	public Game3DModel(float[] vertices, int cordXvertex) {
 		this.vertices = vertices;
 		this.vertexCount = 0;
-		this.COORDS_PER_VERTEX=cordXvertex;
+		this.COORDS_PER_VERTEX = cordXvertex;
 	}
-	
-	
-	public float[] getVertices()
-	{
-		float[] vertex=new float[(vertices.length/COORDS_PER_VERTEX) * 3];
-		int a=0;
-		for (int i=0;i<vertices.length;i+=COORDS_PER_VERTEX)
-		{
-			vertex[a]=vertices[i];a++;
-			vertex[a]=vertices[i+1];a++;
-			vertex[a]=vertices[i+2];a++;
-			
-			
+
+	public float[] getVertices() {
+		if (verticesOnly == null) {
+			verticesOnly = new float[(vertices.length / COORDS_PER_VERTEX) * 3];
+			int a = 0;
+
+			for (int i = 0; i < vertices.length; i += COORDS_PER_VERTEX) {
+				verticesOnly[a] = vertices[i];
+				a++;
+				verticesOnly[a] = vertices[i + 1];
+				a++;
+				verticesOnly[a] = vertices[i + 2];
+				a++;
+
+			}
 		}
-		return vertex;
+		return verticesOnly;
 	}
-	public Vector3[] getVerticesVector3()
-	{
-		Vector3[] vertex=new Vector3[(vertices.length/COORDS_PER_VERTEX)];
-		int a=0;
-		for (int i=0;i<vertices.length;i+=COORDS_PER_VERTEX)
-		{
-		
-			vertex[a]=new Vector3(vertices[i],vertices[i+1],vertices[i+2]);a++;
-			
+
+	public Vector3[] getVerticesVector3() {
+		if (verticesVector == null) {
+			verticesVector = new Vector3[(vertices.length / COORDS_PER_VERTEX)];
+			int a = 0;
+			for (int i = 0; i < vertices.length; i += COORDS_PER_VERTEX) {
+
+				verticesVector[a] = new Vector3(vertices[i], vertices[i + 1],
+						vertices[i + 2]);
+				a++;
+
+			}
 		}
-		return vertex;
+		return verticesVector;
 	}
-	
-	public FloatBuffer getVertexBuffer()
-	{
-		if (vertices == null)
-		{
+
+	public FloatBuffer getVertexBuffer() {
+		if (vertices == null) {
 			Log.e(TAG, "getVertexBuffer(): vertices not yet defined!");
 			return null;
 		}
-		
-		if (vertexBuffer == null)
-		{
+
+		if (vertexBuffer == null) {
 			ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
 			bb.order(ByteOrder.nativeOrder());
-			
+
 			vertexBuffer = bb.asFloatBuffer();
-			
+
 			vertexBuffer.put(vertices);
-			
+
 			vertexBuffer.position(0);
-			
+
 			vertexCount = vertices.length / COORDS_PER_VERTEX;
 		}
-		
+
 		return vertexBuffer;
 	}
-	
-	public int getVertexCount()
-	{
+
+	public int getVertexCount() {
 		return vertexCount;
 	}
 }

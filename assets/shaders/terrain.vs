@@ -6,6 +6,10 @@ uniform mat4 uMVPMatrix ;
 void main()
 {
 	gl_Position =  uMVPMatrix *  vPosition;
-	color=vec3(vUvs,1);
+	float c=0.0;
+	if( vPosition.y > -1.0 ){
+		c=1.0;
+	}
+	color=vec3(0,0,c);
 
 }

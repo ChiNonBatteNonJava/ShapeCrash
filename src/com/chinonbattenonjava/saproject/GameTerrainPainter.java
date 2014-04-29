@@ -3,7 +3,7 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameTerrainPainter implements IPainter {
-	private static final String TERRAIN_MODEL = "pista1.obj";
+	private static final String TERRAIN_MODEL = "pi11.obj";
 	private Game3DModel m;
 	private GameShaderProgram program;
 	private Terrain terrain;
@@ -35,7 +35,7 @@ public class GameTerrainPainter implements IPainter {
 				GLES20.GL_FLOAT, false, m.COORDS_PER_VERTEX * 4,
 				m.getVertexBuffer());
 		
-		
+	/*	
 		 m.getVertexBuffer().position(3);
 		int mUvs = GLES20.glGetAttribLocation(program.getProgram(),
 				"vUvs");
@@ -52,7 +52,7 @@ public class GameTerrainPainter implements IPainter {
 			 GLES20.glVertexAttribPointer(mNormal, 3,
 						GLES20.GL_FLOAT, true, m.COORDS_PER_VERTEX * 4,
 						m.getVertexBuffer().position(5));
-
+*/
 		// mvpMatrix
 		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(),
 				"uMVPMatrix");
@@ -62,10 +62,12 @@ public class GameTerrainPainter implements IPainter {
 
 		// draw
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
+		
+
 
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
-		GLES20.glDisableVertexAttribArray(mNormal);
-		GLES20.glDisableVertexAttribArray(mUvs);
+	//	GLES20.glDisableVertexAttribArray(mNormal);
+		//GLES20.glDisableVertexAttribArray(mUvs);
 	}
 
 }

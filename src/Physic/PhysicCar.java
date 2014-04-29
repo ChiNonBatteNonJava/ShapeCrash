@@ -1,9 +1,6 @@
-package Physics;
+package Physic;
 
 
-
-
-//sd
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.Collision;
@@ -24,6 +21,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btWheelInfo;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
 
+
 public class PhysicCar {
 	btVehicleTuning m_tuning;
 	btVehicleRaycaster m_vehicleRayCaster;
@@ -35,14 +33,14 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 250.f;
+	float gEngineForce = 950.f;
 	float gBreakingForce =0.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent
 	float maxBreakingForce = 1000.f;
 
 	public float gVehicleSteering = 0.f;
-	float steeringIncrement = 0.2f;
+	float steeringIncrement = 0.8f;
 	float steeringClamp = 0.3f;
 	float steeringMax = 1.3f;
 	float wheelRadius = 0.5f;
@@ -53,6 +51,7 @@ public class PhysicCar {
 	float suspensionCompression = 4.4f;
 	float rollInfluence = 0.4f;// 1.0f;
 
+	
 	public void createCar(btCollisionShape chassis, float mass, Vector3[] whellPosition,String name,String world) {
 
 		btDiscreteDynamicsWorld dynamicsWorld=PhysicsWorld.instance(world).getWorld();
@@ -67,7 +66,7 @@ public class PhysicCar {
 		btTransform tr = new btTransform();
 		tr.setIdentity();
 		tr.setOrigin(new Vector3(0, 4, 0));
-
+	//	tr.release();
 		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld);// chassisShape);
 
 		m_wheelShape = new btCylinderShapeX(new Vector3(wheelWidth,
@@ -106,12 +105,15 @@ public class PhysicCar {
 			wheel.setWheelsDampingCompression(suspensionCompression);
 			wheel.setFrictionSlip(wheelFriction);
 			wheel.setRollInfluence(rollInfluence);
+			wheel.release();
 			
 		}
 		
 		PhysicsWorld.instance(world).AddVehicle(this, name);
-		//compound.release();
-		//tr.release();
+		
+		
+		compound.release();
+		tr.release();
 	
 	}
 
@@ -132,25 +134,39 @@ public class PhysicCar {
 
 		world.addRigidBody(body);
 		myMotionState.release();
-		cInfo.release();
+		 cInfo.release();
 	
 		return body;
 	}
 
 	public void updateCar() {
-
+		
+		m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
+		float gEngineForce1;
+		if(Math.abs(gVehicleSteering)>0.5){
+			 gEngineForce1=gEngineForce+850;
+		}else{
+			
+			 gEngineForce1=gEngineForce;
+		}
+		if(gEngineForce<0){
+			gEngineForce1=gEngineForce*10;
+		}
 		int wheelIndex = 2;
-		m_vehicle.applyEngineForce(gEngineForce, wheelIndex);
+		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 1;
-		m_vehicle.applyEngineForce(gEngineForce, wheelIndex);
+		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering, wheelIndex);
 
 		wheelIndex = 0;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
-		m_vehicle.applyEngineForce(gEngineForce, wheelIndex);
+		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 
 		System.out.print(" "+m_carChassis.getLinearVelocity().z+'\n');
+		
 	}
 
 	public float[][] getWhellMatrix() {
@@ -181,7 +197,9 @@ public class PhysicCar {
 		myMotionState.setWorldTransform(localTrans);
 		m_carChassis.setMotionState(myMotionState);
 		
-
+		localTrans=null;
+		myMotionState.release();
+		
 	}
 	public Vector3 getCarPosition(){
 		Matrix4 worldTrans=new Matrix4();
@@ -219,14 +237,19 @@ public class PhysicCar {
 		
 	}
 	
+	public void SetSteering(float f){
+		gVehicleSteering=f;
+		
+	}
+	
 	@Override
 	public void finalize(){
 		//Log.i("Delete", "Car");
-		 m_tuning.releaseOwnership();;
-		 m_vehicleRayCaster.releaseOwnership();
-		 m_vehicle.releaseOwnership();
-		 m_wheelShape.releaseOwnership();
-		 m_carChassis.releaseOwnership();
+		 m_tuning.release();;
+		 m_vehicleRayCaster.release();
+		 m_vehicle.release();
+		 m_wheelShape.release();
+		 m_carChassis.release();
 		
 		try {
 			super.finalize();
@@ -236,5 +259,4 @@ public class PhysicCar {
 		}
 		
 	}
-
 }
