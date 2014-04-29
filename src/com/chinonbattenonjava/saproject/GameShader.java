@@ -68,4 +68,9 @@ public class GameShader {
             	Log.d(TAG, "Shader compiled: " + shaderName + " " + shader);
             }
 	}
+	
+	public void releaseShader()
+	{
+		GLES20.glDeleteShader(shader);
+	}
 }

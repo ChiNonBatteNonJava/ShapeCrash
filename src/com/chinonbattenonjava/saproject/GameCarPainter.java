@@ -23,7 +23,7 @@ public class GameCarPainter implements IPainter {
 		GameResourceManager.getInstance().load3DObjModel(CAR_WHELL_FILE);
 		whell = GameResourceManager.getInstance().get3DModelByName(CAR_WHELL_FILE);
 		
-		program = new GameShaderProgram(GameResourceManager.getInstance().getShaderByName("car.vs"), GameResourceManager.getInstance().getShaderByName("car.ps"));
+		program = GameResourceManager.getInstance().getShaderProgramByName("car");
 	}
 	
 	private void drawWhell(){

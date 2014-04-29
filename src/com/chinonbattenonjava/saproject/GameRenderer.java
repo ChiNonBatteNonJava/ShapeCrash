@@ -46,6 +46,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		GameResourceManager.getInstance().loadShaders();
 		GameResourceManager.getInstance().compileShaders();
+		GameResourceManager.getInstance().loadShaderPrograms();
+		GameResourceManager.getInstance().releaseShaders();
 		
 		//clear screen to white
 		GLES20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);

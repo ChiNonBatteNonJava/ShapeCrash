@@ -22,6 +22,7 @@ public class GameResourceManager {
 	// constants
 	private static final String shadersPath = "shaders";
 	private static final String modelsPath = "models";
+	private static final String shaderProgramsFilename = "programs";
 	
 	// singleton instance
 	private static GameResourceManager instance;
@@ -29,12 +30,14 @@ public class GameResourceManager {
 	// locals
 	private Resources androidRes;
 	private HashMap<String, GameShader> shaders;
+	private HashMap<String, GameShaderProgram> programs;
 	private HashMap<String, Game3DModel> models;
 	
 	private GameResourceManager()
 	{
 		shaders = new HashMap<String, GameShader>();
 		models = new HashMap<String, Game3DModel>();
+		programs = new HashMap<String, GameShaderProgram>();
 		
 		androidRes = null;
 	}
@@ -69,6 +72,11 @@ public class GameResourceManager {
 	public GameShader getShaderByName(String shaderName)
 	{
 		return shaders.get(shaderName);
+	}
+	
+	public GameShaderProgram getShaderProgramByName(String programName)
+	{
+		return programs.get(programName);
 	}
 	
 	public Game3DModel get3DModelByName(String modelName)
@@ -129,12 +137,58 @@ public class GameResourceManager {
 	{
 		for (HashMap.Entry<String, GameShader> entry : shaders.entrySet())
 		{
-			GameShader s = entry.getValue();
-			
-			s.compileShader();
+			entry.getValue().compileShader();
 		}
 	}
 	
+	public void releaseShaders()
+	{
+		for (HashMap.Entry<String, GameShader> entry : shaders.entrySet())
+		{
+			entry.getValue().releaseShader();
+		}
+		
+		shaders = null;
+	}
+	
+	public void loadShaderPrograms()
+	{
+		if (androidRes != null)
+		{
+			try {
+				// read file
+				BufferedReader reader = new BufferedReader(new InputStreamReader(androidRes.getAssets().open(GameResourceManager.getShadersPath() + File.separator + shaderProgramsFilename)));
+				
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					String[] programLine = line.split("=");
+					String[] programShaders = programLine[1].split(",");
+
+					if (programLine.length != 2 || programShaders.length != 2)
+					{
+						Log.e(TAG, "Error parsing programs: " + line);
+						continue;
+					}
+					
+					String programName = programLine[0].trim();
+					String vsName = programShaders[0].trim();
+					String psName = programShaders[1].trim();
+					
+					// initialize GameShaderProgam object
+					GameShaderProgram sp = new GameShaderProgram(getShaderByName(vsName), getShaderByName(psName));
+					
+					// add to collection
+					programs.put(programName, sp);
+				}
+			} catch (IOException e) {
+	            e.printStackTrace();
+			}
+		}
+		else
+		{
+			Log.e(TAG, "loadShaderPrograms() called before Android Resources binding!");
+		}
+	}
 	
 	public void load3DObjModel(String fileName){
 		if (androidRes != null && GameResourceManager.getInstance().get3DModelByName(fileName) == null)
@@ -217,19 +271,12 @@ public class GameResourceManager {
 			} catch (IOException e) {
 	            e.printStackTrace();
 			}
-		
 		}
 		else
 		{
 			Log.e(TAG, "load3DModels() called before Android Resources binding!");
 		}
-	
-		
 	}
-	
-
-	
-
 	
 	public void load3DModel(String modelFileName)
 	{

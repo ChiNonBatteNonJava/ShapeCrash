@@ -25,8 +25,9 @@ public class GameShaderProgram {
         } else {
         	Log.d(TAG, "Shaders linked: " + vertexShader.getShaderName() + " + " + pixelShader.getShaderName());
         }
-		
-		Log.d("Shader Program", "" + mProgram);
+        
+        GLES20.glDetachShader(mProgram, vertexShader.getShader());
+        GLES20.glDetachShader(mProgram, pixelShader.getShader());
 	}
 	
 	public int getProgram()
