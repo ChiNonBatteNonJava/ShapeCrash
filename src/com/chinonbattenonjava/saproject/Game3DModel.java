@@ -4,91 +4,56 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import com.badlogic.gdx.math.Vector3;
-
 import android.util.Log;
 
 public class Game3DModel {
 	// class TAG for Log
 	private static final String TAG = "Game3DModel";
-
-	public int COORDS_PER_VERTEX = 3;
-
+	
+	public static final int COORDS_PER_VERTEX = 3;
+	
 	private float[] vertices;
 	private FloatBuffer vertexBuffer;
 	private int vertexCount;
-	private float[] verticesOnly = null;
-	private Vector3[] verticesVector = null;
 	
-	
-
-	public Game3DModel(float[] vertices) {
+	public Game3DModel(float[] vertices)
+	{
 		this.vertices = vertices;
 		this.vertexCount = 0;
 	}
-
-	public Game3DModel(float[] vertices, int cordXvertex) {
-		this.vertices = vertices;
-		this.vertexCount = 0;
-		this.COORDS_PER_VERTEX = cordXvertex;
+	
+	public float[] getVertices()
+	{
+		return vertices;
 	}
-
-	public float[] getVertices() {
-		if (verticesOnly == null) {
-			verticesOnly = new float[(vertices.length / COORDS_PER_VERTEX) * 3];
-			int a = 0;
-
-			for (int i = 0; i < vertices.length; i += COORDS_PER_VERTEX) {
-				verticesOnly[a] = vertices[i];
-				a++;
-				verticesOnly[a] = vertices[i + 1];
-				a++;
-				verticesOnly[a] = vertices[i + 2];
-				a++;
-
-			}
-		}
-		return verticesOnly;
-	}
-
-	public Vector3[] getVerticesVector3() {
-		if (verticesVector == null) {
-			verticesVector = new Vector3[(vertices.length / COORDS_PER_VERTEX)];
-			int a = 0;
-			for (int i = 0; i < vertices.length; i += COORDS_PER_VERTEX) {
-
-				verticesVector[a] = new Vector3(vertices[i], vertices[i + 1],
-						vertices[i + 2]);
-				a++;
-
-			}
-		}
-		return verticesVector;
-	}
-
-	public FloatBuffer getVertexBuffer() {
-		if (vertices == null) {
+	
+	public FloatBuffer getVertexBuffer()
+	{
+		if (vertices == null)
+		{
 			Log.e(TAG, "getVertexBuffer(): vertices not yet defined!");
 			return null;
 		}
-
-		if (vertexBuffer == null) {
+		
+		if (vertexBuffer == null)
+		{
 			ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
 			bb.order(ByteOrder.nativeOrder());
-
+			
 			vertexBuffer = bb.asFloatBuffer();
-
+			
 			vertexBuffer.put(vertices);
-
+			
 			vertexBuffer.position(0);
-
+			
 			vertexCount = vertices.length / COORDS_PER_VERTEX;
 		}
-
+		
 		return vertexBuffer;
 	}
-
-	public int getVertexCount() {
+	
+	public int getVertexCount()
+	{
 		return vertexCount;
 	}
 }
