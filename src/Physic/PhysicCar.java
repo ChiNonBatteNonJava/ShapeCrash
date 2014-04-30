@@ -144,7 +144,7 @@ public class PhysicCar {
 		btRigidBody body = new btRigidBody(cInfo);
 
 		world.addRigidBody(body);
-	//	myMotionState.dispose();
+		myMotionState.del();
 	//	 cInfo.dispose();
 	//	 startTransform.dispose();
 		return body;
@@ -210,7 +210,7 @@ public class PhysicCar {
 		m_carChassis.setMotionState(myMotionState);
 		
 		localTrans=null;
-		//myMotionState.dispose();
+		myMotionState.del();
 		
 	}
 	public Vector3 getCarPosition(){
