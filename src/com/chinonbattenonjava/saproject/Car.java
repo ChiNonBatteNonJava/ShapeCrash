@@ -63,7 +63,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated  method stub
 		whellMatrix=new float[3][16];
 		
 		float[][] whellPos=PhysicsWorld.instance("MainWorld").getVheicleWhells(name);

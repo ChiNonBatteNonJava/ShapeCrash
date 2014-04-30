@@ -16,7 +16,7 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 		GameResourceManager.getInstance().bindAndroidResources(getResources());
 
 		setEGLContextClientVersion(2);
-		//setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+		//setEGLConfigChoos er(8, 8, 8, 8, 16, 0);
 		setRenderer(new GameRenderer());
 
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);

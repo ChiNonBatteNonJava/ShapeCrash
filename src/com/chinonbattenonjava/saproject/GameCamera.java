@@ -74,7 +74,7 @@ public class GameCamera {
 	
 	public void setFrustum(final float near, final float far, final float ratio)
 	{
-		//Matrix.frustumM(projMatrix, 0, -ratio, ratio, -1, 1, near, far);
+		//Matrix.frus  tumM(projMatrix, 0, -ratio, ratio, -1, 1, near, far);
 		Matrix.perspectiveM(projMatrix, 0, 60.0f, ratio, near, far);
 	}
 	

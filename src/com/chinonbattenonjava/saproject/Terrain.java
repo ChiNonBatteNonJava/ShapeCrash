@@ -28,7 +28,7 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 	public void update(float delta) {
 	float[] mModelMatrix = new float[16];
 		
-	  // mModelMatrix=PhysicsWorld.instance("MainWorld").getMatrixName("terrain1");
+	  // mModelMatrix=PhysicsWorld.instance("MainWorld").getM atrixName("terrain1");
 	    Matrix.setIdentityM(mModelMatrix, 0);
 		
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);

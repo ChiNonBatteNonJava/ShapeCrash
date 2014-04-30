@@ -64,8 +64,8 @@ public class GameTerrainPainter implements IPainter {
 
 
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
-	//	GLES20.glDisableVertexAttribArray(mNormal);
-		//GLES20.glDisableVertexAttribArray(mUvs);
+		GLES20.glDisableVertexAttribArray(mNormal);
+		GLES20.glDisableVertexAttribArray(mUvs);
 	}
 
 }

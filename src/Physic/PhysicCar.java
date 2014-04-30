@@ -6,10 +6,8 @@ import android.util.Log;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.Collision;
-import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 import com.badlogic.gdx.physics.bullet.collision.btCompoundShape;
-import com.badlogic.gdx.physics.bullet.collision.btCylinderShape;
 import com.badlogic.gdx.physics.bullet.collision.btCylinderShapeX;
 import com.badlogic.gdx.physics.bullet.dynamics.btDefaultVehicleRaycaster;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
@@ -21,10 +19,21 @@ import com.badlogic.gdx.physics.bullet.dynamics.btVehicleRaycaster;
 import com.badlogic.gdx.physics.bullet.dynamics.btVehicleTuning;
 import com.badlogic.gdx.physics.bullet.dynamics.btWheelInfo;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
+import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
 
 
+
+
 public class PhysicCar {
+	
+	
+	
+	
+	
+	
+	
+	
 	btVehicleTuning m_tuning;
 	btVehicleRaycaster m_vehicleRayCaster;
 	btRaycastVehicle m_vehicle;
@@ -35,7 +44,7 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 950f;
+	float gEngineForce = 450f;
 	float gBreakingForce =0.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent
@@ -65,7 +74,7 @@ public class PhysicCar {
 		compound.addChildShape(localTrans, chassis);
 		compound.setMargin(0);
 
-		btTransform tr = new btTransform();
+		Transform tr = new Transform();
 		tr.setIdentity();
 		tr.setOrigin(new Vector3(0, 4, 0));
       
@@ -119,17 +128,17 @@ public class PhysicCar {
 	
 	}
 
-	btRigidBody localCreateRigidBody(float mass, btTransform startTransform,
+	btRigidBody localCreateRigidBody(float mass, Transform startTransform,
 			btCollisionShape shape, btDynamicsWorld world) {
 
 		Vector3 localInertia = new Vector3(0, 0, 0);
 
 		shape.calculateLocalInertia(mass, localInertia);
 
-		btDefaultMotionState myMotionState = new btDefaultMotionState();
+		DefaultMotionState myMotionState = new DefaultMotionState();
 		myMotionState.setStartWorldTrans(startTransform);
 
-		btRigidBodyConstructionInfo cInfo = new btRigidBodyConstructionInfo(
+		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(
 				mass, myMotionState, shape, localInertia);
 
 		btRigidBody body = new btRigidBody(cInfo);
@@ -151,7 +160,7 @@ public class PhysicCar {
 			
 			 gEngineForce1=gEngineForce;
 		}
-		if(gEngineForce<0){
+		if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())<1000){
 			gEngineForce1=gEngineForce*10;
 		}
 		int wheelIndex = 2;
@@ -187,12 +196,13 @@ public class PhysicCar {
 
 	public float[] getMatrixChassisCar(){
 		Matrix4 worldTr=new Matrix4();
-		m_carChassis.getMotionState().getWorldTransform(worldTr);
+		btMotionState myMotion=m_carChassis.getMotionState();
+		myMotion.getWorldTransform(worldTr);
 		return worldTr.getValues();
 	}
 	
 	public void setCarPosition(Vector3 pos) {
-		btDefaultMotionState myMotionState = new btDefaultMotionState();
+		DefaultMotionState myMotionState = new DefaultMotionState();
 		Matrix4 localTrans = new Matrix4();
 		localTrans.idt();
 		localTrans.setTranslation(pos);
@@ -205,9 +215,10 @@ public class PhysicCar {
 	}
 	public Vector3 getCarPosition(){
 		Matrix4 worldTrans=new Matrix4();
-		m_carChassis.getMotionState().getWorldTransform(worldTrans);
+		btMotionState myMotion=m_carChassis.getMotionState();
+		myMotion.getWorldTransform(worldTrans);
 		Vector3 pos=new Vector3();
-		worldTrans.getTranslation(pos);
+		pos=worldTrans.getTranslation(pos);
 		return pos;
 		
 	}
