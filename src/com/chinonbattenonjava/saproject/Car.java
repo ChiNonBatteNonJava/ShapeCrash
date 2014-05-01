@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
+import android.util.Log;
 
 public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
@@ -47,13 +48,14 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	}
 	public Vector3 getCarPos(){
 		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
-		//return new Vector3(0,10,0);
+		
 	}
 
 	@Override
 	public IPainter getPainter() {
-		if (painter == null)
+		if (painter == null){
 			painter = new GameCarPainter(this);
+		}
 		return painter;
 	}
 	float[][] whellMatrix;
@@ -66,12 +68,19 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		// TODO Auto-generated  method stub
 		whellMatrix=new float[3][16];
 		
+		
 		float[][] whellPos=PhysicsWorld.instance("MainWorld").getVheicleWhells(name);
 		
 		float[] mModelMatrix = new float[16];
 		//Matrix.setIdentityM(mModelMatrix, 0);
+	
 		
-	  mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
+		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
+	 
+		
+			
+		
+	 
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 		
@@ -83,6 +92,9 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[2], 0);
 		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[2], 0);
+		
+		whellPos=null;
+		mModelMatrix=null;
 		
 		
 		

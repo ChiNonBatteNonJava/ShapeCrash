@@ -1,6 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 public class GameTerrainPainter implements IPainter {
 	private static final String TERRAIN_MODEL = "pi11.obj";
@@ -21,6 +22,7 @@ public class GameTerrainPainter implements IPainter {
 
 	@Override
 	public void draw() {
+		
 		GLES20.glUseProgram(program.getProgram());
 
 		// vertex position
@@ -61,11 +63,10 @@ public class GameTerrainPainter implements IPainter {
 		// draw
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
-
-
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);
+		
 	}
 
 }

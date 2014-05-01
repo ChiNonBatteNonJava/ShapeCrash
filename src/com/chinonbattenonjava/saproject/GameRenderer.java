@@ -58,27 +58,45 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GLES20.glClearDepthf(1.0f);
 		// TODO load textures
 	}
-	
+	long old=0;
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
 		//long heapSize = Runtime.getRuntime().totalMemory(); 
 		//Log.i("heap",this.getClass().getName()+" c "+heapSize);
+	
+//		old=Runtime.getRuntime().totalMemory();
+		//Log.i("alloc1",""+Runtime.getRuntime().totalMemory());
+		
+		
+		
 		Vector3 carPos=player1.getCarPos();
+	
+		
 		GameState.getInstance().getCamera("MainCam").setEye(carPos.x+0.01f, carPos.y+35, carPos.z);
 		GameState.getInstance().getCamera("MainCam").setTarget(carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
+		
 		
 		for (IUpdatableGameComponent updatable : GameState.getInstance().getUpdatables())
 		{
 			updatable.update(0.0f);
 		}
+//		if((Runtime.getRuntime().totalMemory()-old)!=0){
+//			Log.i("alloc2",""+(Runtime.getRuntime().totalMemory()-old));
+//			
+//		}
+//		old=Runtime.getRuntime().totalMemory();
 		
 		//PhysicsUpdate 
 		
 		PhysicsWorld.instance("MainWorld").update();
 		
-		
+//		if((Runtime.getRuntime().totalMemory()-old)!=0){
+//			Log.i("alloc3",""+(Runtime.getRuntime().totalMemory()-old));
+//			
+//		}
+//		old=Runtime.getRuntime().totalMemory();
 		// draw logic
 		//clear color buffer
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -87,6 +105,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		{
 			drawable.getPainter().draw();
 		}
+//		if((Runtime.getRuntime().totalMemory()-old)!=0){
+//			Log.i("alloc4",""+(Runtime.getRuntime().totalMemory()-old));
+//			
+//		}
 		
 		//heapSize = Runtime.getRuntime().totalMemory(); 
 		//Log.i("heap",this.getClass().getName()+" c1 "+heapSize);

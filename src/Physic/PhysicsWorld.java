@@ -61,6 +61,8 @@ class DefaultCollisionConfiguration extends btDefaultCollisionConfiguration {
 
 	@Override
 	protected void finalize() throws Throwable {
+		
+		
 		// this.delete();
 		this.release();
 		this.destroyed = true;

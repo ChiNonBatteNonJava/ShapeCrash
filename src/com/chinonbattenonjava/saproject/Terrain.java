@@ -2,12 +2,13 @@ package com.chinonbattenonjava.saproject;
 
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent {
-	private GameTerrainPainter painter;
+	private GameTerrainPainter painter=null;
 	private float[] mvpMatrix;
 	
 	public Terrain(){
@@ -38,9 +39,10 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 
 	@Override
 	public IPainter getPainter() {
-		if (painter == null)
+		if (painter == null){
 			painter = new GameTerrainPainter(this);
 			initPhysics();
+		}
 		return painter;
 	}
 

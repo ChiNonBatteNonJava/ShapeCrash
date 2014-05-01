@@ -26,14 +26,7 @@ import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
 
 
 public class PhysicCar {
-	
-	
-	
-	
-	
-	
-	
-	
+
 	btVehicleTuning m_tuning;
 	btVehicleRaycaster m_vehicleRayCaster;
 	btRaycastVehicle m_vehicle;
@@ -140,6 +133,7 @@ public class PhysicCar {
 
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(
 				mass, myMotionState, shape, localInertia);
+		cInfo.setFriction(100);
 
 		btRigidBody body = new btRigidBody(cInfo);
 
@@ -165,12 +159,12 @@ public class PhysicCar {
 		}
 		int wheelIndex = 2;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
-		m_vehicle.setSteeringValue(-gVehicleSteering, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering/2, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
-		m_vehicle.setSteeringValue(-gVehicleSteering, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering/2, wheelIndex);
 
 		wheelIndex = 0;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
@@ -198,6 +192,8 @@ public class PhysicCar {
 		Matrix4 worldTr=new Matrix4();
 		btMotionState myMotion=m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTr);
+		myMotion.release();
+		myMotion=null;
 		return worldTr.getValues();
 	}
 	
