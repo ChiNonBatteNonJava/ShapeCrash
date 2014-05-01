@@ -1,7 +1,6 @@
 package com.chinonbattenonjava.saproject;
 
 import android.opengl.GLES20;
-import android.util.Log;
 
 public class GameTerrainPainter implements IPainter {
 	private static final String TERRAIN_MODEL = "pi11.obj";

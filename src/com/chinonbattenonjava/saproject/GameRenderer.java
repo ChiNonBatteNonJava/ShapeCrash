@@ -1,15 +1,11 @@
 package com.chinonbattenonjava.saproject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 

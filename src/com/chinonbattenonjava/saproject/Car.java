@@ -1,11 +1,10 @@
 package com.chinonbattenonjava.saproject;
 
-import com.badlogic.gdx.math.Vector3;
-
 import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
-import android.util.Log;
+
+import com.badlogic.gdx.math.Vector3;
 
 public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals

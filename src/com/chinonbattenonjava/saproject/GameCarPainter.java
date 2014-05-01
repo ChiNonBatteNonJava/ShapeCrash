@@ -2,8 +2,6 @@ package com.chinonbattenonjava.saproject;
 
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
-import android.util.Log;
 
 public class GameCarPainter implements IPainter {
 	private static final String CAR_MODEL_FILE = "car.m";

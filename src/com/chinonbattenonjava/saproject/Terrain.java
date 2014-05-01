@@ -2,7 +2,6 @@ package com.chinonbattenonjava.saproject;
 
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
