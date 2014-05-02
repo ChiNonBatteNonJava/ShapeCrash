@@ -19,7 +19,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		float ratio = (float) width / height;
 
 		GameState.getInstance().getCamera("MainCam")
-				.setFrustum(0.10f, 40.0f, ratio);
+				.setFrustum(0.10f, 60.0f, ratio);
 	}
 
 	Car player1;
@@ -29,8 +29,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
 		GameState.getInstance().getCamera("MainCam").setEye(2.0f, 3.0f, 0.0f);
-		GameState.getInstance().getCamera("MainCam")
-				.setTarget(0.0f, 0.0f, 0.0f);
+		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
@@ -38,7 +37,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		t = new Terrain();
 
-		// render initialization
+		// rendSDFer initia lization
 		GameState.getInstance().setRendererState(RendererState.READY);
 
 		GameResourceManager.getInstance().loadShaders();
@@ -62,9 +61,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		// update logic
 
 		Vector3 carPos = player1.getCarPos();
-
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x + 0.01f, carPos.y + 35, carPos.z);
-		GameState.getInstance().getCamera("MainCam").setTarget(carPos.x, carPos.y, carPos.z);
+	//	Vector3 camPos =  player1.getCarPos().sub(player1.getCar().getVectorForward().mul(10)); 
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,40,carPos.z);
+		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
 		for (IUpdatableGameComponent updatable : GameState.getInstance()

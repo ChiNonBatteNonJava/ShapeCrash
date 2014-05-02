@@ -42,7 +42,7 @@ public class GameCarPainter implements IPainter {
 			GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mat, 0);
 			
 			// draw
-			GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, whell.getVertexCount());
+			GLES20.glDrawArrays(GLES20.GL_LINES, 0, whell.getVertexCount());
 			
 			GLES20.glDisableVertexAttribArray(mPositionHandle);
 			
@@ -77,4 +77,5 @@ public class GameCarPainter implements IPainter {
 		
 	}
 
+	 
 }

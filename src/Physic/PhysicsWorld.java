@@ -194,7 +194,6 @@ public class PhysicsWorld {
 		RigidBodyConstructionInfo fallRigidBodyCI = new RigidBodyConstructionInfo(
 				mass, fallMotionState, fallShape, fallInertia);
 
-		// fallRigidBodyCI.setLinearDamping(1);
 		btRigidBody myRigidBody = new btRigidBody(fallRigidBodyCI);
 
 		map.put(name, myRigidBody);
@@ -202,10 +201,7 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myRigidBody);
 
 		fallMotionState.del();
-		// fallShape.dispose();
-		// fallMotionState.dispose();
-		// fallRigidBodyCI. dispose();
-		// as.dispose();
+
 
 	}
 
@@ -237,18 +233,17 @@ public class PhysicsWorld {
 
 		RigidBodyConstructionInfo fallRigidBodyCIT = new RigidBodyConstructionInfo(
 				mass, fallMotionStateTriangle, mTriMeshShape, fallInertiaT);
-
+		fallRigidBodyCIT.setRestitution(1.0f);
+		fallRigidBodyCIT.setFriction(100.5f);
+		fallRigidBodyCIT.setLinearDamping(100);
+		
 		btRigidBody myNewBody = new btRigidBody(fallRigidBodyCIT);
 		dynamicsWorld.addRigidBody(myNewBody);
 		map.put(name, myNewBody);
 
 		fallMotionStateTriangle.del();
 		mTriMesh.release();
-		// fallRigidBodyCIT.dispose();
-		// fallInertiaT = null;
-		// fallMotionStateTriangle.dispose();
-		// mTriMesh.dispose();
-		// System.gc();
+
 
 	}
 

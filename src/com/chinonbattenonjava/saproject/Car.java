@@ -24,13 +24,13 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	private void initPhysics(){
 		PhysicCar myCar=new PhysicCar();		
 		Vector3 [] whell=new Vector3[3];
-		whell[0]=new Vector3(0,0.3f,2);
-		whell[1]=new Vector3(-1,0.3f,-2);
-		whell[2]=new Vector3(1,0.3f,-2);
+		whell[0]=new Vector3(0,1,2);
+		whell[1]=new Vector3(-1,1,-2);
+		whell[2]=new Vector3(1,1,-2);
 		
 		name="car"+PhysicsWorld.instance("MainWorld").getVehicleCount();
-		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1,0.5f,1)), 800, whell, name, "MainWorld");
-		myCar.setCarPosition(new Vector3(0,3,1));
+		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1.0f,0.5f,1.5f)), 800, whell, name, "MainWorld");
+		myCar.setCarPosition(new Vector3(0,2.5f,1));
 		
 		
 	}
@@ -47,6 +47,10 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	}
 	public Vector3 getCarPos(){
 		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
+		
+	}
+	public PhysicCar getCar(){
+		return PhysicsWorld.instance("MainWorld").getVheicle(name);
 		
 	}
 
@@ -71,7 +75,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		float[][] whellPos=PhysicsWorld.instance("MainWorld").getVheicleWhells(name);
 		
 		float[] mModelMatrix = new float[16];
-		//Matrix.setIdentityM(mModelMatrix, 0);
+		//Matrix.setIdentityM(mModelMa trix, 0);
 	
 		
 		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);

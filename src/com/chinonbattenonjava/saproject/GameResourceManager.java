@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +12,13 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 public class GameResourceManager {
@@ -32,13 +38,16 @@ public class GameResourceManager {
 	private HashMap<String, GameShader> shaders;
 	private HashMap<String, GameShaderProgram> programs;
 	private HashMap<String, Game3DModel> models;
+	private HashMap<String,Integer> textures;
+	
+	
 	
 	private GameResourceManager()
 	{
 		shaders = new HashMap<String, GameShader>();
 		models = new HashMap<String, Game3DModel>();
 		programs = new HashMap<String, GameShaderProgram>();
-		
+		textures=new HashMap<String,Integer>();
 		androidRes = null;
 	}
 	
@@ -319,4 +328,60 @@ public class GameResourceManager {
 			Log.e(TAG, "load3DModels() called before Android Resources binding!");
 		}
 	}
+
+
+	public void loadTexture(String fileName){
+		int mBrickDataHandle;
+		try {
+			mBrickDataHandle = loadTextureDo(fileName);
+			GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBrickDataHandle);
+			GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
+					GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+			GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
+					GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+			textures.put(fileName, mBrickDataHandle);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	public int  getTexture(String name){
+		return textures.get(name);
+	}
+	
+	
+	private int loadTextureDo(final String name)
+			throws IOException {
+		final int[] textureHandle = new int[1];
+
+		GLES20.glGenTextures(1, textureHandle, 0);
+
+		if (textureHandle[0] != 0) {
+			final BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inScaled = false; // No pre-scaling
+
+			// Read in the resource
+			AssetManager am = androidRes.getAssets();
+			InputStream is = am.open("Textures"+ File.separator +name);
+			final Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+			// Bind to the texture in OpenGL
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+
+			// Load the bitmap into the bound texture.
+			GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+
+			// Recycle the bitmap, since its data has been loaded into OpenGL.
+			bitmap.recycle();
+		}
+
+		if (textureHandle[0] == 0) {
+			throw new RuntimeException("Error loading texture.");
+		}
+
+		return textureHandle[0];
+	}
+
 }

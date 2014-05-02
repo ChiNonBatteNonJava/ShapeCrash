@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import android.util.Log;
 
 public class Game3DModel {
-	// class TAG for Log
+	// class TAGz for Log
 	private static final String TAG = "Game3DModel";
 
 	public int COORDS_PER_VERTEX = 3;

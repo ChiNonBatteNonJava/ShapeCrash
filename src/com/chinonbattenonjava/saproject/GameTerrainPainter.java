@@ -3,16 +3,20 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameTerrainPainter implements IPainter {
-	private static final String TERRAIN_MODEL = "pi11.obj";
+	private static final String TERRAIN_MODEL = "p12.obj";
 	private Game3DModel m;
 	private GameShaderProgram program;
 	private Terrain terrain;
+	private int texture;
 
 	public GameTerrainPainter(Terrain t) {
 		
 		GameResourceManager.getInstance().load3DObjModel(TERRAIN_MODEL);
+		GameResourceManager.getInstance().loadTexture("terrain.png");
 		m = GameResourceManager.getInstance().get3DModelByName(TERRAIN_MODEL);
 		program = GameResourceManager.getInstance().getShaderProgramByName("terrain");
+		texture= GameResourceManager.getInstance().getTexture("terrain.png");
+		
 		terrain=t;
 	}
 	public Game3DModel getGame3dModel(){
@@ -52,12 +56,24 @@ public class GameTerrainPainter implements IPainter {
 						GLES20.GL_FLOAT, true, m.COORDS_PER_VERTEX * 4,
 						m.getVertexBuffer().position(5));
 
-		// mvpMatrix
+		// mvpMatsrix
 		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(),
 				"uMVPMatrix");
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				terrain.getMVPMatrix(), 0);
+
+		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+		// Bind the texture to this unit.
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
+		int mTextureUniformHandle;
+		
+		//get set sample texture
+		mTextureUniformHandle = GLES20.glGetUniformLocation(program.getProgram(),
+				"u_Texture");
+
+		GLES20.glUniform1i(mTextureUniformHandle, 0);
 
 		// draw
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
