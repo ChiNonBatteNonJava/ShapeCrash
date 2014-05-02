@@ -10,6 +10,9 @@ import android.opengl.GLSurfaceView;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
+	private static final float NANOS_PER_MILLISECONDS = 1000000.0f;
+	private float delta;
+	
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
 		// This method will be called only once
@@ -28,6 +31,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// logic initialization
+		delta = 0.000001f; // small value in case of division by delta
+		
 		GameState.getInstance().getCamera("MainCam").setEye(2.0f, 3.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
@@ -59,21 +64,22 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
-
+		long startTime = System.nanoTime();
+		
 		Vector3 carPos = player1.getCarPos();
-	//	Vector3 camPos =  player1.getCarPos().sub(player1.getCar().getVectorForward().mul(10)); 
+
 		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,40,carPos.z);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
 		for (IUpdatableGameComponent updatable : GameState.getInstance()
 				.getUpdatables()) {
-			updatable.update(0.0f);
+			updatable.update(delta);
 		}
 
 		// PhysicsUpdate
 
-		PhysicsWorld.instance("MainWorld").update();
+		PhysicsWorld.instance("MainWorld").update(delta);
 
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -81,6 +87,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 				.getDrawables()) {
 			drawable.getPainter().draw();
 		}
-
+		
+		delta = (System.nanoTime() - startTime) / NANOS_PER_MILLISECONDS;
 	}
 }
