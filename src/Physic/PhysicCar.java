@@ -271,7 +271,7 @@ public class PhysicCar {
 		
 	}
 	
-	public void setStatus(PhysiCarStatus carStatus){
+	public void setStatus(PhysicCarStatus carStatus){
 		
 		gVehicleSteering=carStatus.steering;
 		setCarPosition(carStatus.position);
@@ -280,9 +280,9 @@ public class PhysicCar {
 			
 	}
 	
-	public PhysiCarStatus getStatus(){
+	public PhysicCarStatus getStatus(){
 		
-		PhysiCarStatus helper=new PhysiCarStatus();
+		PhysicCarStatus helper=new PhysicCarStatus();
 		helper.steering=gVehicleSteering;
 		helper.position=this.getCarPosition();
 		helper.liearVelocity=m_carChassis.getLinearVelocity();
