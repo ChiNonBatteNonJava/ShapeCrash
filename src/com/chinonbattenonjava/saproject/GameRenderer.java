@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import ClientSide.Client;
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -37,11 +38,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
-
+		
 		player1 = new Car();
 
 		t = new Terrain();
-
+		Client x=new Client(player1);
 		// rendSDFer initia lization
 		GameState.getInstance().setRendererState(RendererState.READY);
 

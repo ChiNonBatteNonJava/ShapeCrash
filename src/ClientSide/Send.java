@@ -3,14 +3,16 @@ package ClientSide;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import com.chinonbattenonjava.saproject.Car;
+
 class Send extends Thread{
     private SocketChannel sc;
     private String msg;
-
-    public Send(SocketChannel sc, String msg, int id) {
+    private JSONObject jsn;
+    public Send(SocketChannel sc, Car macchina, int id) {
         this.sc = sc;
-        this.msg = "ID: "+id+"   ->"+msg;
 
+        JSONObject jsn = macchina.getCar().getStatus() ;
     }
     public void run() {
         long taskTime = 0;
