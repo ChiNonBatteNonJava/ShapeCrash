@@ -17,7 +17,21 @@ class Send extends Thread{
         this.sc = sc;
         this.macchina = macchina;
         this.id = id;
+        try {
+        	JSONObject jsn = new JSONObject();
+            jsn.put("id", id);
+            msg = jsn.toJSONString();
+            ByteBuffer buff = ByteBuffer.allocate(512);
+            buff.clear();
+            buff.put(msg.getBytes());
+            buff.flip();
+            sc.write(buff);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
+    
+    
     public void run() {
         long taskTime = 0;
         long sleepTime = 1000/10;
@@ -26,7 +40,7 @@ class Send extends Thread{
             try {
             	JSONObject jsn = macchina.getCar().getStatus().toJson();
                 jsn.put("id", id);
-                msg = jsn.toString();
+                msg = jsn.toJSONString();
                 ByteBuffer buff = ByteBuffer.allocate(512);
                 buff.clear();
                 buff.put(msg.getBytes());
