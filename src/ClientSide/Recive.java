@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import android.util.Log;
+
 class Receive extends Thread{
     SocketChannel sc;
     public Receive(SocketChannel sc) {
@@ -22,7 +24,7 @@ class Receive extends Thread{
                     while (buff.hasRemaining()) {
                         str += (char) buff.get();
                     }
-                    System.out.println(str);
+                    Log.i("recive:", str);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -31,7 +33,4 @@ class Receive extends Thread{
         }
 
     }
-
-
-
 }
