@@ -7,29 +7,30 @@ import java.nio.channels.SocketChannel;
 import com.chinonbattenonjava.saproject.Car;
 
 public class Client {
-
-//    public static void main(String[]args) throws IOException {
-//        Client x=new Client("10.62.162.84", 4444);
-//    }
 	
     private SocketChannel sc;
-    private int randomNum;
     private String  ip;
     private int porta;
+    private int id;
     public Client(Car macchina){
     	try{
     	ip = "10.62.162.84";
     	porta = 4444;
-        randomNum = (int)(Math.random()*1000);
+    	
+    	//create a random IDENTIFIER
+    	
+        id = (int)(Math.random()*1000);
+        
+        
         String msg = "BENFAGAYY";
         sc = SocketChannel.open();
         sc.connect(new InetSocketAddress(ip, porta));
         Receive r;
-        r = new Receive(sc);
+        r = new Receive(sc, id);
         Thread a = new Thread(r);
         a.start();
         Send q;
-        q = new Send(sc, macchina, randomNum);
+        q = new Send(sc, macchina, id);
         Thread b = new Thread(q);
         b.start();
     	}

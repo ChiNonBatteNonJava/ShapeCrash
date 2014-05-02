@@ -7,9 +7,11 @@ import java.nio.channels.SocketChannel;
 import android.util.Log;
 
 class Receive extends Thread{
-    SocketChannel sc;
-    public Receive(SocketChannel sc) {
+    private SocketChannel sc;
+    private int id;
+    public Receive(SocketChannel sc, int id) {
         this.sc = sc;
+        this.id = id;
     }
     public void run(){
         while(true) {
@@ -33,4 +35,5 @@ class Receive extends Thread{
         }
 
     }
+
 }
