@@ -9,7 +9,7 @@ public class PhysicCarStatus {
 	public Vector3 position;
 	public Vector3 linearVelocity;
 	public Vector3 angularVelocity;
-
+	
 	public JSONObject toJson(){
 		JSONObject json = new JSONObject();
 		JSONObject positionJson = new JSONObject();
@@ -34,6 +34,25 @@ public class PhysicCarStatus {
 		json.put("angular", angularJson);
 		
 		return json;
+	}
+	
+	public void fromJSON(JSONObject json){
+		steering = (Float) json.get("steering");
+		JSONObject positionJson = (JSONObject) json.get("position");
+		JSONObject linearJson =  (JSONObject) json.get("linear");
+		JSONObject angularJson =  (JSONObject) json.get("angular");
+		
+		position.x = (Float) positionJson.get("x");
+		position.y = (Float) positionJson.get("y");
+		position.z = (Float) positionJson.get("z");
+		
+		linearVelocity.x = (Float) linearJson.get("x");
+		linearVelocity.y = (Float) linearJson.get("y");
+		linearVelocity.z = (Float) linearJson.get("z");
+		
+		angularVelocity.x = (Float) angularJson.get("x");
+		angularVelocity.y = (Float) angularJson.get("y");
+		angularVelocity.z = (Float) angularJson.get("z");
 	}
 	
 }
