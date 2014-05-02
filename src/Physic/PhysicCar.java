@@ -275,7 +275,7 @@ public class PhysicCar {
 		
 		gVehicleSteering=carStatus.steering;
 		setCarPosition(carStatus.position);
-		m_carChassis.setLinearVelocity(carStatus.liearVelocity);
+		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
 		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
 			
 	}
@@ -285,7 +285,7 @@ public class PhysicCar {
 		PhysicCarStatus helper=new PhysicCarStatus();
 		helper.steering=gVehicleSteering;
 		helper.position=this.getCarPosition();
-		helper.liearVelocity=m_carChassis.getLinearVelocity();
+		helper.linearVelocity=m_carChassis.getLinearVelocity();
 		helper.angularVelocity=m_carChassis.getAngularVelocity();
 		return helper;
 	}
