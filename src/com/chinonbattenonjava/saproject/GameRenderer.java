@@ -10,7 +10,7 @@ import android.opengl.GLSurfaceView;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
-	private static final float NANOS_PER_MILLISECONDS = 1000000.0f;
+	private static final float NANOS_PER_SECONDS = 1000000000.0f;
 	private float delta;
 	
 	@Override
@@ -59,12 +59,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		// TODO load textures
 	}
 
-	long old = 0;
+	long startTime = 0;
 
 	@Override
 	public void onDrawFrame(GL10 unused) {
 		// update logic
-		long startTime = System.nanoTime();
+		
+		delta = (System.nanoTime() - startTime) / NANOS_PER_SECONDS;
+		if(startTime == 0){
+			delta=1.0f/30.0f;
+		}
 		
 		Vector3 carPos = player1.getCarPos();
 
@@ -88,6 +92,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 			drawable.getPainter().draw();
 		}
 		
-		delta = (System.nanoTime() - startTime) / NANOS_PER_MILLISECONDS;
+		
+		startTime = System.nanoTime();
 	}
 }

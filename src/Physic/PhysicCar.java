@@ -42,15 +42,15 @@ public class PhysicCar {
 	float maxBreakingForce = 1000.f;
 
 	public float gVehicleSteering = 0.f;
-	float steeringIncrement = 0.56f;
+	float steeringIncrement = 0.76f;
 	float steeringClamp = 0.3f;
 	float steeringMax = 1.3f;
 	float wheelRadius = 2.0f;
 	float wheelWidth = 2.0f;
 	float wheelFriction = 1000;// BT_LARGE_FLOAT;
-	float suspensionStiffness = 200.f;
-	float suspensionDamping = 100.3f;
-	float suspensionCompression = 2.4f;
+	float suspensionStiffness = 20.f;
+	float suspensionDamping = 6.3f;
+	float suspensionCompression = 7.4f;
 	float suspensionRes=1.0f;
 	float rollInfluence = 0.0f;// 1.0f;
 
@@ -134,14 +134,22 @@ public class PhysicCar {
 	public void updateCar() {
 		
 		m_vehicle.resetSuspension();
-		m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
 		m_carChassis.setAngularFactor(new Vector3(0.5f,1,0.5f));
+		float v1=m_carChassis.getAngularVelocity().x;
+		float v2=m_carChassis.getAngularVelocity().z;
+		if(Math.abs(v1)>0.8f){
+			v1=0;
+		}
+		if(Math.abs(v2)>0.8f){
+			v2=0;
+		}
 		
-		Log.i("speed",""+m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity()));
+		m_carChassis.setAngularVelocity(new Vector3(v1,m_carChassis.getAngularVelocity().y,v2));
+		
 		
 		float gEngineForce1;
-		if(Math.abs(gVehicleSteering)>0.5){
-			 gEngineForce1=gEngineForce; 
+		if(Math.abs(gVehicleSteering)>0.4){
+			 gEngineForce1=gEngineForce+1000; 
 		}else{
 			 gEngineForce1=gEngineForce;
 		}
@@ -152,15 +160,15 @@ public class PhysicCar {
 		}
 		int wheelIndex = 2;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
-		//m_vehicle.setSteeringValue(-gVehicleSteering/2, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
-		//m_vehicle.setSteeringValue(-gVehicleSteering/2, wheelIndex);
+		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
 		wheelIndex = 0;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
-		m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
+		//m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
 		//m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);	
 	}
 

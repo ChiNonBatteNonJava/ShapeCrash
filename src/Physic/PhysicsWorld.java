@@ -260,23 +260,22 @@ public class PhysicsWorld {
 
 		dynamicsWorld.stepSimulation(1.0f / 30.0f, 2, 1.0f / 60.0f);
 
-		// Log.i("car", ""+cars.size());
 		for (PhysicCar p : cars.values()) {
 			p.updateCar();
 		}
-		// System.gc();
-		// dynamicsWorld.updateVehicles(1f / 30.0f);
+	
 
 	}
 
 	public void update(float t1) {
-
-		int t2 = 4 * (int) Math.ceil(t1 / (1.0f / 30.0f));
-		float t3 = (1.0f / 60.0f);
+		
+		int t2 = 2; //* (int) Math.ceil(t1 / (1.0f / 30.0f));
+		float t3 = t1/2;
 		for (PhysicCar p : cars.values()) {
 			p.updateCar();
 		}
 		dynamicsWorld.stepSimulation(t1, t2, t3);
+		Log.i("fr",""+t1);
 
 	}
 
