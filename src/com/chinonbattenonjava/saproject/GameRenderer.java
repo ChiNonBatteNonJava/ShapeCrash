@@ -43,7 +43,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		t = new Terrain();
 		Client x=new Client(player1);
-		// rendSDFer initia lization
+		// rendSDFer initialization
 		GameState.getInstance().setRendererState(RendererState.READY);
 
 		GameResourceManager.getInstance().loadShaders();
@@ -64,12 +64,14 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 unused) {
-		// update logic
-		
+		// compute delta
 		delta = (System.nanoTime() - startTime) / NANOS_PER_SECONDS;
 		if(startTime == 0){
 			delta=1.0f/30.0f;
 		}
+		startTime = System.nanoTime();
+		
+		// update logic
 		
 		Vector3 carPos = player1.getCarPos();
 
@@ -92,8 +94,5 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 				.getDrawables()) {
 			drawable.getPainter().draw();
 		}
-		
-		
-		startTime = System.nanoTime();
 	}
 }
