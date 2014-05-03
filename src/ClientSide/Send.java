@@ -43,7 +43,6 @@ class Send extends Thread{
             taskTime = System.currentTimeMillis();
             try {
             	if(PhysicsWorld.instance("MainWorld").getVheicle(String.valueOf(id))!=null){
-            		Log.i("bnf","send");
 	            	JSONObject jsn = PhysicsWorld.instance("MainWorld").getVheicle(String.valueOf(id)).getStatus().toJson();
 	                jsn.put("id", id);
 	                msg = jsn.toJSONString();

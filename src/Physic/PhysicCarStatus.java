@@ -1,6 +1,10 @@
 package Physic;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -9,6 +13,12 @@ public class PhysicCarStatus {
 	public Vector3 position;
 	public Vector3 linearVelocity;
 	public Vector3 angularVelocity;
+	
+	public PhysicCarStatus(){
+		position = new Vector3();
+		linearVelocity = new Vector3();
+		angularVelocity = new Vector3();
+	}
 	
 	public JSONObject toJson(){
 		JSONObject json = new JSONObject();
@@ -36,23 +46,34 @@ public class PhysicCarStatus {
 		return json;
 	}
 	
-	public void fromJSON(JSONObject json){
-		steering = (Float) json.get("steering");
+	public void fromJSON(JSONObject json) throws ParseException{
+		
+		Log.i("bnf",json.toJSONString());
+		steering =  ((Double) json.get("steering")).floatValue();
+		
 		JSONObject positionJson = (JSONObject) json.get("position");
 		JSONObject linearJson =  (JSONObject) json.get("linear");
 		JSONObject angularJson =  (JSONObject) json.get("angular");
 		
-		position.x = (Float) positionJson.get("x");
-		position.y = (Float) positionJson.get("y");
-		position.z = (Float) positionJson.get("z");
+		Double d = (Double) positionJson.get("x");
 		
-		linearVelocity.x = (Float) linearJson.get("x");
-		linearVelocity.y = (Float) linearJson.get("y");
-		linearVelocity.z = (Float) linearJson.get("z");
+		Log.i("bnf",d.toString());
 		
-		angularVelocity.x = (Float) angularJson.get("x");
-		angularVelocity.y = (Float) angularJson.get("y");
-		angularVelocity.z = (Float) angularJson.get("z");
+		position.x = ((Double) positionJson.get("x")).floatValue();
+		position.y = ((Double) positionJson.get("y")).floatValue();
+		position.z = ((Double) positionJson.get("z")).floatValue();
+		
+		Log.i("bnf","asd");
+		
+		linearVelocity.x = ((Double) linearJson.get("x")).floatValue();
+		linearVelocity.y = ((Double) linearJson.get("y")).floatValue();
+		linearVelocity.z = ((Double) linearJson.get("z")).floatValue();
+		
+		Log.i("bnf","zxc");
+		
+		angularVelocity.x = ((Double) angularJson.get("x")).floatValue();
+		angularVelocity.y = ((Double) angularJson.get("y")).floatValue();
+		angularVelocity.z = ((Double) angularJson.get("z")).floatValue();
 	}
 	
 }

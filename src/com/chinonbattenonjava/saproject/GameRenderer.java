@@ -75,7 +75,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		if(startTime == 0){
 			delta=1.0f/30.0f;
 		}
-		
+		startTime = System.nanoTime();
 		Vector3 carPos = player1.getCarPos();
 
 		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,40,carPos.z);
@@ -99,6 +99,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		}
 		
 		
-		startTime = System.nanoTime();
+		
 	}
 }

@@ -32,12 +32,13 @@ class Receive extends Thread{
                 buff.clear();
                 int nbyte = sc.read(buff);
                 String str = "";
+                //Log.i("bnf",String.valueOf(nbyte));
                 if (nbyte != -1) {
                     buff.flip();
                     while (buff.hasRemaining()) {
                         str += (char) buff.get();
                     }
-                    Log.i("bnf",str);
+                    //Log.i("bnf",str);
                     JSONObject json = (JSONObject) new JSONParser().parse(str);
                     Long l = (Long)json.get("code");
                     Integer code = (l != null) ? l.intValue() : -1;
@@ -46,23 +47,29 @@ class Receive extends Thread{
                     	Integer id = (l != null) ? l.intValue() : -1;
                     	if (id!= -1){
                     		new Car(id.toString());
+                    		this.sleep(10);
                     	}
                     }else if(code==1){
+                    	//Log.i("bnf", "entrato");
                     	l = (Long)json.get("id");
-                    	Integer id = (l != null) ? l.intValue() : -1;
-                    	if (id!= -1){
-                    		PhysicCar c = PhysicsWorld.instance("MainWorld").getVheicle(id.toString());
+                    	Integer idd = (l != null) ? l.intValue() : -1;
+                    	if (idd!= -1 && idd!=this.id){
+                    		Log.i("bnf",idd.toString());             
+                    		PhysicCar c = PhysicsWorld.instance("MainWorld").getVheicle(idd.toString());
+                    		Log.i("bnf","a");
                     		PhysicCarStatus status = new PhysicCarStatus();
+                    		Log.i("bnf","b");
                     		status.fromJSON(json);
-                    		c.setStatus(status);
+                    		Log.i("bnf","ciao"+c.toString());
+                    		if(c!=null){
+                    			c.setStatus(status);
+                    		}
                     	}
                     }
                                   
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e){
-            	e.printStackTrace();
+            } catch (Exception e) {
+                Log.i("bnf",e.toString());
             }
 
         }
