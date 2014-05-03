@@ -13,6 +13,13 @@ import com.badlogic.gdx.math.Vector3;
 public class GameRenderer implements GLSurfaceView.Renderer {
 	private static final float NANOS_PER_SECONDS = 1000000000.0f;
 	private float delta;
+	private String playerId;
+	Car player1;
+	Terrain t;
+	
+	public GameRenderer(String playerId){
+		this.playerId = playerId;
+	}
 	
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -26,8 +33,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 				.setFrustum(0.10f, 60.0f, ratio);
 	}
 
-	Car player1;
-	Terrain t;
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -39,10 +44,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
-		player1 = new Car();
+		player1 = new Car(playerId);
 
 		t = new Terrain();
-		Client x=new Client(player1);
+		//Client x=new Client(player1);
 		// rendSDFer initia lization
 		GameState.getInstance().setRendererState(RendererState.READY);
 

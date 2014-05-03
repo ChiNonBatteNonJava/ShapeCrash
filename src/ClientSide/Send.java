@@ -5,17 +5,21 @@ import java.nio.channels.SocketChannel;
 
 import org.json.simple.JSONObject;
 
+import Physic.PhysicCar;
+import Physic.PhysicsWorld;
+import android.util.Log;
+
 import com.chinonbattenonjava.saproject.Car;
 
 class Send extends Thread{
     private SocketChannel sc;
     private String msg;
     private JSONObject jsn;
-    private Car macchina;
+    //private PhysicCar macchina;
     private int id;
-    public Send(SocketChannel sc, Car macchina, int id) {
+    public Send(SocketChannel sc, int id) {
         this.sc = sc;
-        this.macchina = macchina;
+        //this.macchina = PhysicsWorld.instance("MainWorld").getVheicle(String.valueOf(id));
         this.id = id;
         try {
         	JSONObject jsn = new JSONObject();
@@ -38,14 +42,17 @@ class Send extends Thread{
         while (true) {
             taskTime = System.currentTimeMillis();
             try {
-            	JSONObject jsn = macchina.getCar().getStatus().toJson();
-                jsn.put("id", id);
-                msg = jsn.toJSONString();
-                ByteBuffer buff = ByteBuffer.allocate(512);
-                buff.clear();
-                buff.put(msg.getBytes());
-                buff.flip();
-                sc.write(buff);
+            	if(PhysicsWorld.instance("MainWorld").getVheicle(String.valueOf(id))!=null){
+            		Log.i("bnf","send");
+	            	JSONObject jsn = PhysicsWorld.instance("MainWorld").getVheicle(String.valueOf(id)).getStatus().toJson();
+	                jsn.put("id", id);
+	                msg = jsn.toJSONString();
+	                ByteBuffer buff = ByteBuffer.allocate(512);
+	                buff.clear();
+	                buff.put(msg.getBytes());
+	                buff.flip();
+	                sc.write(buff);
+            	}
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
