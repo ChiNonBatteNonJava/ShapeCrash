@@ -42,7 +42,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		player1 = new Car();
 
 		t = new Terrain();
-		Client x=new Client(player1);
+		//Client x=new Client(player1);
 		// rendSDFer initia lization
 		GameState.getInstance().setRendererState(RendererState.READY);
 
