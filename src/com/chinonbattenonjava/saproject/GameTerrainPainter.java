@@ -59,7 +59,7 @@ public class GameTerrainPainter implements IPainter {
 		// mvpMatsrix
 		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(),
 				"uMVPMatrix");
-		GLES20.glEnableVertexAttribArray(mPositionHandle);
+		
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				terrain.getMVPMatrix(), 0);
 

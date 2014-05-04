@@ -18,6 +18,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
 	    this.initPhysics();
+	    new Trail(this);
 	}
 	
 	
@@ -34,7 +35,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		
 	}
-	@Override
+	
 	public float[] getMVPMatrix()
 	{
 		return mvpMatrix;
@@ -81,8 +82,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
 	 
 		
-			
-		
 	 
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
@@ -98,9 +97,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		whellPos=null;
 		mModelMatrix=null;
-		
-		
-		
 	}
 	
 }

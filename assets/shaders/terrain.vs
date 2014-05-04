@@ -6,6 +6,8 @@ uniform mat4 uMVPMatrix ;
 varying vec2 vUv;
 void main()
 {
+	vec3 n = vNormal;
+	
 	gl_Position =  uMVPMatrix *  vPosition;
 	float c=0.0;
 	vec3 col1=vec3(0,0,1);

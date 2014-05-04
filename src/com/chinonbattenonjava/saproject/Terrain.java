@@ -45,7 +45,6 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 		return painter;
 	}
 
-	@Override
 	public float[] getMVPMatrix() {
 		return mvpMatrix;
 	}

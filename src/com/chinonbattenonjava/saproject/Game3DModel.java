@@ -20,17 +20,20 @@ public class Game3DModel {
 	private float[] verticesOnly = null;
 	private Vector3[] verticesVector = null;
 	
-	
+	public Game3DModel()
+	{
+		this.vertexCount = 0;
+	}
 
 	public Game3DModel(float[] vertices) {
 		this.vertices = vertices;
-		this.vertexCount = 0;
+		this.vertexCount = vertices.length / COORDS_PER_VERTEX;
 	}
 
 	public Game3DModel(float[] vertices, int cordXvertex) {
 		this.vertices = vertices;
-		this.vertexCount = 0;
 		this.COORDS_PER_VERTEX = cordXvertex;
+		this.vertexCount = vertices.length / COORDS_PER_VERTEX;
 	}
 
 	public float[] getVertices() {
@@ -81,8 +84,6 @@ public class Game3DModel {
 			vertexBuffer.put(vertices);
 
 			vertexBuffer.position(0);
-
-			vertexCount = vertices.length / COORDS_PER_VERTEX;
 		}
 
 		return vertexBuffer;
