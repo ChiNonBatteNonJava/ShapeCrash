@@ -281,7 +281,6 @@ public class PhysicCar {
 		helper.position=this.getCarPosition();
 		helper.linearVelocity=m_carChassis.getLinearVelocity();
 		helper.angularVelocity=m_carChassis.getAngularVelocity();
-		helper.orientation = m_carChassis.getOrientation();
 		return helper;
 	}
 	
