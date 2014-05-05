@@ -12,6 +12,13 @@ public class PhysicCarStatus {
 	public Vector3 angularVelocity;
 	public Quaternion orientation;
 	
+	public PhysicCarStatus(){
+		position = new Vector3();
+		linearVelocity = new Vector3();
+		angularVelocity = new Vector3();
+		orientation = new Quaternion();
+	}
+	
 	public JSONObject toJson(){
 		JSONObject json = new JSONObject();
 		JSONObject positionJson = new JSONObject();
@@ -50,6 +57,7 @@ public class PhysicCarStatus {
 		JSONObject positionJson = (JSONObject) json.get("position");
 		JSONObject linearJson =  (JSONObject) json.get("linear");
 		JSONObject angularJson =  (JSONObject) json.get("angular");
+		JSONObject orientationJson = (JSONObject) json.get("orientation");
 		
 		position.x = (Float) positionJson.get("x");
 		position.y = (Float) positionJson.get("y");
@@ -62,6 +70,11 @@ public class PhysicCarStatus {
 		angularVelocity.x = (Float) angularJson.get("x");
 		angularVelocity.y = (Float) angularJson.get("y");
 		angularVelocity.z = (Float) angularJson.get("z");
+
+		orientation.x = (Float) orientationJson.get("x");
+		orientation.x = (Float) orientationJson.get("y");
+		orientation.x = (Float) orientationJson.get("z");
+		orientation.x = (Float) orientationJson.get("w");
 	}
 	
 }
