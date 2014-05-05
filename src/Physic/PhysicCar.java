@@ -54,7 +54,7 @@ public class PhysicCar {
 	float suspensionRes=1.0f;
 	float rollInfluence = 0.0f;// 1.0f;
 
-	
+
 	public void createCar(btCollisionShape chassis, float mass, Vector3[] whellPosition,String name,String world) {
 
 		btDiscreteDynamicsWorld dynamicsWorld=PhysicsWorld.instance(world).getWorld();
@@ -73,7 +73,7 @@ public class PhysicCar {
       
 		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld);// chassisShape);
 
-	
+
 		m_tuning = new btVehicleTuning();
 
 		m_vehicleRayCaster = new btDefaultVehicleRaycaster(dynamicsWorld);
@@ -109,7 +109,7 @@ public class PhysicCar {
 			wheel.setFrictionSlip(wheelFriction);
 			wheel.setRollInfluence(rollInfluence);	
 		}
-		
+
 		PhysicsWorld.instance(world).AddVehicle(this, name);
 
 	}
@@ -132,7 +132,7 @@ public class PhysicCar {
 	}
 
 	public void updateCar() {
-		
+
 		m_vehicle.resetSuspension();
 		m_carChassis.setAngularFactor(new Vector3(0.5f,1,0.5f));
 		float v1=m_carChassis.getAngularVelocity().x;
@@ -143,10 +143,10 @@ public class PhysicCar {
 		if(Math.abs(v2)>0.8f){
 			v2=0;
 		}
-		
+
 		m_carChassis.setAngularVelocity(new Vector3(v1,m_carChassis.getAngularVelocity().y,v2));
-		
-		
+
+
 		float gEngineForce1;
 		if(Math.abs(gVehicleSteering)>0.4){
 			 gEngineForce1=gEngineForce+1000; 
@@ -173,7 +173,7 @@ public class PhysicCar {
 	}
 
 	public float[][] getWhellMatrix() {
-		
+
 		float[][] whell = new float[m_vehicle.getNumWheels()][16];
 		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
 			m_vehicle.updateWheelTransform(i, true);
@@ -183,18 +183,18 @@ public class PhysicCar {
 	}
 
 	public float[] getMatrixChassisCar(){
-		
+
 		Matrix4 worldTr=new Matrix4();
 		btMotionState myMotion=m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTr);
 		myMotion.release();
 		myMotion=null;
 		return worldTr.getValues();
-		
+
 	}
-	
+
 	public void setCarPosition(Vector3 pos) {
-		
+
 		DefaultMotionState myMotionState = new DefaultMotionState();
 		Matrix4 localTrans = new Matrix4();
 		localTrans.idt();
@@ -203,79 +203,91 @@ public class PhysicCar {
 		m_carChassis.setMotionState(myMotionState);
 		localTrans=null;
 		myMotionState.del();
-		
+
 	}
-	
+
+	public void setCarPositionOrientation(Vector3 pos, Quaternion ori){
+		DefaultMotionState myMotionState = new DefaultMotionState();
+		Matrix4 localTrans = new Matrix4();
+		localTrans.idt();
+		localTrans.set(pos, ori, new Vector3(1,1,1));
+		myMotionState.setWorldTransform(localTrans);
+		m_carChassis.setMotionState(myMotionState);
+		localTrans=null;
+		myMotionState.del();
+
+	}
+
 	public Vector3 getCarPosition(){
-		
+
 		Matrix4 worldTrans=new Matrix4();
 		btMotionState myMotion=m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTrans);
 		Vector3 pos=new Vector3();
 		pos=worldTrans.getTranslation(pos);
 		return pos;
-		
+
 	}
-	
+
 	public void RightSteering(){
 		gVehicleSteering= steeringMax;
 	}
-	
+
 	public void LeftSteering(){
 		gVehicleSteering= -steeringMax;
 	}
 
 	public void SetEngineForce(float force){
-		
+
 		gEngineForce=force;
-		
+
 	}
 	public float GetEngineForce(){
-		
+
 		return gEngineForce;
-		
+
 	}
 
 	public Vector3 getVectorForward(){
-		
+
 		return m_vehicle.getForwardVector();
 	}
-	
+
 	public void SetSteering(float f){
-		
+
 		gVehicleSteering=f;
-		
+
 	}
-	
+
 	public float GetSteering(){
-		
+
 		return gVehicleSteering;
-		
+
 	}
-	
+
 	public btWheelInfo getWhellInfo(int index){
-		
+
 		return m_vehicle.getWheelInfo(index);	
 	}
-	
+
 	public void setWhellInfo(btWheelInfo info,int index){
-		
+
 		btWheelInfo wheel = m_vehicle.getWheelInfo(index);
 		wheel=info;
-		
+
 	}
-	
+
 	public void setStatus(PhysicCarStatus carStatus){
-		
+
 		gVehicleSteering=carStatus.steering;
-		setCarPosition(carStatus.position);
+		setCarPositionOrientation(carStatus.position,carStatus.orientation);
 		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
 		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
-			
+
 	}
-	
+
 	public PhysicCarStatus getStatus(){
-		
+
 		PhysicCarStatus helper=new PhysicCarStatus();
 		helper.steering=gVehicleSteering;
 		helper.position=this.getCarPosition();
@@ -284,7 +296,7 @@ public class PhysicCar {
 		helper.orientation = m_carChassis.getOrientation();
 		return helper;
 	}
-	
+
 	@Override
 	public void finalize(){
 		 m_tuning.dispose();;
@@ -298,6 +310,6 @@ public class PhysicCar {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }
