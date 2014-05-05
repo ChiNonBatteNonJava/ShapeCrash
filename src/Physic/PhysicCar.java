@@ -44,7 +44,7 @@ public class PhysicCar {
 	public float gVehicleSteering = 0.f;
 	float steeringIncrement = 0.76f;
 	float steeringClamp = 0.3f;
-	float steeringMax = 0.76f; //1.3ff;
+	float steeringMax = 0.76f; //1.3f;
 	float wheelRadius = 2.0f;
 	float wheelWidth = 2.0f;
 	float wheelFriction = 1000;// BT_LARGE_FLOAT;
