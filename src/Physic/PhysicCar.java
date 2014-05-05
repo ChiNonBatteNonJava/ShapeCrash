@@ -91,13 +91,17 @@ public class PhysicCar {
 		m_vehicle.addWheel(whellPosition[0], new Vector3(0, -1, 0),
 				new Vector3(-1, 0, 0), suspensionRes, wheelRadius, m_tuning,
 				isFrontWheel);
-
-		isFrontWheel = false;
+		
 		m_vehicle.addWheel(whellPosition[1], new Vector3(0, -1, 0),
 				new Vector3(-1, 0, 0), suspensionRes, wheelRadius, m_tuning,
 				isFrontWheel);
 
+		isFrontWheel = false;
 		m_vehicle.addWheel(whellPosition[2], new Vector3(0, -1, 0),
+				new Vector3(-1, 0, 0), suspensionRes, wheelRadius, m_tuning,
+				isFrontWheel);
+
+		m_vehicle.addWheel(whellPosition[3], new Vector3(0, -1, 0),
 				new Vector3(-1, 0, 0), suspensionRes, wheelRadius, m_tuning,
 				isFrontWheel);
 
@@ -158,15 +162,17 @@ public class PhysicCar {
 		}else if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())>=500){
 			gEngineForce1=1;
 		}
-		int wheelIndex = 2;
+		int wheelIndex = 3;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
-		wheelIndex = 1;
+		wheelIndex = 2;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
 		wheelIndex = 0;
+		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
+		wheelIndex = 1;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
 		//m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
 		//m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);	

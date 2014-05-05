@@ -24,14 +24,15 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	private void initPhysics(){
 		PhysicCar myCar=new PhysicCar();		
-		Vector3 [] whell=new Vector3[3];
-		whell[0]=new Vector3(0,1,2);
-		whell[1]=new Vector3(-1,1,-2);
-		whell[2]=new Vector3(1,1,-2);
+		Vector3 [] whell=new Vector3[4];
+		whell[0]=new Vector3(-1,1, 2f);
+		whell[1]=new Vector3(1,1,  2f);
+		whell[2]=new Vector3(-1,1,-2);
+		whell[3]=new Vector3(1,1,-2);
 		
 		name="car"+PhysicsWorld.instance("MainWorld").getVehicleCount();
-		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1.0f,0.5f,1.5f)), 800, whell, name, "MainWorld");
-		myCar.setCarPosition(new Vector3(0,2.5f,1));
+		myCar.createCar(PhysicsWorld.getBoxCollisionShape(new Vector3(1.0f,0.5f,2f)), 800, whell, name, "MainWorld");
+		myCar.setCarPosition(new Vector3(0,28.5f,1));
 		
 		
 	}
@@ -70,7 +71,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	@Override
 	public void update(float delta) {
 		// TODO Auto-generated  method stub
-		whellMatrix=new float[3][16];
+		whellMatrix=new float[4][16];
 		
 		
 		float[][] whellPos=PhysicsWorld.instance("MainWorld").getVheicleWhells(name);
@@ -94,6 +95,9 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[2], 0);
 		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[2], 0);
+		
+		Matrix.multiplyMM(whellMatrix[3], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[3], 0);
+		Matrix.multiplyMM(whellMatrix[3], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[3], 0);
 		
 		whellPos=null;
 		mModelMatrix=null;

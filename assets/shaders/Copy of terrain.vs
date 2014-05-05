@@ -8,9 +8,10 @@ varying vec3 pos;
 void main()
 {
 	gl_Position =  uMVPMatrix *  vPosition;
+	
 	vNorm=vNormal;
+	
 	vUv=vUvs;
 	pos=gl_Position.xyz;
-
 
 }

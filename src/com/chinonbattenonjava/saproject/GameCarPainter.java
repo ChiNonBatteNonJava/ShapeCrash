@@ -4,7 +4,7 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameCarPainter implements IPainter {
-	private static final String CAR_MODEL_FILE = "car.m";
+	private static final String CAR_MODEL_FILE = "car1.obj";
 	private static final String CAR_WHELL_FILE = "whell.obj";
 	
 	private Car car;
@@ -16,7 +16,7 @@ public class GameCarPainter implements IPainter {
 	public GameCarPainter(Car car)
 	{
 		this.car = car;
-		GameResourceManager.getInstance().load3DModel(CAR_MODEL_FILE);
+		GameResourceManager.getInstance().load3DObjModel(CAR_MODEL_FILE);
 		m = GameResourceManager.getInstance().get3DModelByName(CAR_MODEL_FILE);
 		
 		GameResourceManager.getInstance().load3DObjModel(CAR_WHELL_FILE);
@@ -56,22 +56,45 @@ public class GameCarPainter implements IPainter {
 	public void draw() {
 	
 		GLES20.glUseProgram(program.getProgram());
-		drawWhell();
-		// vertex position
-		int mPositionHandle = GLES20.glGetAttribLocation(program.getProgram(), "vPosition");
-		
+	//	drawWhell();
+		int mPositionHandle = GLES20.glGetAttribLocation(program.getProgram(),
+				"vPosition");
+
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
+		m.getVertexBuffer().position(0);
+		GLES20.glVertexAttribPointer(mPositionHandle, 3,
+				GLES20.GL_FLOAT, false, m.COORDS_PER_VERTEX * 4,
+				m.getVertexBuffer());
 		
-		GLES20.glVertexAttribPointer(mPositionHandle, m.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, m.COORDS_PER_VERTEX * 4, m.getVertexBuffer());
 		
-		// mvpMatrix
-		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uMVPMatrix");
-		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, car.getMVPMatrix(), 0);
+		 m.getVertexBuffer().position(3);
+		int mUvs = GLES20.glGetAttribLocation(program.getProgram(),
+				"vUvs");
+		 GLES20.glEnableVertexAttribArray(mUvs);
+
+		 GLES20.glVertexAttribPointer(mUvs, 2,
+					GLES20.GL_FLOAT, true, m.COORDS_PER_VERTEX * 4,
+					m.getVertexBuffer());
+		 
+		m.getVertexBuffer().position(5);
+		 int mNormal = GLES20.glGetAttribLocation(program.getProgram(),
+					"vNormal");
+		 GLES20.glEnableVertexAttribArray(mNormal);
+			 GLES20.glVertexAttribPointer(mNormal, 3,
+						GLES20.GL_FLOAT, true, m.COORDS_PER_VERTEX * 4,
+						m.getVertexBuffer().position(5));
+
+		// mvpMatsrix
+		int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(),
+				"uMVPMatrix");
+		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+				car.getMVPMatrix(), 0);
 		
-		// draw
-		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
+		GLES20.glDisableVertexAttribArray(mNormal);
+		GLES20.glDisableVertexAttribArray(mUvs);
 		
 	
 		

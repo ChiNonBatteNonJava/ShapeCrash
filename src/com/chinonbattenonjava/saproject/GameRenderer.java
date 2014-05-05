@@ -72,11 +72,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		}
 		startTime = System.nanoTime();
 		
-		// update logic
+		// update logic  
 		
 		Vector3 carPos = player1.getCarPos();
-
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,40,carPos.z);
+		Vector3 camPos=player1.getCar().getVectorForward().mul(10);
+		
+	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,camPos.y+45,carPos.z);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
