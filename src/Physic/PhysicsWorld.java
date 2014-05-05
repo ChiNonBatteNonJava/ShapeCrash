@@ -150,7 +150,8 @@ class Transform extends btTransform {
 public class PhysicsWorld {
 	private static HashMap<String, PhysicsWorld> physicsWorld = new HashMap<String, PhysicsWorld>();
 	private btDiscreteDynamicsWorld dynamicsWorld;
-
+	Map<String, btRigidBody> map;
+	Map<String, PhysicCar> cars;
 	private PhysicsWorld() {
 
 		Bullet.init(false, true);
@@ -171,12 +172,10 @@ public class PhysicsWorld {
 
 	}
 
-	Map<String, btRigidBody> map;
-	Map<String, PhysicCar> cars;
-
+	
 	public void addBox(Vector3 position, String name, Vector3 size, float mass) {
-		long heapSize = Runtime.getRuntime().totalMemory();
-		Log.i("heap", this.getClass().getName() + " addnjBox " + heapSize);
+		//long heapSize = Runtime.getRuntime().totalMemory();
+	//	Log.i("heap", this.getClass().getName() + " addnjBox " + heapSize);
 
 		btCollisionShape fallShape = new btBoxShape(size);
 		DefaultMotionState fallMotionState = new DefaultMotionState();
@@ -205,9 +204,8 @@ public class PhysicsWorld {
 
 	}
 
-	btTriangleMesh editTriangleMeshes(Vector3 arrayVector[]) {
+	private btTriangleMesh editTriangleMeshes(Vector3 arrayVector[]) {
 		btTriangleMesh mTriMesh = new btTriangleMesh();
-
 		for (int i = 0; i < arrayVector.length; i += 3) {
 			mTriMesh.addTriangle(arrayVector[i + 0], arrayVector[i + 1],
 					arrayVector[i + 2]);

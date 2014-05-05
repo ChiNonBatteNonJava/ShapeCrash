@@ -31,7 +31,7 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 850f;
+	float gEngineForce = 1850f;
 	float gBreakingForce = 20.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent
@@ -131,41 +131,45 @@ public class PhysicCar {
 
 		m_vehicle.resetSuspension();
 		m_carChassis.setAngularFactor(new Vector3(0.5f, 1, 0.5f));
-		float v1 = m_carChassis.getAngularVelocity().x;
-		float v2 = m_carChassis.getAngularVelocity().z;
-		if (Math.abs(v1) > 0.8f) {
-			v1 = 0;
-		}
-		if (Math.abs(v2) > 0.8f) {
-			v2 = 0;
-		}
-
-		m_carChassis.setAngularVelocity(new Vector3(v1, m_carChassis
-				.getAngularVelocity().y, v2));
-
-		float gEngineForce1;
-		if (Math.abs(gVehicleSteering) > 0.4) {
-			gEngineForce1 = gEngineForce + 1000;
-		} else {
-			gEngineForce1 = gEngineForce;
-		}
-		if (m_carChassis.getLinearVelocity().dot(
-				m_carChassis.getLinearVelocity()) < 150) {
-			gEngineForce1 = gEngineForce + 1400;
-		} else if (m_carChassis.getLinearVelocity().dot(
-				m_carChassis.getLinearVelocity()) >= 500) {
-			gEngineForce1 = 1;
-		}
+//		float v1 = m_carChassis.getAngularVelocity().x;
+//		float v2 = m_carChassis.getAngularVelocity().z;
+//		if (Math.abs(v1) > 0.8f) {
+//			v1 = 0;
+//		}
+//		if (Math.abs(v2) > 0.8f) {
+//			v2 = 0;
+//		}
+//
+//		m_carChassis.setAngularVelocity(new Vector3(v1, m_carChassis
+//				.getAngularVelocity().y, v2));
+//
+//		float gEngineForce1;
+//		if (Math.abs(gVehicleSteering) > 0.4) {
+//			gEngineForce1 = gEngineForce + 1000;
+//		} else {
+//			gEngineForce1 = gEngineForce;
+//		}
+//		if (m_carChassis.getLinearVelocity().dot(
+//				m_carChassis.getLinearVelocity()) < 150) {
+//			gEngineForce1 = gEngineForce + 1400;
+//		} else if (m_carChassis.getLinearVelocity().dot(
+//				m_carChassis.getLinearVelocity()) >= 500) {
+//			gEngineForce1 = 1;
+//		}
 		int wheelIndex = 2;
-		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
+		
+		m_vehicle.applyEngineForce(gEngineForce, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering / 3.5f, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		wheelIndex = 1;
-		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
+		m_vehicle.applyEngineForce(gEngineForce, wheelIndex);
 		m_vehicle.setBrake(gBreakingForce, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering / 3.5f, wheelIndex);
 		wheelIndex = 0;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
+		
+		
+	//Log.i("v",""+vel.x+" "+vel.y+" "+vel.z);
 		// m_carChassis.setAngularVelocity(new
 		// Vector3(0,m_carChassis.getAngularVelocity().y,0));
 		// m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
@@ -203,7 +207,7 @@ public class PhysicCar {
 		m_carChassis.setMotionState(myMotionState);
 		localTrans = null;
 		myMotionState.del();
-
+		
 	}
 
 	public Vector3 getCarPosition() {
@@ -224,6 +228,7 @@ public class PhysicCar {
 		myMotion.getWorldTransform(worldTrans);
 		Quaternion pos = new Quaternion();
 		pos = worldTrans.getRotation(pos);
+		
 		return pos;
 
 	}
@@ -280,6 +285,7 @@ public class PhysicCar {
 
 		btWheelInfo wheel = m_vehicle.getWheelInfo(index);
 		wheel = info;
+		
 
 	}
 
@@ -299,9 +305,23 @@ public class PhysicCar {
 
 		gVehicleSteering = carStatus.steering;
 		setCarPositionOrientation(carStatus.position, carStatus.orientation);
-		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
-		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
+		
+		
+	
+		
+		m_vehicle.getRigidBody().setInterpolationLinearVelocity(carStatus.linearVelocity);
+		m_vehicle.getRigidBody().setInterpolationAngularVelocity(carStatus.angularVelocity);
+		m_carChassis.setInterpolationLinearVelocity(carStatus.angularVelocityChaiss);
+		m_carChassis.setInterpolationAngularVelocity(carStatus.linearVelocityChaiss);
+		
+		
+		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
+			m_vehicle.getWheelInfo(i).setDeltaRotation(carStatus.wheel[i]);
+			m_vehicle.updateWheelTransform(i, true);
+			
+		}
 
+		
 	}
 
 	public PhysicCarStatus getStatus() {
@@ -309,16 +329,25 @@ public class PhysicCar {
 		PhysicCarStatus helper = new PhysicCarStatus();
 		helper.steering = gVehicleSteering;
 		helper.position = this.getCarPosition();
-		helper.linearVelocity = m_carChassis.getLinearVelocity();
-		helper.angularVelocity = m_carChassis.getAngularVelocity();
+		helper.linearVelocity = m_vehicle.getRigidBody().getInterpolationLinearVelocity();
+		helper.angularVelocity = m_vehicle.getRigidBody().getInterpolationAngularVelocity();
+		
+		helper.linearVelocityChaiss = m_carChassis.getInterpolationLinearVelocity();
+		helper.angularVelocityChaiss = m_carChassis.getInterpolationAngularVelocity();
+		
+		
 		helper.orientation =getCarQuaternion();
+		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
+			helper.wheel[i]=m_vehicle.getWheelInfo(i).getDeltaRotation();		
+		}
+		Log.i("d",""+m_vehicle.getRigidBody().getLinearVelocity().toString() + " "+m_carChassis.getAngularVelocity().toString() );
 		return helper;
 	}
 
 	@Override
 	public void finalize() {
 		m_tuning.dispose();
-		;
+		
 		m_vehicleRayCaster.dispose();
 		m_vehicle.dispose();
 		m_wheelShape.dispose();

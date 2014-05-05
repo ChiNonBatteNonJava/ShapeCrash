@@ -38,7 +38,7 @@ class Send extends Thread{
     
     public void run() {
         long taskTime = 0;
-        long sleepTime = 1000/10;
+        long sleepTime = 1000/1;
         while (true) {
             taskTime = System.currentTimeMillis();
             try {
