@@ -72,9 +72,9 @@ public class PhysicCarStatus {
 		angularVelocity.z = ((Double) angularJson.get("z")).floatValue();
 
 		orientation.x = ((Double) orientationJson.get("x")).floatValue();
-		orientation.x = ((Double) orientationJson.get("y")).floatValue();
-		orientation.x = ((Double) orientationJson.get("z")).floatValue();
-		orientation.x = ((Double) orientationJson.get("w")).floatValue();
+		orientation.y = ((Double) orientationJson.get("y")).floatValue();
+		orientation.z = ((Double) orientationJson.get("z")).floatValue();
+		orientation.w = ((Double) orientationJson.get("w")).floatValue();
 	}
 	
 }
