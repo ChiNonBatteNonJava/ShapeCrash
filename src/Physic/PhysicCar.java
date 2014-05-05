@@ -271,24 +271,39 @@ public class PhysicCar {
 		
 	}
 	
+
+	public void setCarPositionOrientation(Vector3 pos, Quaternion ori){
+		DefaultMotionState myMotionState = new DefaultMotionState();
+		Matrix4 localTrans = new Matrix4();
+		localTrans.idt();
+		localTrans.set(pos, ori, new Vector3(1,1,1));
+		myMotionState.setWorldTransform(localTrans);
+		m_carChassis.setMotionState(myMotionState);
+		localTrans=null;
+		myMotionState.del();
+
+	}
+
 	public void setStatus(PhysicCarStatus carStatus){
-		
+
 		gVehicleSteering=carStatus.steering;
-		setCarPosition(carStatus.position);
+		setCarPositionOrientation(carStatus.position,carStatus.orientation);
 		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
 		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
-			
+
 	}
-	
+
 	public PhysicCarStatus getStatus(){
-		
+
 		PhysicCarStatus helper=new PhysicCarStatus();
 		helper.steering=gVehicleSteering;
 		helper.position=this.getCarPosition();
 		helper.linearVelocity=m_carChassis.getLinearVelocity();
 		helper.angularVelocity=m_carChassis.getAngularVelocity();
+		helper.orientation = m_carChassis.getOrientation();
 		return helper;
 	}
+
 	
 	@Override
 	public void finalize(){

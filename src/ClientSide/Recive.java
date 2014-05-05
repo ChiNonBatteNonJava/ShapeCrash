@@ -62,6 +62,7 @@ class Receive extends Thread{
                     		status.fromJSON(json);
                     		Log.i("bnf","ciao"+c.toString());
                     		if(c!=null){
+                    			Log.i("bnf","status");
                     			c.setStatus(status);
                     		}
                     	}
