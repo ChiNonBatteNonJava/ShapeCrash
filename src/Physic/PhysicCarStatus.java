@@ -2,6 +2,7 @@ package Physic;
 
 import org.json.simple.JSONObject;
 
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 public class PhysicCarStatus {
@@ -9,12 +10,14 @@ public class PhysicCarStatus {
 	public Vector3 position;
 	public Vector3 linearVelocity;
 	public Vector3 angularVelocity;
+	public Quaternion orientation;
 	
 	public JSONObject toJson(){
 		JSONObject json = new JSONObject();
 		JSONObject positionJson = new JSONObject();
 		JSONObject linearJson = new JSONObject();
 		JSONObject angularJson = new JSONObject();
+		JSONObject orientationJson = new JSONObject();
 		
 		positionJson.put("x",position.x);	
 		positionJson.put("y",position.y);
@@ -28,10 +31,16 @@ public class PhysicCarStatus {
 		angularJson.put("y",angularVelocity.y);
 		angularJson.put("z",angularVelocity.z);
 		
+		orientationJson.put("x",orientation.x);
+		orientationJson.put("y",orientation.y);
+		orientationJson.put("z",orientation.z);
+		orientationJson.put("w",orientation.w);
+		
 		json.put("steering", steering);
 		json.put("position", positionJson);
 		json.put("linear", linearJson);
 		json.put("angular", angularJson);
+		json.put("orientation", orientationJson);
 		
 		return json;
 	}

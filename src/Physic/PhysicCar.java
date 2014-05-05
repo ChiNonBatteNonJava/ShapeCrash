@@ -132,7 +132,7 @@ public class PhysicCar {
 	}
 
 	public void updateCar() {
-
+		
 		m_vehicle.resetSuspension();
 		m_carChassis.setAngularFactor(new Vector3(0.5f,1,0.5f));
 		float v1=m_carChassis.getAngularVelocity().x;
@@ -206,18 +206,6 @@ public class PhysicCar {
 		
 	}
 	
-	public void setCarPositionOrientation(Vector3 pos, Quaternion ori){
-		DefaultMotionState myMotionState = new DefaultMotionState();
-		Matrix4 localTrans = new Matrix4();
-		localTrans.idt();
-		localTrans.set(pos, ori, new Vector3(1,1,1));
-		myMotionState.setWorldTransform(localTrans);
-		m_carChassis.setMotionState(myMotionState);
-		localTrans=null;
-		myMotionState.del();
-		
-	}
-	
 	public Vector3 getCarPosition(){
 		
 		Matrix4 worldTrans=new Matrix4();
@@ -280,10 +268,10 @@ public class PhysicCar {
 	public void setStatus(PhysicCarStatus carStatus){
 		
 		gVehicleSteering=carStatus.steering;
-		setCarPositionOrientation(carStatus.position,carStatus.orientation);
+		setCarPosition(carStatus.position);
 		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
 		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
-	
+			
 	}
 	
 	public PhysicCarStatus getStatus(){
@@ -293,6 +281,7 @@ public class PhysicCar {
 		helper.position=this.getCarPosition();
 		helper.linearVelocity=m_carChassis.getLinearVelocity();
 		helper.angularVelocity=m_carChassis.getAngularVelocity();
+		helper.orientation = m_carChassis.getOrientation();
 		return helper;
 	}
 	
