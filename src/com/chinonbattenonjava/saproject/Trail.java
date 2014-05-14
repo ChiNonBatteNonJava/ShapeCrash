@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import android.opengl.Matrix;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
@@ -13,6 +14,9 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	private LinkedList<Vector3> pathVertices;
 	private float[] pathVerticesArray;
+	private boolean dirtyArray;
+	private float[] lastLine;
+
 	private float timer;
 	private Car car;
 	private GameTrailPainter painter;
@@ -24,11 +28,16 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		
+		lastLine = new float[4];
+		
 		pathVertices = new LinkedList<Vector3>();
 		
 		// first vertex at car location
 		pathVertices.add(new Vector3(car.getCarPos()));
 		currentLength = 1;
+		
+		// used for getPathVertices() optimization
+		dirtyArray = true;
 		
 		mvpMatrix = new float[16];
 		
@@ -37,26 +46,26 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		this.car = car;
 	}
 	
-	//little optimization
-	private Vector3 v;
-	private Iterator<Vector3> iter;
 	public float[] getPathVertices()
 	{
-		pathVerticesArray = new float[pathVertices.size()*3];
-		
-		int i = 0;
-		iter = pathVertices.iterator();
-		while (iter.hasNext())
-		{
-			v = iter.next();
-			pathVerticesArray[i] = v.x;
-			i++;
-			pathVerticesArray[i] = v.y;
-			i++;
-			pathVerticesArray[i] = v.z;
-			i++;
+		if (dirtyArray == true){
+			pathVerticesArray = new float[pathVertices.size()*3];
+			
+			int i = 0;
+			Iterator<Vector3> iter = pathVertices.iterator();
+			while (iter.hasNext())
+			{
+				Vector3 v = iter.next();
+				pathVerticesArray[i] = v.x;
+				i++;
+				pathVerticesArray[i] = v.y;
+				i++;
+				pathVerticesArray[i] = v.z;
+				i++;
+			}
+			
+			dirtyArray = false;
 		}
-		
 		return pathVerticesArray;
 	}
 	
@@ -80,10 +89,22 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		{
 			//reset timer
 			timer -= NEW_VERTEX_TIME;
-
+			
+			//start updating lastLine[]
+			lastLine[0] = pathVertices.getFirst().x;
+			lastLine[1] = pathVertices.getFirst().y;
+			
 			//add new head
-			pathVertices.addFirst(car.getCarPos());
+			pathVertices.addFirst(new Vector3(car.getCarPos()));
 			currentLength++;
+			dirtyArray = true;
+			
+			//complete updating lastLine[]
+			lastLine[2] = pathVertices.getFirst().x;
+			lastLine[3] = pathVertices.getFirst().y;
+			
+			//check trail collisions
+			checkNewShape();
 		}
 		
 		// remove tail when the trail is too long
@@ -92,14 +113,100 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 			//remove last vertex
 			pathVertices.removeLast();
 			currentLength--;
+			dirtyArray = true;
 		}
-		
 		
 		// compute mvpMatrix
 		float[] mModelMatrix = new float[16];
 		Matrix.setIdentityM(mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
+	}
+	
+	//little optimization, reduce dynamic allocation
+	private Vector2 a1 = new Vector2();
+	private Vector2 a2 = new Vector2();
+	private Vector2 b1 = new Vector2();
+	private Vector2 b2 = new Vector2();
+	private void checkNewShape() {
+		
+		// head line
+		a1.x = lastLine[0];
+		a1.y = lastLine[1];
+		a2.x = lastLine[2];
+		a2.y = lastLine[3];
+		
+		float[] v = getPathVertices();
+		
+		int idx = v.length - 1; // we skip the first line (head), it's the one we test against all others
+		
+		while (idx >= 9)
+		{
+			//other lines
+			idx--;
+			b1.y = v[idx]; idx--;
+			b1.x = v[idx]; idx--;
+			idx--;
+			b2.y = v[idx]; idx--;
+			b2.x = v[idx]; idx--;
+			
+			idx+=3; // beautiful code
+			
+			// if there is an intersection, reset trail and create new shape
+			if (checkIntersect(a1, a2, b1, b2))
+			{
+				// TODO new shape
+				
+				//reset trail
+				pathVertices.clear();
+				
+				//add new head
+				pathVertices.addFirst(new Vector3(car.getCarPos()));
+				currentLength = 1;
+				dirtyArray = true;
+				
+				return;
+			}
+		}
+	}
+	
+	// declarations and stuff
+	private float a;
+	private float b;
+	private float c;
+	private float cB1;
+	private float cB2;
+	private boolean checkIntersect(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
+	{
+		// line through a1, a2
+		a = a2.x - a1.x;
+		b = a1.y - a2.y;
+		c = a1.y*(a1.x-a2.x) + a1.x*(a2.y - a1.y);
+		
+		// check if b1 and b2 are on the same side of the a1-a2 line
+		// if not, they intersect
+		cB1 = a*b1.y + b*b1.x + c;
+		cB2 = a*b2.y + b*b2.x + c;
+		
+		//same side
+		if (Math.signum(cB1) == Math.signum(cB2))
+			return false;
+		
+		// line through b1, b2
+		a = b2.x - b1.x;
+		b = b1.y - b2.y;
+		c = b1.y*(b1.x-b2.x) + b1.x*(b2.y - b1.y);
+		
+		// check if b1 and b2 are on the same side of the a1-a2 line
+		// if not, they intersect
+		cB1 = a*a1.y + b*a1.x + c;
+		cB2 = a*a2.y + b*a2.x + c;
+
+		//same side
+		if (Math.signum(cB1) == Math.signum(cB2))
+			return false;
+		
+		return true;
 	}
 
 	@Override
