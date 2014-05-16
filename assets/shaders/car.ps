@@ -3,12 +3,7 @@ varying vec3 vNorm;
 varying vec2 vUv;
 varying vec3 pos;
 
-<<<<<<< HEAD
 
-
-
-
-=======
  uniform sampler2D u_Texture;
 
 struct  Material{
@@ -67,16 +62,16 @@ DirectionLight l;
 
 ResultLighting r;
 ResultLighting r1;
->>>>>>> refs/heads/shaderTests
+
 
 
  
 void main() {
 
-<<<<<<< HEAD
+
 	
 	gl_FragColor = vec4(1,0,0,1);
-=======
+
 vec4 colorTxt=texture2D(u_Texture,vUv );
 
 	mat.ambient=colorTxt;
@@ -109,6 +104,6 @@ vec4 colorTxt=texture2D(u_Texture,vUv );
 	
 	
 	gl_FragColor = color;
->>>>>>> refs/heads/shaderTests
+
 	
 }

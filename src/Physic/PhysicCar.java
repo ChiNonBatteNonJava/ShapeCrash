@@ -44,11 +44,9 @@ public class PhysicCar {
 	public float gVehicleSteering = 0.f;
 	float steeringIncrement = 0.26f;
 	float steeringClamp = 0.3f;
-<<<<<<< HEAD
-	float steeringMax = 0.76f; //1.3f;
-=======
+
 	float steeringMax = 0.26f; //1.3ff;
->>>>>>> refs/heads/shaderTests
+
 	float wheelRadius = 2.0f;
 	float wheelWidth = 2.0f;
 	float wheelFriction = 1000;// BT_LARGE_FLOAT;
@@ -57,13 +55,12 @@ public class PhysicCar {
 	float suspensionCompression = 7.4f;
 	float suspensionRes=1.0f;
 	float rollInfluence = 0.0f;// 1.0f;
-<<<<<<< HEAD
 
 
-=======
+
+
 	boolean retro=false;
-	
->>>>>>> refs/heads/shaderTests
+
 	public void createCar(btCollisionShape chassis, float mass, Vector3[] whellPosition,String name,String world) {
 
 		btDiscreteDynamicsWorld dynamicsWorld=PhysicsWorld.instance(world).getWorld();
@@ -122,8 +119,7 @@ public class PhysicCar {
 			wheel.setFrictionSlip(wheelFriction);
 			wheel.setRollInfluence(rollInfluence);	
 		}
-<<<<<<< HEAD
-=======
+
 		
 		btCylinderShapeX bt=new btCylinderShapeX(new Vector3(1.5f,2.5f,1.5f));
 		tr.setIdentity();
@@ -141,7 +137,7 @@ public class PhysicCar {
 		tr.setOrigin(whellPosition[3]);
 		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
 
->>>>>>> refs/heads/shaderTests
+
 
 		PhysicsWorld.instance(world).AddVehicle(this, name);
 
@@ -191,13 +187,11 @@ public class PhysicCar {
 		}else if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())>=200){
 			gEngineForce1=1;
 		}
-<<<<<<< HEAD
-=======
+
 		if(retro==true){
 			gEngineForce1=-1000;
 		}
-		
->>>>>>> refs/heads/shaderTests
+
 		int wheelIndex = 3;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
