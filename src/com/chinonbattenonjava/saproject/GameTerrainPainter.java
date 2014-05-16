@@ -62,7 +62,7 @@ public class GameTerrainPainter implements IPainter {
 		
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				terrain.getMVPMatrix(), 0);
-
+		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
 		// Bind the texture to this unit.
@@ -77,7 +77,7 @@ public class GameTerrainPainter implements IPainter {
 
 		// draw
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
-		
+		GLES20.glDisable(GLES20.GL_TEXTURE_2D);
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);

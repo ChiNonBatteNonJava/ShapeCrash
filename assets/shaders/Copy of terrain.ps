@@ -58,7 +58,6 @@ void computeDirectionLight( Material mat, DirectionLight dirL, vec3 normal, vec3
 
 Material mat;
 DirectionLight l;
-
 ResultLighting r;
 ResultLighting r1;
 
@@ -68,34 +67,26 @@ void main() {
 vec4 colorTxt=texture2D(u_Texture, vUv);
 
 	mat.ambient=colorTxt;
-	mat.diffuse=colorTxt;
-	mat.specular=colorTxt;
+	mat.diffuse=vec4(colorTxt.xyz,0.1);
+	mat.specular=vec4(colorTxt.xyz,0.1);;
 	
 	
 	
 	l.ambient=vec4(0.6,0.6,0.6,0.3);
 	l.diffuse=vec4(0.6,0.6,0.6,0.3);
 	l.specular=vec4(0.6,0.6,0.6,0.3);
-	l.direction=vec3(0.6,1.0,0.6);
-	l.i=0.9;
+	l.direction=vec3(0.4,0.5,0.3);
+	l.i=0.4;
 	
 	
 
 	
 	
-
-	
-	
-	computeDirectionLight(mat,l,vNorm,vec3(0,10,0),r);
+	computeDirectionLight(mat,l,vNorm,vec3(0,1,0),r);
 	
 	
 	
-	vec4 color= vec4((r.ambient.xyz +r.diffuse.xyz +r.specular.xyz),r.diffuse.w);
 	
-	 
-	
-	
-	
-	gl_FragColor = color;
+	gl_FragColor = vec4((r.ambient.xyz +r.diffuse.xyz +r.specular.xyz),r.diffuse.w);
 	
 }

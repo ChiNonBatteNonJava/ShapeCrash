@@ -269,7 +269,7 @@ public class PhysicsWorld {
 
 	public void update(float t1) {
 		
-		t1=t1*2;
+		t1=t1*2.5f;
 		int t2 = (int) Math.ceil(t1/0.005f); //* (int) Math.ceil(t1 / (1.0f / 30.0f));
 		float t3 = t1/t2;
 		for (PhysicCar p : cars.values()) {
