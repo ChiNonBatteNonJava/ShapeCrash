@@ -67,6 +67,7 @@ ResultLighting r1;
 void main() {
 vec4 colorTxt=texture2D(u_Texture, vUv);
 
+<<<<<<< HEAD
 	mat.ambient=colorTxt;
 	mat.diffuse=colorTxt;
 	mat.specular=colorTxt;
@@ -97,5 +98,41 @@ vec4 colorTxt=texture2D(u_Texture, vUv);
 	
 	
 	gl_FragColor = color;
+=======
+	
+	
+
+
+	mat.ambient=colorTxt;
+	mat.diffuse=colorTxt;
+	mat.specular=colorTxt;
+	
+	
+	
+	l.ambient=vec4(0.6,0.6,0.6,0.3);
+	l.diffuse=vec4(0.6,0.6,0.6,0.3);
+	l.specular=vec4(0.6,0.6,0.6,0.3);
+	l.direction=vec3(0.0,0.2,0.0);
+	l.i=0.9;
+	
+	
+
+	
+	
+
+	
+	
+	computeDirectionLight(mat,l,vNorm,vec3(0,10,0),r);
+	
+	
+	
+	vec4 color= colorTxt;
+	
+	 
+	
+	
+	
+	gl_FragColor =color;
+>>>>>>> refs/heads/shaderTests
 	
 }

@@ -3,16 +3,112 @@ varying vec3 vNorm;
 varying vec2 vUv;
 varying vec3 pos;
 
+<<<<<<< HEAD
 
 
 
 
+=======
+ uniform sampler2D u_Texture;
+
+struct  Material{
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
+};
+
+
+struct DirectionLight{
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
+	vec3 direction;
+	float i;
+};
+
+
+
+struct ResultLighting{
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
+	
+};
+
+
+
+void computeDirectionLight( Material mat, DirectionLight dirL, vec3 normal, vec3 eye,out ResultLighting result){
+
+	result.ambient=vec4(0,0,0,0);
+	result.diffuse=vec4(0,0,0,0);
+	result.specular=vec4(0,0,0,0);
+	
+	vec3 vectLight=-dirL.direction;
+	
+	result.ambient=mat.ambient * dirL.ambient * dirL.i;
+	
+	float diffuseFactor = dot(normal,vectLight);
+	
+	if(diffuseFactor > 0.0 ){
+	
+		vec3 v= reflect(dirL.direction,normal);
+		
+		float specFactor = pow(max(dot(v,eye),0.0),mat.specular.w);
+		
+		result.diffuse = diffuseFactor * mat.diffuse * dirL.diffuse* dirL.i;
+		result.specular = specFactor * mat.specular * dirL.specular * dirL.i;
+	}
+
+} 
+
+
+Material mat;
+DirectionLight l;
+
+ResultLighting r;
+ResultLighting r1;
+>>>>>>> refs/heads/shaderTests
 
 
  
 void main() {
 
+<<<<<<< HEAD
 	
 	gl_FragColor = vec4(1,0,0,1);
+=======
+vec4 colorTxt=texture2D(u_Texture,vUv );
+
+	mat.ambient=colorTxt;
+	mat.diffuse=colorTxt;
+	mat.specular=colorTxt;
+	
+	
+	
+	l.ambient=vec4(0.6,0.6,0.6,0.3);
+	l.diffuse=vec4(0.6,0.6,0.6,0.3);
+	l.specular=vec4(0.6,0.6,0.6,0.3);
+	l.direction=vec3(0.6,1.0,0.6);
+	l.i=0.9;
+	
+	
+
+	
+	
+
+	
+	
+	computeDirectionLight(mat,l,vNorm,vec3(0,10,0),r);
+	
+	
+	
+	vec4 color= vec4((r.ambient.xyz +r.diffuse.xyz +r.specular.xyz),r.diffuse.w);
+	
+	 
+	
+	
+	
+	gl_FragColor = color;
+>>>>>>> refs/heads/shaderTests
 	
 }

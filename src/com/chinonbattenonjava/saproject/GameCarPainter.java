@@ -12,7 +12,7 @@ public class GameCarPainter implements IPainter {
 	private Game3DModel m;
 	private Game3DModel whell;
 	private GameShaderProgram program;
-	
+	private int texture;
 	public GameCarPainter(Car car)
 	{
 		this.car = car;
@@ -21,6 +21,9 @@ public class GameCarPainter implements IPainter {
 		
 		GameResourceManager.getInstance().load3DObjModel(CAR_WHELL_FILE);
 		whell = GameResourceManager.getInstance().get3DModelByName(CAR_WHELL_FILE);
+		GameResourceManager.getInstance().loadTexture("car.png");
+		texture= GameResourceManager.getInstance().getTexture("car.png");
+		
 		
 		program = GameResourceManager.getInstance().getShaderProgramByName("car");
 	}
@@ -56,7 +59,11 @@ public class GameCarPainter implements IPainter {
 	public void draw() {
 	
 		GLES20.glUseProgram(program.getProgram());
+<<<<<<< HEAD
 	//	drawWhell();
+=======
+		drawWhell();
+>>>>>>> refs/heads/shaderTests
 		int mPositionHandle = GLES20.glGetAttribLocation(program.getProgram(),
 				"vPosition");
 
@@ -89,7 +96,25 @@ public class GameCarPainter implements IPainter {
 				"uMVPMatrix");
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				car.getMVPMatrix(), 0);
+<<<<<<< HEAD
+=======
+		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+		// Bind the texture to this unit.
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
+		int mTextureUniformHandle;
+>>>>>>> refs/heads/shaderTests
 		
+<<<<<<< HEAD
+=======
+		//get set sample texture
+		mTextureUniformHandle = GLES20.glGetUniformLocation(program.getProgram(),
+				"u_Texture");
+
+		GLES20.glUniform1i(mTextureUniformHandle, 0);
+		
+>>>>>>> refs/heads/shaderTests
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
