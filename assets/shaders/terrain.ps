@@ -67,6 +67,10 @@ ResultLighting r1;
 void main() {
 vec4 colorTxt=texture2D(u_Texture, vUv);
 
+	
+	
+
+
 	mat.ambient=colorTxt;
 	mat.diffuse=colorTxt;
 	mat.specular=colorTxt;
@@ -76,7 +80,7 @@ vec4 colorTxt=texture2D(u_Texture, vUv);
 	l.ambient=vec4(0.6,0.6,0.6,0.3);
 	l.diffuse=vec4(0.6,0.6,0.6,0.3);
 	l.specular=vec4(0.6,0.6,0.6,0.3);
-	l.direction=vec3(0.6,1.0,0.6);
+	l.direction=vec3(0.0,0.2,0.0);
 	l.i=0.9;
 	
 	
@@ -90,12 +94,12 @@ vec4 colorTxt=texture2D(u_Texture, vUv);
 	
 	
 	
-	vec4 color= vec4((r.ambient.xyz +r.diffuse.xyz +r.specular.xyz),r.diffuse.w);
+	vec4 color= colorTxt;
 	
 	 
 	
 	
 	
-	gl_FragColor = color;
+	gl_FragColor =color;
 	
 }

@@ -3,7 +3,7 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameTerrainPainter implements IPainter {
-	private static final String TERRAIN_MODEL = "p13.obj";
+	private static final String TERRAIN_MODEL = "pista2.obj";
 	private Game3DModel m;
 	private GameShaderProgram program;
 	private Terrain terrain;

@@ -22,7 +22,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		float ratio = (float) width / height;
 
 		GameState.getInstance().getCamera("MainCam")
-				.setFrustum(0.10f, 60.0f, ratio);
+				.setFrustum(0.10f, 260.0f, ratio);
 	}
 
 	Car player1;
@@ -65,6 +65,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 unused) {
+		
 		// compute delta
 		delta = (System.nanoTime() - startTime) / NANOS_PER_SECONDS;
 		if(startTime == 0){
@@ -77,8 +78,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		Vector3 carPos = player1.getCarPos();
 		Vector3 camPos=player1.getCar().getVectorForward().mul(10);
 		
-	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,camPos.y+45,carPos.z);
+	GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
+	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x,camPos.y+45,carPos.z);
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
@@ -97,5 +98,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 				.getDrawables()) {
 			drawable.getPainter().draw();
 		}
+		
+		unused.glFogx(unused.GL_FOG_MODE, unused.GL_EXP);
+		unused.glFogf(unused.GL_FOG_DENSITY, 2.f);
+		unused.glFogf(unused.GL_FOG_START, 1.f);
+		unused.glFlush();
 	}
 }

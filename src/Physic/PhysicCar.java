@@ -35,16 +35,16 @@ public class PhysicCar {
 	int upIndex = 1;
 	int forwardIndex = 2;
 
-	float gEngineForce = 850f;
+	float gEngineForce = 811f;
 	float gBreakingForce =20.f;
 
 	float maxEngineForce = 1000.f;// this should be engine/velocity dependent
 	float maxBreakingForce = 1000.f;
 
 	public float gVehicleSteering = 0.f;
-	float steeringIncrement = 0.76f;
+	float steeringIncrement = 0.26f;
 	float steeringClamp = 0.3f;
-	float steeringMax = 0.76f; //1.3ff;
+	float steeringMax = 0.26f; //1.3ff;
 	float wheelRadius = 2.0f;
 	float wheelWidth = 2.0f;
 	float wheelFriction = 1000;// BT_LARGE_FLOAT;
@@ -53,7 +53,7 @@ public class PhysicCar {
 	float suspensionCompression = 7.4f;
 	float suspensionRes=1.0f;
 	float rollInfluence = 0.0f;// 1.0f;
-
+	boolean retro=false;
 	
 	public void createCar(btCollisionShape chassis, float mass, Vector3[] whellPosition,String name,String world) {
 
@@ -114,6 +114,23 @@ public class PhysicCar {
 			wheel.setRollInfluence(rollInfluence);	
 		}
 		
+		btCylinderShapeX bt=new btCylinderShapeX(new Vector3(1.5f,2.5f,1.5f));
+		tr.setIdentity();
+		tr.setOrigin(whellPosition[0]);
+		
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+		
+		tr.setOrigin(whellPosition[1]);
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+		
+		tr.setOrigin(whellPosition[2]);
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+
+		
+		tr.setOrigin(whellPosition[3]);
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+
+
 		PhysicsWorld.instance(world).AddVehicle(this, name);
 
 	}
@@ -153,15 +170,19 @@ public class PhysicCar {
 		
 		float gEngineForce1;
 		if(Math.abs(gVehicleSteering)>0.4){
-			 gEngineForce1=gEngineForce+1000; 
+			 gEngineForce1=gEngineForce+400; 
 		}else{
 			 gEngineForce1=gEngineForce;
 		}
-		if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())<150){
-			gEngineForce1=gEngineForce+1400;
-		}else if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())>=500){
+		if(m_vehicle.getCurrentSpeedKmHour()<150){
+			gEngineForce1=gEngineForce+400;
+		}else if(m_carChassis.getLinearVelocity().dot(m_carChassis.getLinearVelocity())>=200){
 			gEngineForce1=1;
 		}
+		if(retro==true){
+			gEngineForce1=-1000;
+		}
+		
 		int wheelIndex = 3;
 		m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);
 		m_vehicle.setSteeringValue(-gVehicleSteering/3.5f, wheelIndex);
@@ -174,7 +195,11 @@ public class PhysicCar {
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
 		wheelIndex = 1;
 		m_vehicle.setSteeringValue(gVehicleSteering, wheelIndex);
-		//m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
+		
+		
+		
+		
+	//	m_carChassis.setAngularVelocity(new Vector3(0,m_carChassis.getAngularVelocity().y,0));
 		//m_vehicle.applyEngineForce(gEngineForce1, wheelIndex);	
 	}
 
