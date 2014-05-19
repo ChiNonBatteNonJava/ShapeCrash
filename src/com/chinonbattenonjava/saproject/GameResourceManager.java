@@ -38,6 +38,7 @@ public class GameResourceManager {
 	private HashMap<String, GameShaderProgram> programs;
 	private HashMap<String, Game3DModel> models;
 	private HashMap<String,Integer> textures;
+	private float aspectRatio=1;
 	
 	
 	
@@ -383,4 +384,11 @@ public class GameResourceManager {
 		return textureHandle[0];
 	}
 
+	public float getAspectRatio(){
+		return aspectRatio;
+	}
+	public void setAspectRatio(float ratio){
+		aspectRatio=ratio;
+		
+	}
 }

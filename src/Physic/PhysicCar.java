@@ -189,7 +189,7 @@ public class PhysicCar {
 		}
 
 		if(retro==true){
-			gEngineForce1=-1000;
+			gEngineForce1=-1000000;
 		}
 
 		int wheelIndex = 3;
@@ -223,7 +223,9 @@ public class PhysicCar {
 		}
 		return whell;
 	}
-
+	public void doRetro(){
+		retro=!retro;
+	}
 	public float[] getMatrixChassisCar(){
 
 		Matrix4 worldTr=new Matrix4();
@@ -337,6 +339,11 @@ public class PhysicCar {
 		helper.angularVelocity=m_carChassis.getAngularVelocity();
 		helper.orientation = m_carChassis.getOrientation();
 		return helper;
+	}
+	
+	public float getSpeedKMH(){
+		
+		return m_vehicle.getCurrentSpeedKmHour();
 	}
 
 	@Override

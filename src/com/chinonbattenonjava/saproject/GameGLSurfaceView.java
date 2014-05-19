@@ -28,12 +28,10 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 
 		case MotionEvent.ACTION_DOWN: {// MotionEvent class field
 			if (event.getX() < 400) {
-				PhysicsWorld.instance("MainWorld").getVheicle("car0")
-						.RightSteering();
+				PhysicsWorld.instance("MainWorld").getVheicle("car0").RightSteering();
 				return true;
 			} else {
-				PhysicsWorld.instance("MainWorld").getVheicle("car0")
-						.LeftSteering();
+				PhysicsWorld.instance("MainWorld").getVheicle("car0").LeftSteering();
 				return true;
 			}
 		}

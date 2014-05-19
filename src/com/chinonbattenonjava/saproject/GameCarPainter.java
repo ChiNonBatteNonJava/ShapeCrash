@@ -1,11 +1,15 @@
 package com.chinonbattenonjava.saproject;
 
 
+import com.badlogic.gdx.math.Vector3;
+
 import android.opengl.GLES20;
 
 public class GameCarPainter implements IPainter {
-	private static final String CAR_MODEL_FILE = "car1.obj";
+	private static final String CAR_MODEL_FILE = "redCar.obj";
 	private static final String CAR_WHELL_FILE = "whell.obj";
+	private static final String CAR_COLOR_FILE = "red.png";
+
 	
 	private Car car;
 	
@@ -21,10 +25,9 @@ public class GameCarPainter implements IPainter {
 		
 		GameResourceManager.getInstance().load3DObjModel(CAR_WHELL_FILE);
 		whell = GameResourceManager.getInstance().get3DModelByName(CAR_WHELL_FILE);
-		GameResourceManager.getInstance().loadTexture("car.png");
-		texture= GameResourceManager.getInstance().getTexture("car.png");
-		
-		
+		GameResourceManager.getInstance().loadTexture(CAR_COLOR_FILE);
+		texture= GameResourceManager.getInstance().getTexture(CAR_COLOR_FILE);
+
 		program = GameResourceManager.getInstance().getShaderProgramByName("car");
 	}
 	
@@ -44,8 +47,17 @@ public class GameCarPainter implements IPainter {
 			int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uMVPMatrix");
 			GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mat, 0);
 			
+			int cameraP = GLES20.glGetUniformLocation(program.getProgram(), "eyePos");
+			Vector3 carPos = car.getCarPos();
+			Vector3 camPos=car.getCar().getVectorForward().mul(10);
+			
+
+			
+			GLES20.glUniform3f(cameraP,carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
+			
+			
 			// draw
-			GLES20.glDrawArrays(GLES20.GL_LINES, 0, whell.getVertexCount());
+			GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, whell.getVertexCount());
 			
 			GLES20.glDisableVertexAttribArray(mPositionHandle);
 			
@@ -60,7 +72,7 @@ public class GameCarPainter implements IPainter {
 	
 		GLES20.glUseProgram(program.getProgram());
 
-		drawWhell();
+		//drawWhell();
 
 		int mPositionHandle = GLES20.glGetAttribLocation(program.getProgram(),
 				"vPosition");

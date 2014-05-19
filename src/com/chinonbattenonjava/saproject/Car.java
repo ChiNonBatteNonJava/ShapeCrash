@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
@@ -12,7 +13,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
 	private GameCarPainter painter;
 	private float[] mvpMatrix;
-
+	private int i=-10;
 	public String name;
 	public Car()
 	{
@@ -78,6 +79,22 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	@Override
 	public void update(float delta) {
+		Log.i("a",""+PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH());
+		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.1f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
+			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();
+			i++;
+			
+		}
+		else if(i==10){
+			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();	
+			i=-20;
+			
+		}else if(i>0 && i<10){
+			i++;
+		}
+		if(i<0){
+			i++;;
+		}
 		// TODO Auto-generated  method stub
 		whellMatrix=new float[4][16];
 		

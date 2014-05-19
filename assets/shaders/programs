@@ -1,3 +1,4 @@
 car = car.vs, car.ps
 terrain = terrain.vs, terrain.ps
 trail = trail.vs, trail.ps
+speed = speed.vs, speed.ps

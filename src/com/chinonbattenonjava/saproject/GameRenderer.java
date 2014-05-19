@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 public class GameRenderer implements GLSurfaceView.Renderer {
 	private static final float NANOS_PER_SECONDS = 1000000000.0f;
 	private float delta;
-	
+	private GameGUI gameGUI;
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
 		// This method will be called only once
@@ -20,9 +20,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GLES20.glViewport(0, 0, width, height);
 
 		float ratio = (float) width / height;
+		GameResourceManager.getInstance().setAspectRatio(ratio);
 
-		GameState.getInstance().getCamera("MainCam")
-				.setFrustum(0.10f, 260.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f, 260.0f, ratio);
 	}
 
 	Car player1;
@@ -30,6 +30,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+		gameGUI=new GameGUI();
+		
 		// logic initialization
 		delta = 0.000001f; // small value in case of division by delta
 		
@@ -39,7 +41,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
 		player1 = new Car();
-
+		
 		t = new Terrain();
 
 		//Client x=new Client(player1);
@@ -58,6 +60,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GLES20.glDepthFunc(GLES20.GL_LEQUAL);
 		GLES20.glDepthMask(true);
 		GLES20.glClearDepthf(1.0f);
+		
+		gameGUI.AddElement(player1);
 		// TODO load textures
 	}
 
@@ -76,10 +80,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		// update logic  
 		
 		Vector3 carPos = player1.getCarPos();
-		Vector3 camPos=player1.getCar().getVectorForward().mul(10);
+		Vector3 camPos=player1.getCar().getVectorForward().mul(15);
 		
 
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
 	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x,camPos.y+45,carPos.z);
 
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
@@ -95,11 +99,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		PhysicsWorld.instance("MainWorld").update(delta);
 
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-
+		
 		for (IDrawableGameComponent drawable : GameState.getInstance()
 				.getDrawables()) {
 			drawable.getPainter().draw();
 		}
+		gameGUI.Draw();
+		
 		
 	}
 }
