@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -22,13 +23,30 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 		setEGLContextClientVersion(2);
 		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 		setRenderer(new GameRenderer());
-
+		//this.setPreserveEGLContextOnPause(true);
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+		
+		CarActionBuilder.Create(GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName()),gm);
+		
+		
 		
 	}
 	public boolean onTouchEvent(final MotionEvent event) {
 		return gm.onTouchEvent(event);
 	}
 	
-
+	public void surfaceDestroyed(SurfaceHolder h){
+		Log.i("pippo", "destroy");
+		super.surfaceDestroyed(h);
+	}
+	
+	public void onResume(){
+		Log.i("pippo", "resume");
+		super.onResume();
+	}
+	
+	public void onPause(){
+		Log.i("pippo", "pause");
+		super.onPause();
+	}
 }

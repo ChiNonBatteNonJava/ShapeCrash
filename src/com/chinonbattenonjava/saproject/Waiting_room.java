@@ -15,7 +15,7 @@ public class Waiting_room extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_waiting_room);
+		
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -34,10 +34,12 @@ public class Waiting_room extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-//      	JSONObject jsn = new JSONObject();
-//      	jsn.put("code", 101);
-//      	Client c1 = Client.getInstance();
-//      	String mess = c1.createRoom(jsn.toString());
+      	JSONObject jsn = new JSONObject();
+      	jsn.put("code", 101);
+      	Client c1 = Client.getInstance();
+      	String mess = c1.createRoom(jsn.toString());
+      //	GameResourceManager.getInstance().reset();
+      //	GameState.getInstance().reset();
 	    super.onBackPressed();
 		
 	    return;

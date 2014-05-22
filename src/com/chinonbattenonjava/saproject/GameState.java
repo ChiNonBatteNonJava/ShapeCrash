@@ -13,6 +13,8 @@ public class GameState {
 	private HashSet<IUpdatableGameComponent> updatables;
 	private HashMap<String, GameCamera> cameras;
 	
+	
+	
 	private GameState()
 	{
 		rendererState = RendererState.NOT_READY;
@@ -64,5 +66,8 @@ public class GameState {
 	public void registerUpdatable(IUpdatableGameComponent updatable)
 	{
 		updatables.add(updatable);
+	}
+	public void reset1(){
+		instance=null;
 	}
 }

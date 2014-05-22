@@ -60,11 +60,44 @@ public class Play extends Activity {
 		      	JSONObject jsn = new JSONObject();
 		      	jsn.put("code", 1);
 		      	//TODO controllare se va bene server1.room_id
-		      	jsn.put("room_id", 0);
+		      	jsn.put("room_id", server1.room_id);
+		      	Log.i("id", server1.room_id.toString());
+		      	//TODO code 1, player_id int boh, players:[id int boh, id int boh]
 		      	Client c1 = Client.getInstance();
 		      	String mess = c1.createRoom(jsn.toString());
+		      	Log.i("messaggio", mess);
+		    //	GameResourceManager.getInstance().reset();
+		    	//GameState.getInstance().reset();
+		    	JSONObject risp = new JSONObject();
+		    	try {
+					risp = (JSONObject) new JSONParser().parse(mess);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+		    	if ((Long) risp.get("code") == 1){
+		    		Long pid = (Long) risp.get("player_id");
+		      	GameResourceManager.getInstance().addPlayer(""+pid);
+		    	JSONArray plist = new JSONArray();
+		    	plist = (JSONArray) risp.get("players");
+	    		Iterator it = plist.iterator();
+	    		String listaPlayer[] = new String[plist.size()];
+	    		int count = 0;
+	    		while(it.hasNext()){
+	    			JSONObject rum = new JSONObject();
+					rum = (JSONObject) it.next();
+	    			Long player1 = (Long) rum.get("id");
+	    			listaPlayer[count]= ""+player1;
+	    			count++;
+	    		}
+		      	GameResourceManager.getInstance().setPlayerName(""+pid);
+		      	GameResourceManager.getInstance().addPlayer(listaPlayer);
 				Intent intent = new Intent(Play.this, Waiting_room.class);
 				startActivity(intent);
+				}
+		    	else{
+		    		Toast.makeText(Play.this, "42",Toast.LENGTH_SHORT).show();
+		    		
+		    	}
 			}
 		});
     }

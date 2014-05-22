@@ -29,19 +29,23 @@
         </activity>
         <activity
             android:name="com.chinonbattenonjava.saproject.Settings"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.chinonbattenonjava.saproject.Credits"
-            android:label="@string/title_activity_credits" >
+            android:label="@string/title_activity_credits"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.chinonbattenonjava.saproject.Play"
-            android:label="@string/title_activity_play" >
+            android:label="@string/title_activity_play"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.chinonbattenonjava.saproject.Waiting_room"
-            android:label="@string/title_activity_waiting_room" >
+            android:label="@string/title_activity_waiting_room"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

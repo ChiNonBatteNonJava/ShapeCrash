@@ -391,4 +391,50 @@ public class GameResourceManager {
 		aspectRatio=ratio;
 		
 	}
+	
+	String playerName="";
+	HashMap<String,Car> currentPlayer;
+	
+	public void addPlayer(String name){
+		if(currentPlayer==null){
+			currentPlayer=new HashMap<String,Car> ();
+		}
+		currentPlayer.put(name, new Car(name));
+		
+	}
+	public void addPlayer(String[] name){
+		if(currentPlayer==null){
+			currentPlayer=new HashMap<String,Car> ();
+		}
+		for (String n:name){
+			currentPlayer.put(n, new Car(n));
+		}
+		
+	}
+	
+	public void reset1(){
+	//	currentPlayer=new HashMap<String,Car> ();
+		instance=null;
+	}
+	public HashMap getPlayerList(){
+		return currentPlayer;
+	}
+	public Car getCar(String name){
+		return currentPlayer.get(name);
+	}
+	
+	
+	
+	public void setPlayerName(String name){
+		
+		playerName=name;
+	}
+	public String getPlayerName(){
+		
+		return playerName;
+		
+	}
+	
+	
+	
 }

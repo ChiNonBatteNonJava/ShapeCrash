@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -39,8 +40,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setTarget(0.0f, 0.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
+		Log.i("sd",""+ GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName()));
 		
-		player1 = new Car();
+		player1 =  GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName());
 		
 		t = new Terrain();
 
@@ -60,6 +62,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GLES20.glDepthFunc(GLES20.GL_LEQUAL);
 		GLES20.glDepthMask(true);
 		GLES20.glClearDepthf(1.0f);
+		
+		PhysicsWorld.instance("MainWorld");
 		
 		gameGUI.AddElement(player1);
 		// TODO load textures
@@ -91,6 +95,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		for (IUpdatableGameComponent updatable : GameState.getInstance()
 				.getUpdatables()) {
+			
 			updatable.update(delta);
 		}
 
@@ -102,6 +107,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		for (IDrawableGameComponent drawable : GameState.getInstance()
 				.getDrawables()) {
+			Log.i("DASD",""+drawable);
 			drawable.getPainter().draw();
 		}
 		gameGUI.Draw();
