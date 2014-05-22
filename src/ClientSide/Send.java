@@ -1,64 +1,46 @@
 package ClientSide;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 import org.json.simple.JSONObject;
 
-import com.chinonbattenonjava.saproject.Car;
 
 class Send extends Thread{
     private SocketChannel sc;
     private String msg;
     private JSONObject jsn;
-    private Car macchina;
+    private boolean sent;
+    //private Car macchina;
     private int id;
-    public Send(SocketChannel sc, Car macchina, int id) {
+    public Send(SocketChannel sc) {
         this.sc = sc;
-        this.macchina = macchina;
-        this.id = id;
-        try {
-        	JSONObject jsn = new JSONObject();
-            jsn.put("id", id);
-            msg = jsn.toJSONString();
-            ByteBuffer buff = ByteBuffer.allocate(512);
-            buff.clear();
-            buff.put(msg.getBytes());
-            buff.flip();
-            sc.write(buff);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        sent = true;
     }
-    
+    public void sendMessage(String msg){
+    	this.msg = msg;
+    	sent = false;
+    	
+    	
+    }
     
     public void run() {
-        long taskTime = 0;
-        long sleepTime = 1000/10;
-        while (true) {
-            taskTime = System.currentTimeMillis();
-            try {
-            	JSONObject jsn = macchina.getCar().getStatus().toJson();
-                jsn.put("id", id);
-                msg = jsn.toJSONString();
-                ByteBuffer buff = ByteBuffer.allocate(512);
-                buff.clear();
-                buff.put(msg.getBytes());
-                buff.flip();
-                sc.write(buff);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            taskTime = System.currentTimeMillis()-taskTime;
-            if (sleepTime-taskTime > 0 ) {
-                try {
-                    Thread.sleep(sleepTime-taskTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
+    	while (true) {
+    		if (!sent) {
+    			try{
+			    	ByteBuffer buff = ByteBuffer.allocate(512);
+			    	buff.clear();
+			    	buff.put(msg.getBytes());
+			    	buff.flip();
+			    	sc.write(buff);
+			    	
+			    }
+			    catch (IOException e) {
+			        e.printStackTrace();
+			    }
+    		sent = true;
+    		}
+    	}
     }
-
 }

@@ -27,6 +27,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.chinonbattenonjava.saproject.Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.chinonbattenonjava.saproject.Credits"
+            android:label="@string/title_activity_credits" >
+        </activity>
+        <activity
+            android:name="com.chinonbattenonjava.saproject.Play"
+            android:label="@string/title_activity_play" >
+        </activity>
+        <activity
+            android:name="com.chinonbattenonjava.saproject.Waiting_room"
+            android:label="@string/title_activity_waiting_room" >
+        </activity>
     </application>
 
 </manifest>

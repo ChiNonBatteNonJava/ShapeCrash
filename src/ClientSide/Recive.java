@@ -9,9 +9,19 @@ import android.util.Log;
 class Receive extends Thread{
     private SocketChannel sc;
     private int id;
+    private String recived;
     public Receive(SocketChannel sc, int id) {
         this.sc = sc;
         this.id = id;
+        this.recived = "";
+    }
+    public boolean isRecived(){
+    	return recived==""?false:true;
+    }
+    public String getRecived(){
+    	String r = recived;
+    	recived = "";
+    	return r;
     }
     public void run(){
         while(true) {
@@ -26,7 +36,7 @@ class Receive extends Thread{
                     while (buff.hasRemaining()) {
                         str += (char) buff.get();
                     }
-                    Log.i("recive:", str);
+                    this.recived = str;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
