@@ -13,7 +13,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
 	private GameCarPainter painter;
 	private float[] mvpMatrix;
-	private int i=-10;
+	private int i=-40;
 	public String name;
 	public Car()
 	{
@@ -41,8 +41,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		myCar.createCar(collSh, 800, whell, name, "MainWorld");
 		myCar.setCarPosition(new Vector3(0,25.5f,1));
-
-		
 		
 	}
 	
@@ -80,14 +78,14 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	@Override
 	public void update(float delta) {
 		Log.i("a",""+PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH());
-		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.1f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
+		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.3f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
 			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();
 			i++;
 			
 		}
 		else if(i==10){
 			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();	
-			i=-20;
+			i=-40;
 			
 		}else if(i>0 && i<10){
 			i++;

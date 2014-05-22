@@ -111,7 +111,7 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 		Matrix.setIdentityM(mModelMatrix, 0);
 
 		Matrix.translateM(mModelMatrix, 0, 0, -2, -2.5f);
-		Matrix.rotateM(mModelMatrix, 0, Math.max(90 - speed, -90), 1, 0, 0);
+		Matrix.rotateM(mModelMatrix, 0,Math.max(70 - speed, -70), 1, 0, 0);
 
 		Matrix.multiplyMM(mvpMatrix, 0, look, 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, proj, 0, mvpMatrix, 0);

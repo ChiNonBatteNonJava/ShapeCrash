@@ -151,7 +151,7 @@ public class PhysicCar {
 		DefaultMotionState myMotionState = new DefaultMotionState();
 		myMotionState.setStartWorldTrans(startTransform);
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(mass, myMotionState, shape, localInertia);
-		cInfo.setRestitution(1.0f);
+		cInfo.setRestitution(.3f);
 		cInfo.setLinearDamping(0);
 		cInfo.setAngularDamping(0);
 		btRigidBody body = new btRigidBody(cInfo);
@@ -189,7 +189,7 @@ public class PhysicCar {
 		}
 
 		if(retro==true){
-			gEngineForce1=-1000000;
+			gEngineForce1=-10000000;
 		}
 
 		int wheelIndex = 3;

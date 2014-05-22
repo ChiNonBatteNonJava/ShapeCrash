@@ -199,6 +199,7 @@ public class PhysicsWorld {
 		map.put(name, myRigidBody);
 
 		dynamicsWorld.addRigidBody(myRigidBody);
+		
 
 		fallMotionState.del();
 
