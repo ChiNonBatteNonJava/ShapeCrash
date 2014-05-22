@@ -59,7 +59,8 @@ public class Play extends Activity {
 				
 		      	JSONObject jsn = new JSONObject();
 		      	jsn.put("code", 1);
-		      	jsn.put("room_id", 2);
+		      	//TODO controllare se va bene server1.room_id
+		      	jsn.put("room_id", 0);
 		      	Client c1 = Client.getInstance();
 		      	String mess = c1.createRoom(jsn.toString());
 				Intent intent = new Intent(Play.this, Waiting_room.class);
