@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import java.util.ArrayList;
 import java.util.List;
 
+import ClientSide.Client;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -125,7 +126,7 @@ class TournLeft implements ICommand {
 	@Override
 	public void execute() {
 		myCar.getCar().LeftSteering();
-
+		new Sender(myCar.getCar().getRetro(), -1).start();
 	}
 
 }
@@ -139,7 +140,7 @@ class TournRight implements ICommand {
 	@Override
 	public void execute() {
 		myCar.getCar().RightSteering();
-
+		new Sender(myCar.getCar().getRetro(), 1).start();
 	}
 }
 
@@ -147,15 +148,17 @@ class ResetSteering implements ICommand {
 	Car myCar;
 	public ResetSteering(Car c) {
 		myCar = c;
-
 	}
 	@Override
 	public void execute() {
 		myCar.getCar().SetSteering(0);
-
+		new Sender(myCar.getCar().getRetro(), 0).start();
 	}
 	
 }
+
+
+
 
 /**
  * 
@@ -166,6 +169,22 @@ class CarActionBuilder{
 		lin.getListDeclaration().addLeftTouchAction(new TournRight(c));
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
+	}
+	
+}
+
+class Sender extends Thread{
+	
+	int dir;
+	int steering;
+	
+	public Sender(int d, int s){
+		dir = d;
+		steering = s;
+	}
+	
+	public void run(){
+		Client.getInstance().setSteering(dir, steering);
 	}
 	
 }

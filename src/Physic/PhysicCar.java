@@ -45,7 +45,7 @@ public class PhysicCar {
 	float steeringIncrement = 0.26f;
 	float steeringClamp = 0.3f;
 
-	float steeringMax = 0.26f; //1.3ff;
+	public static final float steeringMax = 0.26f; //1.3ff;
 
 	float wheelRadius = 2.0f;
 	float wheelWidth = 2.0f;
@@ -360,5 +360,14 @@ public class PhysicCar {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public int getRetro(){
+		if(retro){
+			return -1;
+		}else{
+			return 1;
+		}
+			
 	}
 }

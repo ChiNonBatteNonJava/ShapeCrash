@@ -3,10 +3,12 @@ package ClientSide;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-
 import java.nio.channels.SocketChannel;
 
 import org.json.simple.JSONObject;
+
+import android.util.Log;
+import Physic.PhysicCar;
 
 
 
@@ -67,6 +69,18 @@ public class Client extends Thread {
     	return sq.getResults();
     }
     
+    public void send(String msg){
+    	ByteBuffer buff = ByteBuffer.allocate(512);
+    	buff.clear();
+    	buff.put(msg.getBytes());
+    	buff.flip();
+    	try{
+    		sc.write(buff);
+    	}catch(Exception e ){
+    		Log.i("err", e.getMessage());
+    	}
+    }
+    
     public void run() {    	
     	try{
     	ip = "10.62.162.84";
@@ -90,6 +104,14 @@ public class Client extends Thread {
     		connectionStatus = -1;
             e.printStackTrace();
         }
+    }
+    
+    public void setSteering(int dir, int steering){
+    	JSONObject json = new JSONObject();
+    	json.put("code", 6);
+    	json.put("steering", steering);
+    	json.put("dir", dir);
+    	send(json.toJSONString());
     }
 }
 
