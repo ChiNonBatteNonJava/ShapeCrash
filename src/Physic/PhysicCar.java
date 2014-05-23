@@ -266,6 +266,11 @@ public class PhysicCar {
 	public void LeftSteering(){
 		gVehicleSteering= -steeringMax;
 	}
+	
+	public void ResetSteering(){
+		gVehicleSteering= 0;
+	}
+	
 
 	public void SetEngineForce(float force){
 

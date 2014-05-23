@@ -103,12 +103,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
-		
+		synchronized(GameState.getInstance().getUpdatables()){
 		for (IUpdatableGameComponent updatable : GameState.getInstance()
 				.getUpdatables()) {
 			updatable.update(delta);
 		}
-
+		}
 		// PhysicsUpdate
 
 		PhysicsWorld.instance("MainWorld").update(delta);

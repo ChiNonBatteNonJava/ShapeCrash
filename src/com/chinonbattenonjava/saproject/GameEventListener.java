@@ -154,7 +154,7 @@ class TournLeft implements ICommand {
 	@Override
 	public void execute() {
 		myCar.getCar().LeftSteering();
-		new Sender(myCar.getCar().getRetro(), -1).start();
+		//new Sender(myCar.getCar().getRetro(), -1).start();
 	}
 
 }
@@ -168,7 +168,7 @@ class TournRight implements ICommand {
 	@Override
 	public void execute() {
 		myCar.getCar().RightSteering();
-		new Sender(myCar.getCar().getRetro(), 1).start();
+		//new Sender(myCar.getCar().getRetro(), 1).start();
 	}
 }
 
@@ -180,7 +180,7 @@ class ResetSteering implements ICommand {
 	@Override
 	public void execute() {
 		myCar.getCar().SetSteering(0);
-		new Sender(myCar.getCar().getRetro(), 0).start();
+		//new Sender(myCar.getCar().getRetro(), 0).start();
 	}
 	
 }

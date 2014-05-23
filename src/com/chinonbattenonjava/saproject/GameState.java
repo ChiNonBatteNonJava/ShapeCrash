@@ -58,12 +58,16 @@ public class GameState {
 	
 	public void registerDrawable(IDrawableGameComponent drawable)
 	{
-		drawables.add(drawable);
+		synchronized(drawables){
+			drawables.add(drawable);
+		}
 	}
 	
 	public void registerUpdatable(IUpdatableGameComponent updatable)
 	{
-		updatables.add(updatable);
+		synchronized(updatables){
+			updatables.add(updatable);
+		}
 	}
 	
 	public void reset(){

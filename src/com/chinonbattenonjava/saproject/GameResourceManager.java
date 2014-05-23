@@ -415,15 +415,18 @@ public class GameResourceManager {
 		if(currentPlayer==null){
 			currentPlayer=new HashMap<String,Car> ();
 		}
-		currentPlayer.put(name, new Car(name));
-		
+		synchronized(currentPlayer){
+			currentPlayer.put(name, new Car(name));
+		}
 	}
 	public void addPlayer(String[] name){
 		if(currentPlayer==null){
 			currentPlayer=new HashMap<String,Car> ();
 		}
 		for (String n:name){
-			currentPlayer.put(n, new Car(n));
+			synchronized(currentPlayer){
+				currentPlayer.put(n, new Car(n));
+			}
 		}
 		
 	}
@@ -439,7 +442,9 @@ public class GameResourceManager {
 	
 	
 	public void deletePlayer(String name){
-		currentPlayer.remove(name);
+		synchronized(currentPlayer){
+			currentPlayer.remove(name);
+		}
 	}
 	
 	public void setPlayerName(String name){
