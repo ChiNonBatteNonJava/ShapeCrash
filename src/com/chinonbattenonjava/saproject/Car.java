@@ -42,7 +42,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		myCar.createCar(collSh, 800, whell, name, "MainWorld");
 		myCar.setCarPosition(new Vector3(0,45.5f,1));
-		Log.i("err","init car "+PhysicsWorld.instance("MainWorld").getVheicle(name));
+	
 		
 		
 	}
@@ -84,7 +84,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		if(PhysicsWorld.instance("MainWorld").getVheicle(name)!=null){
 			
-		Log.i("a",""+PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH());
 		
 		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.3f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
 			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();

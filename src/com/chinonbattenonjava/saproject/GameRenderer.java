@@ -94,7 +94,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		PhysicCar c=player1.getCar();
 		if(c!=null){
 			camPos=player1.getCar().getVectorForward().mul(15);
-			Log.i("err",""+c);
 		}
 		
 
