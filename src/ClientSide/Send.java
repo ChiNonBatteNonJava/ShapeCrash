@@ -43,16 +43,6 @@ class Send extends Thread{
     }
     
     public void run() {
-    	
-    	ByteBuffer buff = ByteBuffer.allocate(512);
-    	buff.clear();
-    	buff.put(msg.getBytes());
-    	buff.flip();
-    	try{
-    		sc.write(buff);
-    	}catch(Exception e ){
-    		Log.i("err", e.getMessage());
-    	}
     	long firstTime = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
         long delta = firstTime - lastTime;
@@ -65,7 +55,7 @@ class Send extends Thread{
     			JSONObject obj = pcs.toJson();
     			obj.put("id", id);
     			obj.put("code", 6);
-    			sendMessage(pcs.toJson().toJSONString());	
+    			sendMessage(obj.toJSONString());	
     		}
     		if(lastTime-firstTime<MIN_DELTA){
                 try {

@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.badlogic.gdx.math.Vector3;
 import com.chinonbattenonjava.saproject.Car;
 import com.chinonbattenonjava.saproject.GameResourceManager;
 import com.chinonbattenonjava.saproject.GameState;
@@ -64,20 +65,28 @@ class Recive extends Thread{
                 	case 102:
                 		Long idll = (Long) json.get("player_id");
                 		new Car(""+idll.intValue());
+                		Vector3 pos = new Vector3();
+                		pos.x=3*id;
+                		pos.y=27;
+                		pos.z=3*id;
+                		PhysicsWorld.instance("MainWorld").getVheicle(""+idll.intValue()).setCarPosition(pos);
+                		
                 		break;
                 	case 6:
       					Long pid = (Long) json.get("id");
       					PhysicCarStatus pcs = new PhysicCarStatus();
     					pcs.fromJSON(json);
     					Log.i("bnf",""+pid);
-    					if(PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue())!= null){
-    						try{
-    							PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue()).setStatus(pcs);
-    							Log.i("bnf","asd");
-    						}catch(Exception e){
-    							;
-    						}
-       					}
+    					if(id != pid){
+	    					if(PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue())!= null){
+	    						try{
+	    							PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue()).setStatus(pcs);
+	    							Log.i("bnf","asd");
+	    						}catch(Exception e){
+	    							;
+	    						}
+	       					}
+    					}
                 		break;
                 }
             } catch (IOException e) {

@@ -20,6 +20,7 @@ public class Client extends Thread {
     private int porta;
     private int id;
     private Recive rec;
+    private Send snd;
     private int connectionStatus;
     private Send sender;
     //Client must keep Car as parameter
@@ -112,10 +113,14 @@ public class Client extends Thread {
     public void startGame(int id){
 		rec = new Recive(sc, id);
 		rec.start();
+		snd = new Send(sc, id);
+		snd.start();
+		
 	}
 	
 	public void stopGame(){
 		rec.end();
+		snd.end();
 	}
     
 }
