@@ -31,6 +31,7 @@ class Recive extends Thread{
     
     public void end(){
     	end = true;
+    	Log.i("bnf","eneenenenenenen");
     }
     
     public void run(){
@@ -65,22 +66,18 @@ class Recive extends Thread{
                 		new Car(""+idll.intValue());
                 		break;
                 	case 6:
-                		;
-                		JSONArray plist = new JSONArray(); 
-                		plist = (JSONArray) json.get("players");
-    					Iterator it = plist.iterator();
-    					while(it.hasNext()){
-    						JSONObject obj = (JSONObject) it.next();
-    						Long pid = (Long) obj.get("id");
-    						PhysicCarStatus pcs = new PhysicCarStatus();
-    						pcs.fromJSON(obj);
-    						Log.i("bnf",""+pid);
-    						PhysicCar c = PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue());
-    						if(c!= null){
-    								c.setStatus(pcs);
-    								Log.i("bnf","asd");
+      					Long pid = (Long) json.get("id");
+      					PhysicCarStatus pcs = new PhysicCarStatus();
+    					pcs.fromJSON(json);
+    					Log.i("bnf",""+pid);
+    					if(PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue())!= null){
+    						try{
+    							PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue()).setStatus(pcs);
+    							Log.i("bnf","asd");
+    						}catch(Exception e){
+    							;
     						}
-    					}
+       					}
                 		break;
                 }
             } catch (IOException e) {

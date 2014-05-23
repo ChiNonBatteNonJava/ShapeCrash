@@ -177,7 +177,7 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 				float area = (maxX - minX) * (maxY - minY);
 				
 				// new Sphere
-				new Sphere(String.valueOf(hashCode() + System.nanoTime()), area / 2, new Vector3((maxX - minX)/2, (maxY - minY)/2, car.getCarPos().z + area));
+				//new Sphere(String.valueOf(hashCode() + System.nanoTime()), area / 2, new Vector3((maxX - minX)/2, (maxY - minY)/2, car.getCarPos().z + area));
 				
 				//reset trail
 				pathVertices.clear();
