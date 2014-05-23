@@ -4,30 +4,34 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.chinonbattenonjava.saproject.Car;
+
+import Physic.PhysicsWorld;
 import android.util.Log;
 
-class Receive extends Thread{
+class Recive extends Thread{
     private SocketChannel sc;
     private int id;
-    private String recived;
-    public Receive(SocketChannel sc, int id) {
+    private boolean end = false;
+
+    public Recive(SocketChannel sc, int id) {
         this.sc = sc;
         this.id = id;
-        this.recived = "";
     }
-    public boolean isRecived(){
-    	return recived==""?false:true;
+    
+    public void end(){
+    	end = true;
     }
-    public String getRecived(){
-    	String r = recived;
-    	recived = "";
-    	return r;
-    }
+    
     public void run(){
-        while(true) {
+        while(!end) {
 
             try {
-                ByteBuffer buff = ByteBuffer.allocate(512);
+                ByteBuffer buff = ByteBuffer.allocate(1024);
                 buff.clear();
                 int nbyte = sc.read(buff);
                 String str = "";
@@ -36,11 +40,29 @@ class Receive extends Thread{
                     while (buff.hasRemaining()) {
                         str += (char) buff.get();
                     }
-                    this.recived = str;
+                }
+                JSONObject json = (JSONObject) new JSONParser().parse(str);
+                Long codel = (Long) json.get("code");
+                int code = codel==null?-2:codel.intValue();
+                switch (code){
+                	case 101:
+                		Long idl = (Long) json.get("player_id");
+                		PhysicsWorld.instance("MainWorld").delete(""+idl.intValue());
+                		break;
+                	case 102:
+                		Long idll = (Long) json.get("player_id");
+                		new Car(""+idll.intValue());
+                		break;
+                	case 6:
+                		
+                		break;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         }
 

@@ -385,7 +385,7 @@ public class PhysicCar {
 		
 		return m_vehicle.getCurrentSpeedKmHour();
 	}
-
+/*
 	@Override
 	public void finalize(){
 		 m_tuning.dispose();;
@@ -401,6 +401,7 @@ public class PhysicCar {
 		}
 
 	}
+	*/
 	
 	public void setRetro(){
 		

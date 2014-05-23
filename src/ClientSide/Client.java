@@ -19,7 +19,7 @@ public class Client extends Thread {
     private String  ip;
     private int porta;
     private int id;
-    private Receive r;
+    private Recive rec;
     private int connectionStatus;
     private Send sender;
     //Client must keep Car as parameter
@@ -39,12 +39,7 @@ public class Client extends Thread {
     public void sendMessage(String msg) {
     	 sender.sendMessage(msg);
     }
-    public String getMessage(){
-    	if (r.isRecived()){
-    		return r.getRecived();
-    	}
-    	return "";
-    }
+    
     public String listServer(){
     	JSONObject jsn = new JSONObject();
         jsn.put("code", 0);
@@ -113,6 +108,16 @@ public class Client extends Thread {
     	json.put("dir", dir);
     	send(json.toJSONString());
     }
+    
+    public void startGame(int id){
+		rec = new Recive(sc, id);
+		rec.start();
+	}
+	
+	public void stopGame(){
+		rec.end();
+	}
+    
 }
 
 class SingleRequest extends Thread{
@@ -157,4 +162,7 @@ class SingleRequest extends Thread{
 	public boolean isEnded(){
 		return end;
 	}
+	
+	
+	
 }

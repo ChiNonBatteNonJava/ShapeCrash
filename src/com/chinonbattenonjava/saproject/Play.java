@@ -65,7 +65,7 @@ public class Play extends Activity {
 				ServerOnLine server1 = ServerListAdapter.getPosition(arg2);
 
 				JSONObject jsn = new JSONObject();
-				jsn.put("code", 1);
+				jsn.put("code", 1);	
 				// TODO controllare se va bene server1.room_id
 				jsn.put("room_id", server1.room_id);
 				Log.i("id", server1.room_id.toString());
@@ -84,9 +84,9 @@ public class Play extends Activity {
 				}
 				if ((Long) risp.get("code") == 1) {
 					Long pid = (Long) risp.get("player_id");
-
-					GameResourceManager.getInstance().addPlayer("asd" + pid);
-					GameResourceManager.getInstance().setPlayerName("asd" + pid);
+					Client.getInstance().startGame(pid.intValue());
+					GameResourceManager.getInstance().addPlayer(""+pid);
+					GameResourceManager.getInstance().setPlayerName("" + pid);
 					
 					JSONArray plist = new JSONArray();
 					plist = (JSONArray) risp.get("players");
