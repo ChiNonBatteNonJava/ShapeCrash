@@ -6,6 +6,7 @@ import ClientSide.Client;
 import Physic.PhysicsWorld;
 import android.app.Activity;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Display;
@@ -15,12 +16,14 @@ import android.view.WindowManager;
 
 public class Waiting_room extends Activity {
 	private GLSurfaceView mGLView;
-
+	private MediaPlayer mp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.activity_waiting_room);
-
+		mp = MediaPlayer.create(Waiting_room.this, R.raw.song);
+		mp.setLooping(true);
+		mp.start();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
