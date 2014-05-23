@@ -14,8 +14,11 @@ import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionConfiguration;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
+import com.badlogic.gdx.physics.bullet.collision.btConvexShape;
+import com.badlogic.gdx.physics.bullet.collision.btConvexTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
 import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
+import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
 import com.badlogic.gdx.physics.bullet.collision.btTriangleMesh;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
@@ -148,7 +151,9 @@ class Transform extends btTransform {
 }
 
 public class PhysicsWorld {
+	
 	private static HashMap<String, PhysicsWorld> physicsWorld = new HashMap<String, PhysicsWorld>();
+	
 	private btDiscreteDynamicsWorld dynamicsWorld;
 
 	private PhysicsWorld() {
@@ -176,6 +181,7 @@ public class PhysicsWorld {
 
 	public void addBox(Vector3 position, String name, Vector3 size, float mass) {
 		long heapSize = Runtime.getRuntime().totalMemory();
+		
 		Log.i("heap", this.getClass().getName() + " addnjBox " + heapSize);
 
 		btCollisionShape fallShape = new btBoxShape(size);
@@ -206,9 +212,8 @@ public class PhysicsWorld {
 
 	}
 
-	btTriangleMesh editTriangleMeshes(Vector3 arrayVector[]) {
+	private btTriangleMesh editTriangleMeshes(Vector3 arrayVector[]) {
 		btTriangleMesh mTriMesh = new btTriangleMesh();
-
 		for (int i = 0; i < arrayVector.length; i += 3) {
 			mTriMesh.addTriangle(arrayVector[i + 0], arrayVector[i + 1],
 					arrayVector[i + 2]);
@@ -216,14 +221,24 @@ public class PhysicsWorld {
 		}
 		return mTriMesh;
 	}
+	
+	private btTriangleMesh editTriangleMeshes(float arrayVector[]) {
+		btTriangleMesh mTriMesh = new btTriangleMesh();
+		for (int i = 0; i < arrayVector.length; i += 9) {
+			mTriMesh.addTriangle(new Vector3(arrayVector[i + 0],arrayVector[i + 1],arrayVector[i + 2]),new Vector3(arrayVector[i + 3],arrayVector[i + 4],arrayVector[i + 5]),
+					new Vector3(arrayVector[i + 6],arrayVector[i + 7],arrayVector[i + 8]));
 
-	public void addMeshCollider(Vector3[] vertices, Vector3 position,
-			Quaternion rotation, float mass, String name) {
+		}
+		return mTriMesh;
+	}
+
+	public void addMeshCollider(Vector3[] vertices, Vector3 position,Quaternion rotation, float mass, String name,short group,short mask) {
 
 		btTriangleMesh mTriMesh = editTriangleMeshes(vertices);
+		
+	    
 
-		btCollisionShape mTriMeshShape = new btBvhTriangleMeshShape(mTriMesh,
-				true);
+		btCollisionShape mTriMeshShape = new btBvhTriangleMeshShape(mTriMesh,true);
 
 		DefaultMotionState fallMotionStateTriangle = new DefaultMotionState();
 		fallMotionStateTriangle.setStartWorldTrans(new Transform(rotation,
@@ -239,12 +254,12 @@ public class PhysicsWorld {
 		fallRigidBodyCIT.setLinearDamping(100);
 		
 		btRigidBody myNewBody = new btRigidBody(fallRigidBodyCIT);
-		dynamicsWorld.addRigidBody(myNewBody);
+		dynamicsWorld.addRigidBody(myNewBody,group,mask);
 		map.put(name, myNewBody);
-
+	
 		fallMotionStateTriangle.del();
 		mTriMesh.release();
-
+		
 
 	}
 
@@ -256,7 +271,7 @@ public class PhysicsWorld {
 		return physicsWorld.get(worldName);
 
 	}
-
+	
 	public void update() {
 
 		dynamicsWorld.stepSimulation(1.0f / 30.0f, 2, 1.0f / 60.0f);
@@ -281,12 +296,19 @@ public class PhysicsWorld {
 
 	}
 
+	
 	public float[] getMatrixName(String name) {
 		Matrix4 muu1 = new Matrix4();
+		if(map.containsKey(name)){
 		map.get(name).getMotionState().getWorldTransform(muu1);
 		float[] r = muu1.getValues();
 		muu1 = null;
 		return r;
+		}
+		return new float[]{1,0,0,0
+						  ,0,1,0,0,
+						   0,0,1,0,
+						   0,0,0,1};
 	}
 
 	static btRigidBody localCreateRigidBody(float mass,
@@ -355,6 +377,47 @@ public class PhysicsWorld {
 		return cars.size();
 	}
 
+	public void addShape(float[] vertices,Vector3 position,float mass,String name,short group,short mask){
+	
+		btTriangleMesh mTriMesh = editTriangleMeshes(vertices);
+
+		btCollisionShape mTriMeshShape = new btConvexTriangleMeshShape(mTriMesh);
+
+		DefaultMotionState fallMotionStateTriangle = new DefaultMotionState();
+		fallMotionStateTriangle.setStartWorldTrans(new Transform(new Quaternion(0,0,0,1),
+				position));
+
+		Vector3 fallInertiaT = new Vector3(0, 1, 0);
+		mTriMeshShape.calculateLocalInertia(mass, fallInertiaT);
+
+		RigidBodyConstructionInfo fallRigidBodyCIT = new RigidBodyConstructionInfo(mass, fallMotionStateTriangle, mTriMeshShape, fallInertiaT);
+	
+		fallRigidBodyCIT.setRestitution(1.0f);
+		fallRigidBodyCIT.setFriction(100.5f);
+		fallRigidBodyCIT.setLinearDamping(100);
+		
+		btRigidBody myNewBody = new btRigidBody(fallRigidBodyCIT);
+		dynamicsWorld.addRigidBody(myNewBody,group,mask);
+		map.put(name, myNewBody);
+		
+		fallMotionStateTriangle.del();
+		mTriMesh.release();
+		
+	}
+
+	public void delete(String name){
+		if (cars.containsKey(name)){
+			cars.remove(name);
+		}
+		else if (map.containsKey(name)){
+			map.remove(name);
+		}
+		
+	}
+	
+	
+	
+	
 	@Override
 	public void finalize() {
 		Log.i("Delete", "PhyisicWorld");

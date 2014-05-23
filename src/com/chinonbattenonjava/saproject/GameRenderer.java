@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -89,6 +90,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
+		Log.i("pos",""+carPos.y);
 		for (IUpdatableGameComponent updatable : GameState.getInstance()
 				.getUpdatables()) {
 			updatable.update(delta);

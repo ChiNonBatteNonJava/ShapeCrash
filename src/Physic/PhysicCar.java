@@ -1,7 +1,7 @@
 package Physic;
 
 
-import android.util.Log;
+
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
@@ -77,7 +77,7 @@ public class PhysicCar {
 		tr.setIdentity();
 		tr.setOrigin(new Vector3(0, 0, 0));
       
-		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld);// chassisShape);
+		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld,(short)2);// chassisShape);
 
 
 		m_tuning = new btVehicleTuning();
@@ -89,7 +89,8 @@ public class PhysicCar {
 		m_carChassis.setActivationState(Collision.DISABLE_DEACTIVATION);
 
 		dynamicsWorld.addVehicle(m_vehicle);
-
+		
+		
 		boolean isFrontWheel = true;
 
 		m_vehicle.setCoordinateSystem(rightIndex, upIndex, forwardIndex);
@@ -125,26 +126,24 @@ public class PhysicCar {
 		tr.setIdentity();
 		tr.setOrigin(whellPosition[0]);
 		
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
 		
 		tr.setOrigin(whellPosition[1]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
 		
 		tr.setOrigin(whellPosition[2]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
 
 		
 		tr.setOrigin(whellPosition[3]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld()));
-
-
+		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
 
 		PhysicsWorld.instance(world).AddVehicle(this, name);
 
 	}
 
 	btRigidBody localCreateRigidBody(float mass, Transform startTransform,
-			btCollisionShape shape, btDynamicsWorld world) {
+			btCollisionShape shape, btDynamicsWorld world,short group) {
 
 		Vector3 localInertia = new Vector3(0, 0, 0);
 		shape.calculateLocalInertia(mass, localInertia);
@@ -155,7 +154,7 @@ public class PhysicCar {
 		cInfo.setLinearDamping(0);
 		cInfo.setAngularDamping(0);
 		btRigidBody body = new btRigidBody(cInfo);
-		world.addRigidBody(body);
+		world.addRigidBody(body,(short)1,(short)3);
 		myMotionState.del();
 		return body;
 	}
@@ -189,7 +188,7 @@ public class PhysicCar {
 		}
 
 		if(retro==true){
-			gEngineForce1=-10000000;
+			gEngineForce1=-100000;
 		}
 
 		int wheelIndex = 3;
@@ -251,6 +250,7 @@ public class PhysicCar {
 	}
 
 	public void setCarPositionOrientation(Vector3 pos, Quaternion ori){
+		
 		DefaultMotionState myMotionState = new DefaultMotionState();
 		Matrix4 localTrans = new Matrix4();
 		localTrans.idt();
