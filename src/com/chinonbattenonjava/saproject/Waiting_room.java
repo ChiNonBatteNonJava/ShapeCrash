@@ -1,11 +1,10 @@
 package com.chinonbattenonjava.saproject;
 
-import org.json.simple.JSONObject;
-
-import ClientSide.Client;
+import Physic.PhysicsWorld;
+import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,8 +37,21 @@ public class Waiting_room extends Activity {
 //      	jsn.put("code", 101);
 //      	Client c1 = Client.getInstance();
 //      	String mess = c1.createRoom(jsn.toString());
-	    super.onBackPressed();
 		
+		
+	    super.onBackPressed();
 	    return;
 	}
+	
+	public void onDestroy(){
+		
+		GameState.getInstance().reset();
+		GameResourceManager.getInstance().reset();
+		PhysicsWorld.reset();
+		super.onDestroy();
+		
+		
+	}
+	
+	
 }

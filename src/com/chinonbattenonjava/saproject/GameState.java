@@ -65,4 +65,8 @@ public class GameState {
 	{
 		updatables.add(updatable);
 	}
+	
+	public void reset(){
+		instance=null;
+	}
 }

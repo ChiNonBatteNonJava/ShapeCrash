@@ -391,4 +391,9 @@ public class GameResourceManager {
 		aspectRatio=ratio;
 		
 	}
+	public void reset(){
+		instance=null;
+		
+		
+	}
 }

@@ -416,6 +416,10 @@ public class PhysicsWorld {
 	}
 	
 	
+	public static void reset(){
+
+		physicsWorld= new HashMap<String, PhysicsWorld>();
+	}
 	
 	
 	@Override

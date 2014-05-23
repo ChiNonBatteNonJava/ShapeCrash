@@ -3,10 +3,9 @@ package com.chinonbattenonjava.saproject;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class GameGLSurfaceView extends GLSurfaceView implements
 		SurfaceHolder.Callback {
@@ -25,11 +24,14 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 		
+		
 	}
 	public boolean onTouchEvent(final MotionEvent event) {
 		
 		return gm.onTouchEvent(event);
 	}
+	
+	
 	
 	
 
