@@ -140,6 +140,12 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		int idx = v.length - 1; // we skip the first line (head), it's the one we test against all others
 		
+		// start calculating bound box
+		float minX, maxX, minY, maxY;
+		
+		if (a1.x <= a2.x) { minX = a1.x; maxX = a2.x; } else { minX = a2.x; maxX = a1.x; }
+		if (a1.y <= a2.y) { minY = a1.y; maxY = a2.y; } else { minY = a2.y; maxY = a1.y; }
+		
 		while (idx >= 9)
 		{
 			//other lines
@@ -155,7 +161,23 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 			// if there is an intersection, reset trail and create new shape
 			if (checkIntersect(a1, a2, b1, b2))
 			{
-				// TODO new shape
+				// calculate bounding box area
+				for (int i = 6; i < idx - 3; i+=3)
+				{
+					if (v[i] <= minX)
+						minX = v[i];
+					else if (v[i] > maxX)
+						maxX = v[i];
+					
+					if (v[i+1] <= minY)
+						minY = v[i+1];
+					else if (v[i+1] > maxY)
+						maxY = v[i+1];
+				}
+				float area = (maxX - minX) * (maxY - minY);
+				
+				// new Sphere
+				new Sphere(String.valueOf(hashCode() + System.nanoTime()), area / 2, new Vector3((maxX - minX)/2, (maxY - minY)/2, car.getCarPos().z + area));
 				
 				//reset trail
 				pathVertices.clear();
