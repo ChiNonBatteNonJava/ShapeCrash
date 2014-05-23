@@ -29,6 +29,7 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 	}
 	public boolean onTouchEvent(final MotionEvent event) {
 		
+		
 		return gm.onTouchEvent(event);
 	}
 	

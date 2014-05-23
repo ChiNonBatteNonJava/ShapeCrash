@@ -1,5 +1,8 @@
 package com.chinonbattenonjava.saproject;
 
+import org.json.simple.JSONObject;
+
+import ClientSide.Client;
 import Physic.PhysicsWorld;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -11,16 +14,18 @@ import android.view.WindowManager;
 
 public class Waiting_room extends Activity {
 	private GLSurfaceView mGLView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_waiting_room);
-		
+		// setContentView(R.layout.activity_waiting_room);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		mGLView = new GameGLSurfaceView(this);
-		
+
 		setContentView(mGLView);
 	}
 
@@ -30,28 +35,18 @@ public class Waiting_room extends Activity {
 		getMenuInflater().inflate(R.menu.waiting_room, menu);
 		return true;
 	}
-	
-	@Override
-	public void onBackPressed() {
-//      	JSONObject jsn = new JSONObject();
-//      	jsn.put("code", 101);
-//      	Client c1 = Client.getInstance();
-//      	String mess = c1.createRoom(jsn.toString());
-		
-		
-	    super.onBackPressed();
-	    return;
-	}
-	
-	public void onDestroy(){
-		
+
+	public void onDestroy() {
+
 		GameState.getInstance().reset();
 		GameResourceManager.getInstance().reset();
 		PhysicsWorld.reset();
+		JSONObject jsn = new JSONObject();
+		jsn.put("code", 101);
+		Client c1 = Client.getInstance();
+		String mess = c1.createRoom(jsn.toString());
 		super.onDestroy();
-		
-		
+
 	}
-	
-	
+
 }
