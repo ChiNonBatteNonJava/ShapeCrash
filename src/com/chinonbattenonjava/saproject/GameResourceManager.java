@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -416,7 +417,11 @@ public class GameResourceManager {
 			currentPlayer=new HashMap<String,Car> ();
 		}
 		synchronized(currentPlayer){
-			currentPlayer.put(name, new Car(name));
+			Random r = new Random();
+			int a = r.nextInt(20)-10;
+			Vector3 pos = new Vector3(a,47,a);
+			
+			currentPlayer.put(name, new Car(name, pos));
 		}
 	}
 	public void addPlayer(String[] name){
@@ -425,7 +430,11 @@ public class GameResourceManager {
 		}
 		for (String n:name){
 			synchronized(currentPlayer){
-				currentPlayer.put(n, new Car(n));
+				Random r = new Random();
+				int a = r.nextInt(40);
+				Vector3 pos = new Vector3(3*a,27,3*a);
+				
+				currentPlayer.put(n, new Car(n, pos));
 			}
 		}
 		

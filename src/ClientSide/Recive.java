@@ -64,12 +64,12 @@ class Recive extends Thread{
                 		break;
                 	case 102:
                 		Long idll = (Long) json.get("player_id");
-                		new Car(""+idll.intValue());
+                		
                 		Vector3 pos = new Vector3();
                 		pos.x=3*id;
                 		pos.y=27;
                 		pos.z=3*id;
-                		PhysicsWorld.instance("MainWorld").getVheicle(""+idll.intValue()).setCarPosition(pos);
+                		new Car(""+idll.intValue(),pos);
                 		
                 		break;
                 	case 6:
