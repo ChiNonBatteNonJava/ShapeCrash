@@ -13,6 +13,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.hardware.Camera.Size;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
@@ -43,13 +44,13 @@ public class GameResourceManager {
 	private float aspectRatio=1;
 	
 	
-	private Size screenSize;
+	private Point screenSize;
 	
-	public void setSreenSize(Size s){
+	public void setSreenSize(Point s){
 		screenSize=s;
 		
 	}
-	public Size getScreenSize(){
+	public Point getScreenSize(){
 		return screenSize;
 	}
 	private GameResourceManager()

@@ -85,21 +85,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		if(PhysicsWorld.instance("MainWorld").getVheicle(name)!=null){
 			
 		
-		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.3f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
-			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();
-			i++;
-			
-		}
-		else if(i==10){
-			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();	
-			i=-40;
-			
-		}else if(i>0 && i<10){
-			i++;
-		}
-		if(i<0){
-			i++;;
-		}
+	
 		// TODO Auto-generated  method stub
 		whellMatrix=new float[4][16];
 		

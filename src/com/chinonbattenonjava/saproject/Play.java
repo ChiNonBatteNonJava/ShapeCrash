@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -40,6 +42,10 @@ public class Play extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		GameResourceManager.getInstance().setSreenSize(new Point(size.x,size.y));
 		setContentView(R.layout.activity_list_view_with_simple_adapter);
 		Client c1 = Client.getInstance();
 		String msg = c1.listServer();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientSide.Client;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.badlogic.gdx.math.Vector2;
@@ -26,10 +27,10 @@ public class GameEventListener {
 		commands.randomTouch(event.getX(), event.getY());
 		switch (action) {
 		case MotionEvent.ACTION_DOWN: {// MotionEvent class field
-			if (event.getX() < 400) {
+			if (event.getX() < GameResourceManager.getInstance().getScreenSize().x/3) {
 				commands.leftTouch();
 				return true;
-			} else {
+			} else if (event.getX() > 2*GameResourceManager.getInstance().getScreenSize().x/3) {
 				commands.rightTouch();
 				return true;
 			}
@@ -197,7 +198,9 @@ class CarActionBuilder{
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
-		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))
+		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
+		Log.i("fuck",""+GameResourceManager.getInstance().getScreenSize());
+		
 	}
 	
 }

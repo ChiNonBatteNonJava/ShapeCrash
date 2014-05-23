@@ -28,11 +28,7 @@ public class Waiting_room extends Activity {
 		mGLView = new GameGLSurfaceView(this);
 
 		setContentView(mGLView);
-		Display display = getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		int width = size.x;
-		int height = size.y;
+		
 	}
 
 	@Override

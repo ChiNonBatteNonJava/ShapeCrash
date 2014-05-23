@@ -188,7 +188,7 @@ public class PhysicCar {
 		}
 
 		if(retro==true){
-			gEngineForce1=-100000;
+			gEngineForce1=-1000;
 		}
 
 		int wheelIndex = 3;
