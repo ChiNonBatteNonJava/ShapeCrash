@@ -59,18 +59,15 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	}
 	public Vector3 getCarPos(){
 		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
-		
 	}
 	public PhysicCar getCar(){
 		return PhysicsWorld.instance("MainWorld").getVheicle(name);
-		
 	}
 
 	@Override
 	public IPainter getPainter() {
 		if (painter == null){
 			painter = new GameCarPainter(this);
-			
 		}
 		return painter;
 	}
@@ -98,8 +95,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
 	 
-		
-	 
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 		
@@ -118,7 +113,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		whellPos=null;
 		mModelMatrix=null;
 		}else{
-			
 			this.initPhysics();
 		}
 	}
