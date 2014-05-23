@@ -140,7 +140,7 @@ public class PhysicCar {
 		cInfo.setAngularDamping(0);
 		btRigidBody body = new btRigidBody(cInfo);
 		world.addRigidBody(body,(short)1,(short)3);
-		myMotionState.del();
+		
 		return body;
 	}
 
@@ -230,7 +230,7 @@ public class PhysicCar {
 		myMotionState.setWorldTransform(localTrans);
 		m_carChassis.setMotionState(myMotionState);
 		localTrans=null;
-		myMotionState.del();
+		//myMotionState.del();
 
 	}
 
@@ -243,7 +243,7 @@ public class PhysicCar {
 		myMotionState.setWorldTransform(localTrans);
 		m_carChassis.setMotionState(myMotionState);
 		localTrans=null;
-		myMotionState.del();
+		//myMotionState.del();
 
 	}
 
@@ -370,7 +370,7 @@ public class PhysicCar {
 		
 		return m_vehicle.getCurrentSpeedKmHour();
 	}
-/*
+
 	@Override
 	public void finalize(){
 		 m_tuning.dispose();;
@@ -386,7 +386,7 @@ public class PhysicCar {
 		}
 
 	}
-	*/
+	
 	
 	public void setRetro(){
 		

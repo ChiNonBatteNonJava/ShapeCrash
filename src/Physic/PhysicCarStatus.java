@@ -2,6 +2,8 @@ package Physic;
 
 import org.json.simple.JSONObject;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
@@ -86,6 +88,7 @@ public class PhysicCarStatus {
 	}
 	
 	public void fromJSON(JSONObject json){
+		
 		steering = ((Double) json.get("steering")).floatValue();
 		JSONObject positionJson = (JSONObject) json.get("position");
 		JSONObject linearJson =  (JSONObject) json.get("linear");
@@ -121,6 +124,8 @@ public class PhysicCarStatus {
 		orientation.y = ((Double) orientationJson.get("y")).floatValue();
 		orientation.z = ((Double) orientationJson.get("z")).floatValue();
 		orientation.w = ((Double) orientationJson.get("w")).floatValue();
+		
+		
 		/*
 		wheel[0]=((Double) wheelJson.get("0")).floatValue();
 		wheel[1]=((Double) wheelJson.get("1")).floatValue();

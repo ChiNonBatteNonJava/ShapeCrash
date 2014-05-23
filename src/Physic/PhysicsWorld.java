@@ -91,13 +91,7 @@ class DbvtBroadphase extends btDbvtBroadphase {
 
 class DefaultMotionState extends btDefaultMotionState {
 
-	public void del() {
-		try {
-			this.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	@Override
 	protected void finalize() throws Throwable {
@@ -205,7 +199,7 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myRigidBody);
 		
 
-		fallMotionState.del();
+		
 		
 	}
 	
@@ -237,7 +231,7 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myRigidBody);
 		
 
-		fallMotionState.del();
+		
 
 
 	}
@@ -287,7 +281,7 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myNewBody,group,mask);
 		map.put(name, myNewBody);
 	
-		fallMotionStateTriangle.del();
+		
 		mTriMesh.release();
 		
 
@@ -359,7 +353,7 @@ public class PhysicsWorld {
 
 		world.addRigidBody(body);
 
-		myMotionState.del();
+	
 		// cInfo.dispose();
 		// myMotionState.dispose();
 		// startTransform.dispose();
@@ -436,7 +430,7 @@ public class PhysicsWorld {
 		dynamicsWorld.addRigidBody(myNewBody,group,mask);
 		map.put(name, myNewBody);
 		
-		fallMotionStateTriangle.del();
+		
 		mTriMesh.release();
 		
 	}
