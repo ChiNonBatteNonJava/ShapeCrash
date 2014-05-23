@@ -321,25 +321,65 @@ public class PhysicCar {
 
 	}
 
-	public void setStatus(PhysicCarStatus carStatus){
 
-		gVehicleSteering=carStatus.steering;
-		setCarPositionOrientation(carStatus.position,carStatus.orientation);
-		m_carChassis.setLinearVelocity(carStatus.linearVelocity);
-		m_carChassis.setAngularVelocity(carStatus.angularVelocity);
 
+	public void setStatus(PhysicCarStatus carStatus) {
+
+		gVehicleSteering = carStatus.steering;
+		setCarPositionOrientation(carStatus.position, carStatus.orientation);
+		
+		
+	
+		
+		m_vehicle.getRigidBody().setInterpolationLinearVelocity(carStatus.linearVelocity);
+		m_vehicle.getRigidBody().setInterpolationAngularVelocity(carStatus.angularVelocity);
+		//m_carChassis.setInterpolationLinearVelocity(carStatus.angularVelocityChaiss);
+		//m_carChassis.setInterpolationAngularVelocity(carStatus.linearVelocityChaiss);
+		
+		/*
+		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
+			m_vehicle.getWheelInfo(i).setDeltaRotation(carStatus.wheel[i]);
+			m_vehicle.updateWheelTransform(i, true);
+			
+		}*/
 	}
 
-	public PhysicCarStatus getStatus(){
 
-		PhysicCarStatus helper=new PhysicCarStatus();
-		helper.steering=gVehicleSteering;
-		helper.position=this.getCarPosition();
-		helper.linearVelocity=m_carChassis.getLinearVelocity();
-		helper.angularVelocity=m_carChassis.getAngularVelocity();
-		helper.orientation = m_carChassis.getOrientation();
+	public Quaternion getCarQuaternion() {
+
+		Matrix4 worldTrans = new Matrix4();
+		btMotionState myMotion = m_carChassis.getMotionState();
+		myMotion.getWorldTransform(worldTrans);
+		Quaternion pos = new Quaternion();
+		pos = worldTrans.getRotation(pos);
+		
+		return pos;
+
+	}
+	
+	public PhysicCarStatus getStatus() {
+
+		PhysicCarStatus helper = new PhysicCarStatus();
+		helper.steering = gVehicleSteering;
+		helper.position = this.getCarPosition();
+		helper.linearVelocity = m_vehicle.getRigidBody().getInterpolationLinearVelocity();
+		helper.angularVelocity = m_vehicle.getRigidBody().getInterpolationAngularVelocity();
+		
+		//helper.linearVelocityChaiss = m_carChassis.getInterpolationLinearVelocity();
+		//helper.angularVelocityChaiss = m_carChassis.getInterpolationAngularVelocity();
+		
+		
+		helper.orientation =getCarQuaternion();
+		/*
+		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
+			helper.wheel[i]=m_vehicle.getWheelInfo(i).getDeltaRotation();		
+		}
+		*/
+		//Log.i("d",""+m_vehicle.getRigidBody().getLinearVelocity().toString() + " "+m_carChassis.getAngularVelocity().toString() );
 		return helper;
 	}
+
+
 	
 	public float getSpeedKMH(){
 		
