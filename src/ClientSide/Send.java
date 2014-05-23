@@ -55,7 +55,7 @@ class Send extends Thread{
     			JSONObject obj = pcs.toJson();
     			obj.put("id", id);
     			obj.put("code", 6);
-    			sendMessage(obj.toJSONString());	
+    			sendMessage(obj.toJSONString()+"\n");	
     		}
     		if(lastTime-firstTime<MIN_DELTA){
                 try {
