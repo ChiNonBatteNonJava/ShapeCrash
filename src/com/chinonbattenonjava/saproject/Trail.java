@@ -216,4 +216,10 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		return painter;
 	}
+
+	@Override
+	public void initPhysics() {
+		// TODO Auto-generated method stub
+		
+	}
 }

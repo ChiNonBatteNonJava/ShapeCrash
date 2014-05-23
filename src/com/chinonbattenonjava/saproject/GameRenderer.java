@@ -3,6 +3,7 @@ package com.chinonbattenonjava.saproject;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -41,7 +42,15 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
-		player1 = new Car();
+		for(IUpdatableGameComponent drawable : GameState.getInstance().getUpdatables()){
+			
+			drawable.initPhysics();
+		}
+		
+		
+		player1 = GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName());
+		
+		
 		
 		t = new Terrain();
 
@@ -81,16 +90,21 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		// update logic  
 		
 		Vector3 carPos = player1.getCarPos();
-		Vector3 camPos=player1.getCar().getVectorForward().mul(15);
+		Vector3 camPos=new Vector3();
+		PhysicCar c=player1.getCar();
+		if(c!=null){
+			camPos=player1.getCar().getVectorForward().mul(15);
+			Log.i("err",""+c);
+		}
 		
 
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
-	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x,camPos.y+45,carPos.z);
+	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
 
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
-		Log.i("pos",""+carPos.y);
+		
 		for (IUpdatableGameComponent updatable : GameState.getInstance()
 				.getUpdatables()) {
 			updatable.update(delta);

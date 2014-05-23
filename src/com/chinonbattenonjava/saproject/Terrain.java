@@ -18,9 +18,9 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 	
 	}
 	
-	private void initPhysics(){
+	public void initPhysics(){
 		
-	  PhysicsWorld.instance("MainWorld").addMeshCollider(painter.getGame3dModel().getVerticesVector3(), new Vector3(0,-27,0), new Quaternion(0,0,0,1), 100, "terrain1",(short)2,(short)3);
+	  PhysicsWorld.instance("MainWorld").addMeshCollider(painter.getGame3dModel().getVerticesVector3(), new Vector3(0,-37,0), new Quaternion(0,0,0,1), 0, "terrain1",(short)1,(short)3);
 		
 	}
 	@Override

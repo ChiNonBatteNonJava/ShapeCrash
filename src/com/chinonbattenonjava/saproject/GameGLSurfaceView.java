@@ -18,6 +18,7 @@ public class GameGLSurfaceView extends GLSurfaceView implements
 	
 		GameResourceManager.getInstance().bindAndroidResources(getResources());
 
+		CarActionBuilder.Create(GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName()), gm);
 		setEGLContextClientVersion(2);
 		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 		setRenderer(new GameRenderer());

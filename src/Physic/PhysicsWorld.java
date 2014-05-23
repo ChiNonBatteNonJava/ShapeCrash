@@ -158,7 +158,7 @@ public class PhysicsWorld {
 
 	private PhysicsWorld() {
 
-		Bullet.init(false, true);
+		//Bullet.init(false, true);
 
 		map = new HashMap<String, btRigidBody>();
 		cars = new HashMap<String, PhysicCar>();
@@ -363,12 +363,18 @@ public class PhysicsWorld {
 	}
 
 	public Vector3 getVheiclePosition(String carName) {
-		return cars.get(carName).getCarPosition();
+		if(cars.containsKey(carName)){
+			return cars.get(carName).getCarPosition();
+		}
+		return new Vector3();
 
 	}
 
 	public PhysicCar getVheicle(String carName) {
-		return cars.get(carName);
+		if(cars.containsKey(carName)){
+			return cars.get(carName);
+		}
+		return null;
 
 	}
 
@@ -417,7 +423,7 @@ public class PhysicsWorld {
 	
 	
 	public static void reset(){
-
+		
 		physicsWorld= new HashMap<String, PhysicsWorld>();
 	}
 	

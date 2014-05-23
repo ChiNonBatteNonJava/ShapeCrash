@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.Bullet;
 
 public class GameResourceManager {
 	// class TAG for Log
@@ -49,6 +50,7 @@ public class GameResourceManager {
 		programs = new HashMap<String, GameShaderProgram>();
 		textures=new HashMap<String,Integer>();
 		androidRes = null;
+		Bullet.init();
 	}
 	
 	public static GameResourceManager getInstance()
@@ -394,6 +396,46 @@ public class GameResourceManager {
 	public void reset(){
 		instance=null;
 		
+		
+	}
+	String playerName="";
+	HashMap<String,Car> currentPlayer;
+	
+	public void addPlayer(String name){
+		if(currentPlayer==null){
+			currentPlayer=new HashMap<String,Car> ();
+		}
+		currentPlayer.put(name, new Car(name));
+		
+	}
+	public void addPlayer(String[] name){
+		if(currentPlayer==null){
+			currentPlayer=new HashMap<String,Car> ();
+		}
+		for (String n:name){
+			currentPlayer.put(n, new Car(n));
+		}
+		
+	}
+	
+	
+	public HashMap getPlayerList(){
+		return currentPlayer;
+	}
+	public Car getCar(String name){
+		Log.i("err",""+currentPlayer.get(name).getCar());
+		return currentPlayer.get(name);
+	}
+	
+	
+	
+	public void setPlayerName(String name){
+		
+		playerName=name;
+	}
+	public String getPlayerName(){
+		
+		return playerName;
 		
 	}
 }

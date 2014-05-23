@@ -102,7 +102,7 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 
 	@Override
 	public void draw(float[] proj, float[] look) {
-		
+		if(this.elemet.getCar()!=null){
 		drawQuadrants(proj,look);
 		GLES20.glUseProgram(program.getProgram());
 		float speed = this.elemet.getCar().getSpeedKMH();
@@ -160,5 +160,6 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);
+		}
 	}
 }

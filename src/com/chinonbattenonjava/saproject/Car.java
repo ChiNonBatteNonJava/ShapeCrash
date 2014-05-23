@@ -12,20 +12,22 @@ import com.badlogic.gdx.physics.bullet.collision.btCapsuleShapeX;
 public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
 	private GameCarPainter painter;
+	
 	private float[] mvpMatrix;
 	private int i=-40;
 	public String name;
-	public Car()
+	public Car(String name)
 	{
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
-	    this.initPhysics();
+	   
 	    new Trail(this);
+	    this.name=name;
 	}
 	
 	
-	private void initPhysics(){
+	public  void initPhysics(){
 		PhysicCar myCar=new PhysicCar();		
 		Vector3 [] whell=new Vector3[4];
 
@@ -35,12 +37,13 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		whell[3]=new Vector3(2f,1,-2);
 
 		
-		name="car"+PhysicsWorld.instance("MainWorld").getVehicleCount();
-
+		
 		btBoxShape  collSh=new btBoxShape(new Vector3(1.9f,1,4));
 		
 		myCar.createCar(collSh, 800, whell, name, "MainWorld");
-		myCar.setCarPosition(new Vector3(0,25.5f,1));
+		myCar.setCarPosition(new Vector3(0,45.5f,1));
+		Log.i("err","init car "+PhysicsWorld.instance("MainWorld").getVheicle(name));
+		
 		
 	}
 	
@@ -67,6 +70,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	public IPainter getPainter() {
 		if (painter == null){
 			painter = new GameCarPainter(this);
+			
 		}
 		return painter;
 	}
@@ -77,7 +81,11 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	@Override
 	public void update(float delta) {
+		
+		if(PhysicsWorld.instance("MainWorld").getVheicle(name)!=null){
+			
 		Log.i("a",""+PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH());
+		
 		if(PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()<0.3f && PhysicsWorld.instance("MainWorld").getVheicle(name).getSpeedKMH()>0.0f && i==0){
 			PhysicsWorld.instance("MainWorld").getVheicle(name).doRetro();
 			i++;
@@ -124,6 +132,10 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		whellPos=null;
 		mModelMatrix=null;
+		}else{
+			
+			this.initPhysics();
+		}
 	}
 	
 }

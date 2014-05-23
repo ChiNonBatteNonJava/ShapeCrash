@@ -163,8 +163,8 @@ class ResetSteering implements ICommand {
  */
 class CarActionBuilder{
 	static void Create(Car c,GameEventListener lin){
-		lin.getListDeclaration().addLeftTouchAction(new TournLeft(c));
-		lin.getListDeclaration().addRightTouchAction(new TournRight(c));
+		lin.getListDeclaration().addLeftTouchAction(new TournRight(c));
+		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
 	}
 	

@@ -67,6 +67,7 @@ public class GameState {
 	}
 	
 	public void reset(){
+		
 		instance=null;
 	}
 }
