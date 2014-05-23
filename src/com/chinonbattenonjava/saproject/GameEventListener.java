@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientSide.Client;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.badlogic.gdx.math.Vector2;
@@ -118,6 +117,34 @@ class CommandListDeclaration {
 }
 
 
+class RetroCommand implements ICommand{
+	Car c;
+	public RetroCommand(Car c){
+		this.c=c;
+	}
+	@Override
+	public void execute() {
+		c.getCar().setRetro();
+		
+	}
+	
+	
+}
+
+class ResetRetroCommand implements ICommand{
+	Car c;
+	public ResetRetroCommand(Car c){
+		this.c=c;
+	}
+	@Override
+	public void execute() {
+		c.getCar().resetRetro();
+		
+	}
+	
+	
+}
+
 class TournLeft implements ICommand {
 	Car myCar;
 	public TournLeft(Car c) {
@@ -168,7 +195,9 @@ class CarActionBuilder{
 	static void Create(Car c,GameEventListener lin){
 		lin.getListDeclaration().addLeftTouchAction(new TournRight(c));
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
+		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
+		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))
 	}
 	
 }

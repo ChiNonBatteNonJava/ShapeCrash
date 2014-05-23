@@ -13,6 +13,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera.Size;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
@@ -42,7 +43,15 @@ public class GameResourceManager {
 	private float aspectRatio=1;
 	
 	
+	private Size screenSize;
 	
+	public void setSreenSize(Size s){
+		screenSize=s;
+		
+	}
+	public Size getScreenSize(){
+		return screenSize;
+	}
 	private GameResourceManager()
 	{
 		shaders = new HashMap<String, GameShader>();

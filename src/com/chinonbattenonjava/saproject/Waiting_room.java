@@ -5,9 +5,10 @@ import org.json.simple.JSONObject;
 import ClientSide.Client;
 import Physic.PhysicsWorld;
 import android.app.Activity;
+import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +28,11 @@ public class Waiting_room extends Activity {
 		mGLView = new GameGLSurfaceView(this);
 
 		setContentView(mGLView);
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		int height = size.y;
 	}
 
 	@Override

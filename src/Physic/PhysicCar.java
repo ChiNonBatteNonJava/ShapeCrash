@@ -362,6 +362,14 @@ public class PhysicCar {
 
 	}
 	
+	public void setRetro(){
+		
+		this.retro=true;
+	}
+public void resetRetro(){
+		
+		this.retro=false;
+	}
 	public int getRetro(){
 		if(retro){
 			return -1;
