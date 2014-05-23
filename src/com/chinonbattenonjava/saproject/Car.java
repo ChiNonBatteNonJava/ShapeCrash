@@ -9,6 +9,23 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btCapsuleShapeX;
 
+class BoxShape extends btBoxShape{
+
+	public BoxShape(Vector3 boxHalfExtents) {
+		super(boxHalfExtents);
+		
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+	
+}
 public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
 	private GameCarPainter painter;
@@ -28,6 +45,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 	
 	public  void initPhysics(){
+		
 		PhysicCar myCar=new PhysicCar();		
 		Vector3 [] whell=new Vector3[4];
 
@@ -38,7 +56,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 
 		
 		
-		btBoxShape  collSh=new btBoxShape(new Vector3(1.9f,1,4));
+		BoxShape  collSh=new BoxShape(new Vector3(1.9f,1,4));
 		
 		myCar.createCar(collSh, 800, whell, name, "MainWorld");
 		myCar.setCarPosition(new Vector3(0,45.5f,1));

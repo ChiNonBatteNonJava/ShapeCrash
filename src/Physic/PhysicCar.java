@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.dynamics.btVehicleRaycaster;
 import com.badlogic.gdx.physics.bullet.dynamics.btVehicleTuning;
 import com.badlogic.gdx.physics.bullet.dynamics.btWheelInfo;
+import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 
 
@@ -25,11 +26,11 @@ import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 
 public class PhysicCar {
 
-	btVehicleTuning m_tuning;
-	btVehicleRaycaster m_vehicleRayCaster;
-	btRaycastVehicle m_vehicle;
-	btCollisionShape m_wheelShape;
-	btRigidBody m_carChassis;
+	VehicleTuning m_tuning;
+	DefaultVehicleRaycaster m_vehicleRayCaster;
+	RaycastVehicle m_vehicle;
+	
+	RigidBody m_carChassis;
 
 	int rightIndex = 0;
 	int upIndex = 1;
@@ -63,8 +64,8 @@ public class PhysicCar {
 
 	public void createCar(btCollisionShape chassis, float mass, Vector3[] whellPosition,String name,String world) {
 
-		btDiscreteDynamicsWorld dynamicsWorld=PhysicsWorld.instance(world).getWorld();
-		btCompoundShape compound = new btCompoundShape();
+		DiscreteDynamicsWorld dynamicsWorld=PhysicsWorld.instance(world).getWorld();
+		btCompoundShape compound = new CompoundShape();
 
 		Matrix4 localTrans = new Matrix4();
 		localTrans.idt();
@@ -77,13 +78,13 @@ public class PhysicCar {
 		tr.setIdentity();
 		tr.setOrigin(new Vector3(0, 0, 0));
       
-		m_carChassis = localCreateRigidBody(mass, tr, compound, dynamicsWorld,(short)2);// chassisShape);
+		m_carChassis = localCreateRigidBody(mass, tr,compound, dynamicsWorld,(short)2);// chassisShape);
 
 
-		m_tuning = new btVehicleTuning();
+		m_tuning = new VehicleTuning();
 
-		m_vehicleRayCaster = new btDefaultVehicleRaycaster(dynamicsWorld);
-		m_vehicle = new btRaycastVehicle(m_tuning, m_carChassis,
+		m_vehicleRayCaster = new DefaultVehicleRaycaster(dynamicsWorld);
+		m_vehicle = new RaycastVehicle(m_tuning, m_carChassis,
 				m_vehicleRayCaster);
 
 		m_carChassis.setActivationState(Collision.DISABLE_DEACTIVATION);
@@ -113,7 +114,7 @@ public class PhysicCar {
 				isFrontWheel);
 
 		for (int i = 0; i < m_vehicle.getNumWheels(); i++) {
-			btWheelInfo wheel = m_vehicle.getWheelInfo(i);
+			btWheelInfo wheel =  m_vehicle.getWheelInfo(i);
 			wheel.setSuspensionStiffness(suspensionStiffness);
 			wheel.setWheelsDampingRelaxation(suspensionDamping);
 			wheel.setWheelsDampingCompression(suspensionCompression);
@@ -127,8 +128,8 @@ public class PhysicCar {
 
 	}
 
-	btRigidBody localCreateRigidBody(float mass, Transform startTransform,
-			btCollisionShape shape, btDynamicsWorld world,short group) {
+	RigidBody localCreateRigidBody(float mass, Transform startTransform,
+			btCollisionShape shape, btDiscreteDynamicsWorld world,short group) {
 
 		Vector3 localInertia = new Vector3(0, 0, 0);
 		shape.calculateLocalInertia(mass, localInertia);
@@ -138,7 +139,7 @@ public class PhysicCar {
 		cInfo.setRestitution(.3f);
 		cInfo.setLinearDamping(0);
 		cInfo.setAngularDamping(0);
-		btRigidBody body = new btRigidBody(cInfo);
+		RigidBody body = new RigidBody(cInfo);
 		world.addRigidBody(body,(short)1,(short)3);
 		
 		return body;
@@ -213,7 +214,7 @@ public class PhysicCar {
 	public float[] getMatrixChassisCar(){
 
 		Matrix4 worldTr=new Matrix4();
-		btMotionState myMotion=m_carChassis.getMotionState();
+		btMotionState myMotion= m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTr);
 		myMotion.release();
 		myMotion=null;
@@ -236,13 +237,13 @@ public class PhysicCar {
 
 	public void setCarPositionOrientation(Vector3 pos, Quaternion ori){
 		
-		DefaultMotionState myMotionState = new DefaultMotionState();
+	//	DefaultMotionState myMotionState = new DefaultMotionState();
 		Matrix4 localTrans = new Matrix4();
 		localTrans.idt();
 		localTrans.set(pos, ori, new Vector3(1,1,1));
-		myMotionState.setWorldTransform(localTrans);
-		m_carChassis.setMotionState(myMotionState);
-		localTrans=null;
+		
+		m_carChassis.setWorldTransform(localTrans);
+		
 		//myMotionState.del();
 
 	}
@@ -250,7 +251,7 @@ public class PhysicCar {
 	public Vector3 getCarPosition(){
 
 		Matrix4 worldTrans=new Matrix4();
-		btMotionState myMotion=m_carChassis.getMotionState();
+		btMotionState myMotion= m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTrans);
 		Vector3 pos=new Vector3();
 		pos=worldTrans.getTranslation(pos);
@@ -301,7 +302,7 @@ public class PhysicCar {
 
 	public void setWhellInfo(btWheelInfo info,int index){
 
-		btWheelInfo wheel = m_vehicle.getWheelInfo(index);
+		btWheelInfo wheel =  m_vehicle.getWheelInfo(index);
 		wheel=info;
 
 	}
@@ -311,11 +312,9 @@ public class PhysicCar {
 	public void setStatus(PhysicCarStatus carStatus) {
 
 		gVehicleSteering = carStatus.steering;
-		setCarPositionOrientation(carStatus.position, carStatus.orientation);
 		
-		
-	
-		
+    	setCarPositionOrientation(carStatus.position, carStatus.orientation);
+
 		m_vehicle.getRigidBody().setInterpolationLinearVelocity(carStatus.linearVelocity);
 		m_vehicle.getRigidBody().setInterpolationAngularVelocity(carStatus.angularVelocity);
 		//m_carChassis.setInterpolationLinearVelocity(carStatus.angularVelocityChaiss);
@@ -333,7 +332,7 @@ public class PhysicCar {
 	public Quaternion getCarQuaternion() {
 
 		Matrix4 worldTrans = new Matrix4();
-		btMotionState myMotion = m_carChassis.getMotionState();
+		btMotionState myMotion =  m_carChassis.getMotionState();
 		myMotion.getWorldTransform(worldTrans);
 		Quaternion pos = new Quaternion();
 		pos = worldTrans.getRotation(pos);
@@ -376,7 +375,7 @@ public class PhysicCar {
 		 m_tuning.dispose();;
 		 m_vehicleRayCaster.dispose();
 		 m_vehicle.dispose();
-		 m_wheelShape.dispose();
+		
 		 m_carChassis.dispose();
 		try {
 			super.finalize();

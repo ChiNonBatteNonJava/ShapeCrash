@@ -9,25 +9,164 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
+import com.badlogic.gdx.physics.bullet.collision.btBroadphaseInterface;
 import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionConfiguration;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
+import com.badlogic.gdx.physics.bullet.collision.btCompoundShape;
 import com.badlogic.gdx.physics.bullet.collision.btConvexTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
 import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
+import com.badlogic.gdx.physics.bullet.collision.btDispatcher;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.collision.btTriangleMesh;
+import com.badlogic.gdx.physics.bullet.dynamics.btConstraintSolver;
+import com.badlogic.gdx.physics.bullet.dynamics.btDefaultVehicleRaycaster;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
+import com.badlogic.gdx.physics.bullet.dynamics.btRaycastVehicle;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBodyConstructionInfo;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
+import com.badlogic.gdx.physics.bullet.dynamics.btVehicleRaycaster;
+import com.badlogic.gdx.physics.bullet.dynamics.btVehicleTuning;
+import com.badlogic.gdx.physics.bullet.dynamics.btWheelInfo;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
 import com.chinonbattenonjava.saproject.GameResourceManager;
 import com.chinonbattenonjava.saproject.GameState;
+
+
+
+class BoxShape extends btBoxShape{
+
+	public BoxShape(Vector3 boxHalfExtents) {
+		super(boxHalfExtents);
+		
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+	
+	
+}
+
+
+class MotionState extends btMotionState{
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+}
+class CollisionShape extends btCollisionShape{
+	
+	
+	
+	public CollisionShape(long cPtr, boolean cMemoryOwn) {
+		super(cPtr, cMemoryOwn);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+}
+
+
+class VehicleTuning extends btVehicleTuning{
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+}
+
+class RigidBody extends btRigidBody{
+
+	public RigidBody(btRigidBodyConstructionInfo constructionInfo) {
+		super(constructionInfo);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+}
+
+class RaycastVehicle extends btRaycastVehicle{
+
+	public RaycastVehicle(btVehicleTuning tuning, RigidBody chassis,
+			btVehicleRaycaster raycaster) {
+		super(tuning, chassis, raycaster);
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+	
+}
+class DefaultVehicleRaycaster extends btDefaultVehicleRaycaster{
+
+	public DefaultVehicleRaycaster(btDynamicsWorld world) {
+		super(world);
+		// TODO Auto-generated constructor stub
+	}	
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+
+	
+	
+	
+}
+
+
+class DiscreteDynamicsWorld extends btDiscreteDynamicsWorld{
+
+	public DiscreteDynamicsWorld(btDispatcher dispatcher,
+			btBroadphaseInterface pairCache,
+			btConstraintSolver constraintSolver,
+			btCollisionConfiguration collisionConfiguration) {
+		super(dispatcher, pairCache, constraintSolver, collisionConfiguration);
+		
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+
+	}
+	
+	
+}
 
 class SequentialImpulseConstraintSolver extends
 		btSequentialImpulseConstraintSolver {
@@ -40,6 +179,20 @@ class SequentialImpulseConstraintSolver extends
 
 	}
 }
+
+class CompoundShape extends btCompoundShape{
+	@Override
+	protected void finalize() throws Throwable {
+		this.release();
+		this.destroyed = true;
+		super.finalize();
+		// Log.i("DC", "RigidBodyConstructionInfo");
+
+	}
+	
+}
+
+
 
 class RigidBodyConstructionInfo extends btRigidBodyConstructionInfo {
 
@@ -149,13 +302,13 @@ public class PhysicsWorld {
 	
 	private static HashMap<String, PhysicsWorld> physicsWorld = new HashMap<String, PhysicsWorld>();
 	
-	private btDiscreteDynamicsWorld dynamicsWorld;
+	private DiscreteDynamicsWorld dynamicsWorld;
 
 	private PhysicsWorld() {
 
 		//Bullet.init(false, true);
 
-		map = new HashMap<String, btRigidBody>();
+		map = new HashMap<String, RigidBody>();
 		cars = new HashMap<String, PhysicCar>();
 
 		DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -164,14 +317,14 @@ public class PhysicsWorld {
 
 		DbvtBroadphase broadphase = new DbvtBroadphase();
 		SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
-		dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase,
+		dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase,
 				solver, collisionConfiguration);
 
 		dynamicsWorld.setGravity(new Vector3(0, -9.8f, 0));
 
 	}
 
-	Map<String, btRigidBody> map;
+	Map<String, RigidBody> map;
 	Map<String, PhysicCar> cars;
 
 	
@@ -192,7 +345,7 @@ public class PhysicsWorld {
 		RigidBodyConstructionInfo fallRigidBodyCI = new RigidBodyConstructionInfo(
 				mass, fallMotionState, fallShape, fallInertia);
 
-		btRigidBody myRigidBody = new btRigidBody(fallRigidBodyCI);
+		RigidBody myRigidBody = new RigidBody(fallRigidBodyCI);
 
 		map.put(name, myRigidBody);
 
@@ -224,7 +377,7 @@ public class PhysicsWorld {
 		RigidBodyConstructionInfo fallRigidBodyCI = new RigidBodyConstructionInfo(
 				mass, fallMotionState, fallShape, fallInertia);
 
-		btRigidBody myRigidBody = new btRigidBody(fallRigidBodyCI);
+		RigidBody myRigidBody = new RigidBody(fallRigidBodyCI);
 
 		map.put(name, myRigidBody);
 
@@ -277,7 +430,7 @@ public class PhysicsWorld {
 		fallRigidBodyCIT.setFriction(100.5f);
 		fallRigidBodyCIT.setLinearDamping(100);
 		
-		btRigidBody myNewBody = new btRigidBody(fallRigidBodyCIT);
+		RigidBody myNewBody = new RigidBody(fallRigidBodyCIT);
 		dynamicsWorld.addRigidBody(myNewBody,group,mask);
 		map.put(name, myNewBody);
 	
@@ -335,7 +488,7 @@ public class PhysicsWorld {
 						   0,0,0,1};
 	}
 
-	static btRigidBody localCreateRigidBody(float mass,
+	static RigidBody localCreateRigidBody(float mass,
 			Transform startTransform, btCollisionShape shape,
 			btDynamicsWorld world) {
 
@@ -349,7 +502,7 @@ public class PhysicsWorld {
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(mass,
 				myMotionState, shape, localInertia);
 
-		btRigidBody body = new btRigidBody(cInfo);
+		RigidBody body = new RigidBody(cInfo);
 
 		world.addRigidBody(body);
 
@@ -361,7 +514,7 @@ public class PhysicsWorld {
 		return body;
 	}
 
-	public btDiscreteDynamicsWorld getWorld() {
+	public DiscreteDynamicsWorld getWorld() {
 
 		return this.dynamicsWorld;
 	}
@@ -426,7 +579,7 @@ public class PhysicsWorld {
 		fallRigidBodyCIT.setFriction(100.5f);
 		fallRigidBodyCIT.setLinearDamping(100);
 		
-		btRigidBody myNewBody = new btRigidBody(fallRigidBodyCIT);
+		RigidBody myNewBody = new RigidBody(fallRigidBodyCIT);
 		dynamicsWorld.addRigidBody(myNewBody,group,mask);
 		map.put(name, myNewBody);
 		
@@ -460,7 +613,7 @@ public class PhysicsWorld {
 	@Override
 	public void finalize() {
 		Log.i("Delete", "PhyisicWorld");
-		for (btRigidBody b : map.values()) {
+		for (RigidBody b : map.values()) {
 			b.dispose();
 
 		}
