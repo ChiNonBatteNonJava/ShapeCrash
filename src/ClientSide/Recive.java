@@ -9,6 +9,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.chinonbattenonjava.saproject.Car;
+import com.chinonbattenonjava.saproject.GameResourceManager;
+import com.chinonbattenonjava.saproject.GameState;
 
 import Physic.PhysicsWorld;
 import android.util.Log;
@@ -47,7 +49,12 @@ class Recive extends Thread{
                 switch (code){
                 	case 101:
                 		Long idl = (Long) json.get("player_id");
+                		
                 		PhysicsWorld.instance("MainWorld").delete(""+idl.intValue());
+                		GameState.getInstance().getUpdatables().remove(""+idl.intValue());
+            			GameState.getInstance().getDrawables().remove(""+idl.intValue());
+            			GameResourceManager.getInstance().deletePlayer(""+idl.intValue());
+            			
                 		break;
                 	case 102:
                 		Long idll = (Long) json.get("player_id");

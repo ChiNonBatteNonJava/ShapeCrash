@@ -8,17 +8,15 @@ import android.util.Log;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionConfiguration;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
-import com.badlogic.gdx.physics.bullet.collision.btConvexShape;
 import com.badlogic.gdx.physics.bullet.collision.btConvexTriangleMeshShape;
 import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
 import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
-import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
+import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.collision.btTriangleMesh;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
@@ -28,6 +26,8 @@ import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSol
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
+import com.chinonbattenonjava.saproject.GameResourceManager;
+import com.chinonbattenonjava.saproject.GameState;
 
 class SequentialImpulseConstraintSolver extends
 		btSequentialImpulseConstraintSolver {
@@ -123,6 +123,7 @@ class CollisionDispatcher extends btCollisionDispatcher {
 		this.release();
 		this.destroyed = true;
 		super.finalize();
+	
 		// Log.i("DC", "Col  lisionDispatcher");
 
 	}
@@ -179,6 +180,35 @@ public class PhysicsWorld {
 	Map<String, btRigidBody> map;
 	Map<String, PhysicCar> cars;
 
+	
+	public void addSphere(float size,Vector3 position,float mass,String name){
+		btCollisionShape fallShape = new btSphereShape(size);
+		DefaultMotionState fallMotionState = new DefaultMotionState();
+		Transform as = new Transform();
+		as.setOrigin(position);
+
+		Matrix4 ama = new Matrix4();
+		ama.setToTranslation(position);
+		fallMotionState.setWorldTransform(ama);
+
+		Vector3 fallInertia = new Vector3(0, 1, 0);
+
+		fallShape.calculateLocalInertia(mass, fallInertia);
+
+		RigidBodyConstructionInfo fallRigidBodyCI = new RigidBodyConstructionInfo(
+				mass, fallMotionState, fallShape, fallInertia);
+
+		btRigidBody myRigidBody = new btRigidBody(fallRigidBodyCI);
+
+		map.put(name, myRigidBody);
+
+		dynamicsWorld.addRigidBody(myRigidBody);
+		
+
+		fallMotionState.del();
+		
+	}
+	
 	public void addBox(Vector3 position, String name, Vector3 size, float mass) {
 		long heapSize = Runtime.getRuntime().totalMemory();
 		
@@ -413,10 +443,15 @@ public class PhysicsWorld {
 
 	public void delete(String name){
 		if (cars.containsKey(name)){
+			
+			
+			
 			cars.remove(name);
 		}
 		else if (map.containsKey(name)){
 			map.remove(name);
+			
+			
 		}
 		
 	}

@@ -97,7 +97,7 @@ public class Play extends Activity {
 						JSONObject rum = new JSONObject();
 						rum = (JSONObject) it.next();
 						Long player1 = (Long) rum.get("id");
-						listaPlayer[count] = "asd" + player1;
+						listaPlayer[count] = "" + player1;
 						count++;
 					}
 					

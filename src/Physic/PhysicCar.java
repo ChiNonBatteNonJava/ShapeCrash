@@ -122,23 +122,8 @@ public class PhysicCar {
 		}
 
 		
-		btCylinderShapeX bt=new btCylinderShapeX(new Vector3(1.5f,2.5f,1.5f));
-		tr.setIdentity();
-		tr.setOrigin(whellPosition[0]);
-		
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
-		
-		tr.setOrigin(whellPosition[1]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
-		
-		tr.setOrigin(whellPosition[2]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
 
-		
-		tr.setOrigin(whellPosition[3]);
-		PhysicsWorld.instance(world).getWorld().addRigidBody(localCreateRigidBody(10,tr,bt,PhysicsWorld.instance(world).getWorld(),(short)2));
-
-		PhysicsWorld.instance(world).AddVehicle(this, name);
+	PhysicsWorld.instance(world).AddVehicle(this, name);
 
 	}
 

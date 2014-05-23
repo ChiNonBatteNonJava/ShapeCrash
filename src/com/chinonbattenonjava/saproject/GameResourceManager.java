@@ -438,6 +438,9 @@ public class GameResourceManager {
 	}
 	
 	
+	public void deletePlayer(String name){
+		currentPlayer.remove(name);
+	}
 	
 	public void setPlayerName(String name){
 		
