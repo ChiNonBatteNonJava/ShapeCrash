@@ -198,9 +198,13 @@ class CarActionBuilder{
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
+
 		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
 		Log.i("fuck",""+GameResourceManager.getInstance().getScreenSize());
 		
+
+	//	lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))
+
 	}
 	
 }
