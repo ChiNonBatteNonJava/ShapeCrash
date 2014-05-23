@@ -33,8 +33,10 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	private float[] mvpMatrix;
 	private int i=-40;
 	public String name;
-	public Car(String name)
+	Vector3 startPos;
+	public Car(String name,Vector3 startPos)
 	{
+		this.startPos=startPos;
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
@@ -59,7 +61,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		BoxShape  collSh=new BoxShape(new Vector3(1.9f,1,4));
 		
 		myCar.createCar(collSh, 800, whell, name, "MainWorld");
-		myCar.setCarPosition(new Vector3(0,45.5f,1));
+		myCar.setCarPosition(startPos);
 	
 		
 		
