@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
+
 public class Waiting_room extends Activity {
 	private GLSurfaceView mGLView;
 	private MediaPlayer mp;
