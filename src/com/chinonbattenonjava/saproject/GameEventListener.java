@@ -89,7 +89,6 @@ class CommandListDeclaration {
 	}
 	public void addBoxTouchAction(ICommand c,Vector2 p1,Vector2 p2){
 		boxTouchCOmmand.add(new BoxCommand(p1,p2,c));
-		
 	}
 	public void leftTouch(){
 		for(ICommand i :leftTouchCOmmand){
@@ -194,13 +193,19 @@ class ResetSteering implements ICommand {
  */
 class CarActionBuilder{
 	static void Create(Car c,GameEventListener lin){
+		if(lin==null){
+			Log.i("bnfcarnul","null");
+		}else{
+			Log.i("bnfcar","notnull");
+		}
+		
 		lin.getListDeclaration().addLeftTouchAction(new TournRight(c));
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
-
+		Log.i("bnf","4567");
 		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
-	
+		Log.i("bnf","4577");
 		
 
 	//	lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))

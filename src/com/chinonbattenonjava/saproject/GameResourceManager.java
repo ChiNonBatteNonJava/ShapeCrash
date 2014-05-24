@@ -445,7 +445,7 @@ public class GameResourceManager {
 		return currentPlayer;
 	}
 	public Car getCar(String name){
-		Log.i("err",""+currentPlayer.get(name).getCar());
+		Log.i("bnferror",""+currentPlayer.get(name).getCar());
 		return currentPlayer.get(name);
 	}
 	
@@ -461,7 +461,7 @@ public class GameResourceManager {
 		playerName=name;
 	}
 	public String getPlayerName(){
-		
+		Log.i("bnf","plaerName "+playerName);
 		return playerName;
 		
 	}
