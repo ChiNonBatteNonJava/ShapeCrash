@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -65,7 +66,9 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 			}
 			
 			dirtyArray = false;
+			
 		}
+		
 		return pathVerticesArray;
 	}
 	
@@ -92,7 +95,7 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 			
 			//start updating lastLine[]
 			lastLine[0] = pathVertices.getFirst().x;
-			lastLine[1] = pathVertices.getFirst().y;
+			lastLine[1] = pathVertices.getFirst().z;
 			
 			//add new head
 			pathVertices.addFirst(new Vector3(car.getCarPos()));
@@ -101,7 +104,7 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 			
 			//complete updating lastLine[]
 			lastLine[2] = pathVertices.getFirst().x;
-			lastLine[3] = pathVertices.getFirst().y;
+			lastLine[3] = pathVertices.getFirst().z;
 			
 			//check trail collisions
 			checkNewShape();
@@ -138,22 +141,20 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 		
 		float[] v = getPathVertices();
 		
-		int idx = v.length - 1; // we skip the first line (head), it's the one we test against all others
-		
 		// start calculating bound box
 		float minX, maxX, minY, maxY;
 		
 		if (a1.x <= a2.x) { minX = a1.x; maxX = a2.x; } else { minX = a2.x; maxX = a1.x; }
 		if (a1.y <= a2.y) { minY = a1.y; maxY = a2.y; } else { minY = a2.y; maxY = a1.y; }
 		
+		int idx = v.length - 1; // we skip the first line (head), it's the one we test against all others
 		while (idx >= 9)
 		{
 			//other lines
-			idx--;
-			b1.y = v[idx]; idx--;
+			b1.y = v[idx]; idx--;idx--;
 			b1.x = v[idx]; idx--;
-			idx--;
-			b2.y = v[idx]; idx--;
+			
+			b2.y = v[idx]; idx--;idx--;
 			b2.x = v[idx]; idx--;
 			
 			idx+=3; // beautiful code
@@ -169,16 +170,19 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 					else if (v[i] > maxX)
 						maxX = v[i];
 					
-					if (v[i+1] <= minY)
-						minY = v[i+1];
-					else if (v[i+1] > maxY)
-						maxY = v[i+1];
+					if (v[i+2] <= minY)
+						minY = v[i+2];
+					else if (v[i+2] > maxY)
+						maxY = v[i+2];
 				}
 				float area = (maxX - minX) * (maxY - minY);
 				
 				// new Sphere
-				//new Sphere(String.valueOf(hashCode() + System.nanoTime()), area / 2, new Vector3((maxX - minX)/2, (maxY - minY)/2, car.getCarPos().z + area));
-				
+				if (area > 50)
+				{
+					if (area > 800) area = 800;
+					new Sphere(String.valueOf(hashCode() + System.nanoTime()), area/100, new Vector3((maxX + minX)/2, car.getCarPos().y + area/25, (maxY + minY)/2));
+				}
 				//reset trail
 				pathVertices.clear();
 				

@@ -6,7 +6,8 @@ uniform float uRadius;
 
 void main()
 {
-	gl_Position =  uMVPMatrix * (uRadius * vPosition);
+	vPosition.xyz *= uRadius;
+	gl_Position =  uMVPMatrix * vPosition;
 	
 	vNorm = vNormal;
 }

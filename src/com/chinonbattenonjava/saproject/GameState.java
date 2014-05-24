@@ -1,7 +1,9 @@
 package com.chinonbattenonjava.saproject;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameState {
 	// singleton instance
@@ -10,16 +12,16 @@ public class GameState {
 	// locals
 	private RendererState rendererState;
 	private HashSet<IDrawableGameComponent> drawables;
-	private HashSet<IUpdatableGameComponent> updatables;
-	private HashMap<String, GameCamera> cameras;
+	private Set<IUpdatableGameComponent> updatables;
+	private ConcurrentHashMap<String, GameCamera> cameras;
 	
 	private GameState()
 	{
 		rendererState = RendererState.NOT_READY;
 		
 		drawables = new HashSet<IDrawableGameComponent>();
-		updatables = new HashSet<IUpdatableGameComponent>();
-		cameras = new HashMap<String, GameCamera>();
+		updatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent,Boolean>());
+		cameras = new ConcurrentHashMap<String, GameCamera>();
 	}
 	
 	public static GameState getInstance()
@@ -44,9 +46,11 @@ public class GameState {
 		return drawables;
 	}
 	
-	public HashSet<IUpdatableGameComponent> getUpdatables()
+	public Set<IUpdatableGameComponent> getUpdatables()
 	{
-		return updatables;
+		synchronized(updatables){
+			return updatables;
+		}
 	}
 	
 	public GameCamera getCamera(String cameraName)

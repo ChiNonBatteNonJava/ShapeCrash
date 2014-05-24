@@ -114,7 +114,7 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	
 		
 		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
-	 
+		
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 		

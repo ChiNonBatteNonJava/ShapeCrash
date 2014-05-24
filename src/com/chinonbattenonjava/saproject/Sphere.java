@@ -28,6 +28,8 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 		
 		mvpMatrix = new float[16];
 		mModelMatrix = new float[16];
+		
+		initPhysics();
 	}
 	
 	@Override
@@ -49,7 +51,11 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	
 	@Override
 	public void update(float delta) {
-		mModelMatrix=PhysicsWorld.instance("MainWorld").getMatrixName(id);
+		Matrix.setIdentityM(mModelMatrix, 0);
+		Matrix.scaleM(mModelMatrix, 0, radius, radius, radius);
+		
+		Matrix.multiplyMM(mModelMatrix, 0, PhysicsWorld.instance("MainWorld").getMatrixName(id), 0, mModelMatrix, 0);
+		
 	 
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);

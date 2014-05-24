@@ -1,5 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.Iterator;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -7,7 +9,6 @@ import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -49,7 +50,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		
 		player1 = GameResourceManager.getInstance().getCar(GameResourceManager.getInstance().getPlayerName());
-		
 		
 		
 		t = new Terrain();
@@ -97,28 +97,31 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		}
 		
 
-	//	GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
-		GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
+		GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
+		//GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
 
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 
-		synchronized(GameState.getInstance().getUpdatables()){
-		for (IUpdatableGameComponent updatable : GameState.getInstance()
-				.getUpdatables()) {
-			updatable.update(delta);
+		Iterator<IUpdatableGameComponent> iterUp = GameState.getInstance().getUpdatables().iterator();
+		
+		while (iterUp.hasNext())
+		{
+			iterUp.next().update(delta);
 		}
-		}
+		
 		// PhysicsUpdate
 
 		PhysicsWorld.instance("MainWorld").update(delta);
 
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		
-		for (IDrawableGameComponent drawable : GameState.getInstance()
-				.getDrawables()) {
-			drawable.getPainter().draw();
+		Iterator<IDrawableGameComponent> iterDraw = GameState.getInstance().getDrawables().iterator();
+		while (iterDraw.hasNext())
+		{
+			iterDraw.next().getPainter().draw();
 		}
+
 		gameGUI.Draw();
 		
 		

@@ -1,6 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 public class GameSpherePainter implements IPainter {
 	private static final String SPHERE_MODEL_FILE = "sphere.obj";
