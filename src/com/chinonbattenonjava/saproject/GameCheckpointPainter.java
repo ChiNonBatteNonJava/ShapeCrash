@@ -48,6 +48,10 @@ public class GameCheckpointPainter implements IPainter{
 		// normalMatrix
 		int normalMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uNormalMatrix");
 		GLES20.glUniformMatrix4fv(normalMatrixHandle, 1, false, checkpoint.getNormalMatrix(), 0);
+		
+		// color
+		int colorHandle = GLES20.glGetUniformLocation(program.getProgram(), "uColor");
+		GLES20.glUniform3fv(colorHandle, 1, checkpoint.getColor(), 0);
 
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		

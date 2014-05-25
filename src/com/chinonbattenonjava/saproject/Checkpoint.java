@@ -22,6 +22,9 @@ public class Checkpoint implements IDrawableGameComponent, IUpdatableGameCompone
 		mvpMatrix = new float[16];
 		
 		color = new float[3];
+		color[0] = 0;
+		color[1] = 1;
+		color[2] = 0;
 		
 		mModelMatrix = new float[16];
 		
@@ -66,5 +69,9 @@ public class Checkpoint implements IDrawableGameComponent, IUpdatableGameCompone
 		if (painter == null)
 			painter = new GameCheckpointPainter(this);
 		return painter;
+	}
+	
+	public float[] getColor(){
+		return color;
 	}
 }
