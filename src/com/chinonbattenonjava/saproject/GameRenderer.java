@@ -53,7 +53,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		
 		t = new Terrain();
-		new Checkpoint(new Vector3(0, 0, 0), 0);
+		GameState.getInstance().createCheckpoint();
 
 		//Client x=new Client(player1);
 		// rendSDFer initia lization

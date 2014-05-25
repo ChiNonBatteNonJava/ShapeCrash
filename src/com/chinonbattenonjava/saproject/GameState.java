@@ -1,9 +1,12 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.badlogic.gdx.math.Vector3;
 
 public class GameState {
 	// singleton instance
@@ -14,6 +17,7 @@ public class GameState {
 	private HashSet<IDrawableGameComponent> drawables;
 	private Set<IUpdatableGameComponent> updatables;
 	private ConcurrentHashMap<String, GameCamera> cameras;
+	private ArrayList<Checkpoint> checkpoints;
 	
 	private GameState()
 	{
@@ -22,6 +26,19 @@ public class GameState {
 		drawables = new HashSet<IDrawableGameComponent>();
 		updatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent,Boolean>());
 		cameras = new ConcurrentHashMap<String, GameCamera>();
+		
+		checkpoints = new ArrayList<Checkpoint>();
+	}
+	
+	public void createCheckpoint(){
+		checkpoints.add(new Checkpoint(new Vector3(0,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(50,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(100,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(150,-10,0), 0));
+	}
+	
+	public ArrayList<Checkpoint> getCheckpoints(){
+		return checkpoints;
 	}
 	
 	public static GameState getInstance()

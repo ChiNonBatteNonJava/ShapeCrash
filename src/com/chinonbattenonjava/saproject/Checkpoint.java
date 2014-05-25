@@ -14,16 +14,20 @@ public class Checkpoint implements IDrawableGameComponent, IUpdatableGameCompone
 	private float[] mNormalMatrix;
 	private float[] mm; // intermediate matrix for computation
 	private float[] color;
+	private boolean passed;
+	CheckpointBox box;
+	
 	
 	public Checkpoint(Vector3 pos, float orientation){
 		GameState.getInstance().registerUpdatable(this);
 		GameState.getInstance().registerDrawable(this);
+		box = new CheckpointBox(pos, orientation);
 		
 		mvpMatrix = new float[16];
 		
 		color = new float[3];
-		color[0] = 0;
-		color[1] = 1;
+		color[0] = 1;
+		color[1] = 0;
 		color[2] = 0;
 		
 		mModelMatrix = new float[16];
@@ -34,6 +38,31 @@ public class Checkpoint implements IDrawableGameComponent, IUpdatableGameCompone
 		
 		mNormalMatrix = new float[16];
 		mm = new float[16];
+	}
+	
+	public boolean checkCarPosition(Vector3 pos){
+		if(!passed){
+			passed = box.isInBox(pos);
+			if(passed){
+				color[0] = 0;
+				color[1] = 1;
+				color[2] = 0;
+				return true;
+			}
+		}
+		return false;
+		
+	}
+
+	public void reset(){
+		passed = false;
+		color[0] = 1;
+		color[1] = 0;
+		color[2] = 0;
+	}
+	
+	public boolean getPassed(){
+		return passed;
 	}
 	
 	@Override
