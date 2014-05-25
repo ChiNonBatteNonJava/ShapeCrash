@@ -23,22 +23,14 @@ public class Waiting_room extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.activity_waiting_room);
-		Log.i("bnf","1");
 		mp = MediaPlayer.create(Waiting_room.this, R.raw.song);
-		Log.i("bnf","2");
 		mp.setLooping(true);
-		Log.i("bnf","3");
 		mp.start();
-		Log.i("bnf","4");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Log.i("bnf","5");
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		Log.i("bnf","6");
 		mGLView = new GameGLSurfaceView(this);
-		Log.i("bnf","7");
 		setContentView(mGLView);
-		Log.i("bnf","8");
 	}
 
 	@Override
@@ -49,16 +41,18 @@ public class Waiting_room extends Activity {
 	}
 
 	public void onDestroy() {
-
+		JSONObject json = new JSONObject();
+		json.put("code", 101);
+		Client.getInstance().createRoom(json.toJSONString());
+		Client.getInstance().stopGame();
+		Client.reset();
 		GameState.getInstance().reset();
 		GameResourceManager.getInstance().reset();
 		PhysicsWorld.reset();
-		JSONObject jsn = new JSONObject();
-		jsn.put("code", 101);
-		Client c1 = Client.getInstance();
-		String mess = c1.createRoom(jsn.toString());
+		
+		mp.stop();
 		super.onDestroy();
-
+		Log.i("bnf","close");
 	}
 
 }

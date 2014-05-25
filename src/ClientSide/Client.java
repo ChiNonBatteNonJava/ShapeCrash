@@ -57,11 +57,15 @@ public class Client extends Thread {
     	return null;
     }
     public String createRoom(String msg){
+    	Log.i("bfn","aaaa");
     	SingleRequest sq = new SingleRequest(sc, msg);
+    	Log.i("bfn","bbbb");
     	sq.start();
+    	Log.i("bfn","cccc");
     	while (!sq.isEnded()){
     		;
     	}
+    	Log.i("bfn","dddd");
     	return sq.getResults();
     }
     
@@ -122,6 +126,17 @@ public class Client extends Thread {
 		rec.end();
 		snd.end();
 	}
+	
+	public static void reset(){
+		Log.i("bnf","quiquiquiq");
+		try {
+			instance.sc.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		instance = new Client();
+	}
     
 }
 
@@ -146,6 +161,7 @@ class SingleRequest extends Thread{
 	    	buff.clear();
             int nbyte = sc.read(buff);
             String str = "";
+            Log.i("bnfSingle",""+nbyte);
             if (nbyte != -1) {
                 buff.flip();
                 while (buff.hasRemaining()) {

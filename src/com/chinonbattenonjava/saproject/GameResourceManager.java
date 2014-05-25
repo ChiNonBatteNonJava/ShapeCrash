@@ -417,9 +417,7 @@ public class GameResourceManager {
 			currentPlayer=new HashMap<String,Car> ();
 		}
 		synchronized(currentPlayer){
-			Random r = new Random();
-			int a = r.nextInt(20)-10;
-			Vector3 pos = new Vector3(a,47,a);
+			Vector3 pos = new Vector3(0,10,0);
 			
 			currentPlayer.put(name, new Car(name, pos));
 		}
@@ -430,9 +428,8 @@ public class GameResourceManager {
 		}
 		for (String n:name){
 			synchronized(currentPlayer){
-				Random r = new Random();
-				int a = r.nextInt(40);
-				Vector3 pos = new Vector3(3*a,27,3*a);
+				
+				Vector3 pos = new Vector3(0,10,0);
 				
 				currentPlayer.put(n, new Car(n, pos));
 			}
@@ -445,7 +442,6 @@ public class GameResourceManager {
 		return currentPlayer;
 	}
 	public Car getCar(String name){
-		Log.i("bnferror",""+currentPlayer.get(name).getCar());
 		return currentPlayer.get(name);
 	}
 	
@@ -461,7 +457,6 @@ public class GameResourceManager {
 		playerName=name;
 	}
 	public String getPlayerName(){
-		Log.i("bnf","plaerName "+playerName);
 		return playerName;
 		
 	}
