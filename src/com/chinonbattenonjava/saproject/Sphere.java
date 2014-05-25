@@ -16,6 +16,8 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	
 	private float[] mvpMatrix;
 	private float[] mModelMatrix;
+	private float[] mNormalMatrix;
+	private float[] mm; // intermediate matrix for computation
 	
 	public Sphere(String id, float radius, Vector3 pos)
 	{
@@ -28,6 +30,9 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 		
 		mvpMatrix = new float[16];
 		mModelMatrix = new float[16];
+		
+		mNormalMatrix = new float[16];
+		mm = new float[16];
 		
 		initPhysics();
 	}
@@ -43,7 +48,12 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	{
 		return mvpMatrix;
 	}
-
+	
+	public float[] getNormalMatrix()
+	{
+		return mNormalMatrix;
+	}
+	
 	public float getRadius()
 	{
 		return radius;
@@ -56,8 +66,11 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 		
 		Matrix.multiplyMM(mModelMatrix, 0, PhysicsWorld.instance("MainWorld").getMatrixName(id), 0, mModelMatrix, 0);
 		
-	 
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
+		
+		Matrix.invertM(mm, 0, mvpMatrix, 0);
+		Matrix.transposeM(mNormalMatrix, 0, mm, 0);
+		
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 	}
 

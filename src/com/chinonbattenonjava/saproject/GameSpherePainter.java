@@ -1,7 +1,6 @@
 package com.chinonbattenonjava.saproject;
 
 import android.opengl.GLES20;
-import android.util.Log;
 
 public class GameSpherePainter implements IPainter {
 	private static final String SPHERE_MODEL_FILE = "sphere.obj";
@@ -48,10 +47,10 @@ public class GameSpherePainter implements IPainter {
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				sphere.getMVPMatrix(), 0);
 		
-		// radius
-		int radiusHandle = GLES20.glGetUniformLocation(program.getProgram(), "uRadius");
-		GLES20.glUniform1f(radiusHandle, sphere.getRadius());
-
+		// normalMatrix
+		int normalMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uNormalMatrix");
+		GLES20.glUniformMatrix4fv(normalMatrixHandle, 1, false, sphere.getNormalMatrix(), 0);
+		
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
