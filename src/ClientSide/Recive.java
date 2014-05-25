@@ -39,7 +39,7 @@ class Recive extends Thread {
         while(!end) {
 
             try {
-                ByteBuffer buff = ByteBuffer.allocate(1024);
+                ByteBuffer buff = ByteBuffer.allocate(2048);
                 buff.clear();
                 int nbyte = sc.read(buff);
                 String str = "";
@@ -76,20 +76,23 @@ class Recive extends Thread {
 	                		
 	                		break;
 	                	case 6:
-	      					Long pid = (Long) json.get("id");
-	      					PhysicCarStatus pcs = new PhysicCarStatus();
-	    					pcs.fromJSON(json);
-	    					Log.i("bnf",""+pid);
-	    					if(id != pid){
-		    					if(PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue())!= null){
-		    						try{
-		    							PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue()).setStatus(pcs);
-		    							Log.i("bnf","asd");
-		    						}catch(Exception e){
-		    							;
-		    						}
-		       					}
-	    					}
+	                		JSONArray jsonArray = (JSONArray) json.get("players");
+	                		Iterator i = jsonArray.iterator();
+	                		while(i.hasNext()){
+	                			JSONObject j = (JSONObject) i.next();
+		      					Long pid = (Long) j.get("id");
+		      					PhysicCarStatus pcs = new PhysicCarStatus();
+		    					pcs.fromJSON(j);
+		    					if(id != pid){
+			    					if(PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue())!= null){
+			    						try{
+			    							PhysicsWorld.instance("MainWorld").getVheicle(""+pid.intValue()).setStatus(pcs);
+			    						}catch(Exception e){
+			    							;
+			    						}
+			       					}
+		    					}
+	                		}
 	                		break;
 	                }
                 	}catch(Exception e){

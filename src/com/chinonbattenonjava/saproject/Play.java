@@ -82,6 +82,7 @@ public class Play extends Activity {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
+				Log.i("bnf",risp.toJSONString());
 				if ((Long) risp.get("code") == 1) {
 					Long pid = (Long) risp.get("player_id");
 					Client.getInstance().startGame(pid.intValue());
