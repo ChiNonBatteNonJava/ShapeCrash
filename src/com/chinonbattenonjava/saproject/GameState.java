@@ -31,10 +31,10 @@ public class GameState {
 	}
 	
 	public void createCheckpoint(){
-		checkpoints.add(new Checkpoint(new Vector3(0,-10,0), 0));
-		checkpoints.add(new Checkpoint(new Vector3(50,-10,0), 0));
-		checkpoints.add(new Checkpoint(new Vector3(100,-10,0), 0));
-		checkpoints.add(new Checkpoint(new Vector3(150,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(-150,-5,30), 0));
+		checkpoints.add(new Checkpoint(new Vector3(-150,2,850), 0));
+		checkpoints.add(new Checkpoint(new Vector3(-420,10,-866), 0));
+		checkpoints.add(new Checkpoint(new Vector3(-898,10,219), 0));
 	}
 	
 	public ArrayList<Checkpoint> getCheckpoints(){
