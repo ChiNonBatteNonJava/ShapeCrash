@@ -92,6 +92,28 @@ public class GameCarPainter implements IPainter {
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);
+		
+		// draw outline
+		GameShaderProgram black = GameResourceManager.getInstance().getShaderProgramByName("black");
+		GLES20.glUseProgram(black.getProgram());
+		
+		int mPosHandle = GLES20.glGetAttribLocation(black.getProgram(),
+				"vPosition");
+
+		GLES20.glEnableVertexAttribArray(mPosHandle);
+		GLES20.glVertexAttribPointer(mPosHandle, 3,
+				GLES20.GL_FLOAT, false, 3 * 4,
+				m.getReversedVertexBuffer());
+		
+		// mvpMatrix
+		int mvpMtxHandle = GLES20.glGetUniformLocation(black.getProgram(),
+				"uMVPMatrix");
+		GLES20.glUniformMatrix4fv(mvpMtxHandle, 1, false,
+				car.getMVPMatrix(), 0);
+		
+		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
+		
+		GLES20.glDisableVertexAttribArray(mPosHandle);
 	}
 
 	 

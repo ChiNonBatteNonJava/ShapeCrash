@@ -11,11 +11,12 @@ import android.util.Log;
 public class Game3DModel {
 	// class TAGz for Log
 	private static final String TAG = "Game3DModel";
-
+	
 	public int COORDS_PER_VERTEX = 3;
 
 	private float[] vertices;
 	private FloatBuffer vertexBuffer;
+	private FloatBuffer reversedVertexBuffer;
 	private int vertexCount;
 	private float[] verticesOnly = null;
 	private Vector3[] verticesVector = null;
@@ -87,6 +88,36 @@ public class Game3DModel {
 		}
 
 		return vertexBuffer;
+	}
+	
+	public FloatBuffer getReversedVertexBuffer() 
+	{
+		if (vertices == null) {
+			Log.e(TAG, "getVertexBuffer(): vertices not yet defined!");
+			return null;
+		}
+		
+		if (reversedVertexBuffer == null)
+		{
+			float[] reversedVertices = new float[vertices.length / COORDS_PER_VERTEX * 3];
+		
+			for (int i = 0; i < vertices.length / COORDS_PER_VERTEX; i++)
+			{
+				reversedVertices[reversedVertices.length - (3 * (i+1))] = vertices[(COORDS_PER_VERTEX * i)];
+				reversedVertices[reversedVertices.length - (3 * (i+1)) + 1] = vertices[(COORDS_PER_VERTEX * i) + 1];
+				reversedVertices[reversedVertices.length - (3 * (i+1)) + 2] = vertices[(COORDS_PER_VERTEX * i) + 2];
+			}
+		
+			ByteBuffer bb = ByteBuffer.allocateDirect(reversedVertices.length * 4);
+			bb.order(ByteOrder.nativeOrder());
+
+			reversedVertexBuffer = bb.asFloatBuffer();
+
+			reversedVertexBuffer.put(reversedVertices);
+
+			reversedVertexBuffer.position(0);
+		}
+		return reversedVertexBuffer;
 	}
 
 	public int getVertexCount() {
