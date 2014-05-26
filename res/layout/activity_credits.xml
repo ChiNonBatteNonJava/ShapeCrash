@@ -6,34 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/back"
+    android:background="@drawable/backc"
     tools:context=".Credits" >
 
 
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/textView1"
-                android:layout_below="@+id/textView1"
-                android:fontFamily="sans-serif-light"
-                android:inputType="textMultiLine"
-                android:text="               									
-													Client by: Matteo Piergiovanni &amp; Andrea Benfatti
-                									
-											Game by: Marco Bedulli &amp; Carlo Vespa
-                							
-									GUI by: Matteo Piergiovanni
-                				
-						Server by: Andrea Benfatti
-							
-			Music by: Eric Botter
-	
-	Car by: Nicoló Linder
-                "
-
-                android:textColor="#ffffff" />
 
 
 

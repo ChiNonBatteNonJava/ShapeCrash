@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
@@ -37,7 +38,7 @@ public class MainActivity extends Activity{
         	Toast.makeText(MainActivity.this, "connessooooooooooooooooo",Toast.LENGTH_SHORT).show();
         }
         
-        Button bt1 = (Button) findViewById(R.id.button1);
+        ImageButton bt1 = (ImageButton) findViewById(R.id.button1);
         bt1.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -60,7 +61,7 @@ public class MainActivity extends Activity{
 			}
 		});
 
-        Button bt3 = (Button) findViewById(R.id.button3);
+        ImageButton bt3 = (ImageButton) findViewById(R.id.button3);
         bt3.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
