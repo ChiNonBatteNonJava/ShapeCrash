@@ -21,6 +21,7 @@ public class GameState {
 	private ConcurrentHashMap<String, GameLight> lights;
 
 	private ArrayList<Checkpoint> checkpoints;
+	private int nLap = 3; 
 	private boolean camState = false;
 	
 	private GameState()
@@ -61,6 +62,18 @@ public class GameState {
 		synchronized(updatables){
 			return updatables;
 		}
+	}
+	
+	public int getLap(){
+		return nLap;
+	}
+	
+	public void decreseLap(){
+		nLap--;
+	}
+	
+	public void setLap(int n){
+		nLap= n;
 	}
 	
 	public GameCamera getCamera(String cameraName)

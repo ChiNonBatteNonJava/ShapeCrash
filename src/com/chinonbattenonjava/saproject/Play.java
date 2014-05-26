@@ -114,7 +114,7 @@ public class Play extends Activity {
 					Intent intent = new Intent(Play.this, Waiting_room.class);
 					startActivity(intent);
 				} else {
-					Toast.makeText(Play.this, "42", Toast.LENGTH_SHORT).show();
+					Toast.makeText(Play.this, (String) risp.get("message"), Toast.LENGTH_SHORT).show();
 
 				}
 			}

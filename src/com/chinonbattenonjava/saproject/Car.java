@@ -126,9 +126,13 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 				}
 				if(counterCheckpoint == 0){
 					for(Checkpoint c: checkpoints){
-						c.reset();
+						c.reset();						
 					}
 					counterCheckpoint = GameState.getInstance().getCheckpoints().size();
+					GameState.getInstance().decreseLap();;
+					if(GameState.getInstance().getLap() == 0){
+						Log.i("bnf","win");
+					}
 				}
 			}
 			
