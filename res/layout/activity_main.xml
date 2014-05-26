@@ -1,58 +1,63 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/back"
-    tools:context=".MainActivity" >
+    android:useDefaultMargins="true"
+    android:alignmentMode="alignBounds"
+    android:columnOrderPreserved="false"
+    android:rowCount="10"
+    android:columnCount="6"
+    >
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:fontFamily="sans-serif-light"
-        android:text="          "
-        android:textColor="#ffffff" />
+    <Space
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="6"
+        android:layout_gravity="fill"
+        android:minHeight="40dp"
+        />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button2"
-        android:layout_marginRight="62dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-light"
-        android:text="                "
-        android:textColor="#ffffff" />
+        android:text="JOIN A ROOM"
+        android:gravity="right"
+        android:textColor="#ffffff"
+        android:layout_column="4"
+        android:layout_row="2"
+        />
+
+    <Space
+        android:layout_row="2"
+        android:layout_column="0"
+
+        android:layout_gravity="fill"
+        android:layout_width="75dp" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_marginRight="55dp"
-        android:layout_toLeftOf="@+id/button3"
-        android:fontFamily="sans-serif-light"
-        android:text="                                                      "
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button3"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="18dp"
-        android:fontFamily="sans-serif-light"
+        android:text="CREATE A ROOM"
+        android:gravity="right"
+        android:layout_row="8"
         android:textColor="#ffffff"
-        android:text="Beta testing" />
+        android:layout_column="1"
+    />
 
-</RelativeLayout>
+    <Space
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="fill"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+    <Button
+        android:id="@+id/button2"
+        android:text=""
+        android:height="75dp"
+        android:width="100dp"
+        android:layout_column="5"
+        android:layout_row="9"
+		android:background="@android:color/transparent"
+        />
+</GridLayout>

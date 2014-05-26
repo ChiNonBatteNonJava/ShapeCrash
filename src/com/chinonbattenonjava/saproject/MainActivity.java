@@ -71,6 +71,7 @@ public class MainActivity extends Activity{
 				
 			}
 		});
+        /*
         Button bt4 = (Button) findViewById(R.id.button4);
         bt4.setOnClickListener(new View.OnClickListener() {
 			
@@ -80,7 +81,7 @@ public class MainActivity extends Activity{
 				startActivity(intent);
 
 			}
-		});
+		});*/
     }
     
 
