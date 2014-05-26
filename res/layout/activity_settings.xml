@@ -44,7 +44,7 @@
         android:layout_alignBottom="@+id/textView1"
         android:layout_alignParentLeft="true"
         android:textStyle="bold"
-        android:text="Number of players"
+        android:text="Number of players:"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffff00" />
 
