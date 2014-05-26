@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,7 @@ public class Settings extends Activity {
 				textView.setText(progress + 2 + "/" + max);
 			}
 		});
-		Button bt1 = (Button) findViewById(R.id.button1);
+		ImageButton bt1 = (ImageButton) findViewById(R.id.button1);
 		bt1.setOnClickListener(new View.OnClickListener() {
 
 			@Override

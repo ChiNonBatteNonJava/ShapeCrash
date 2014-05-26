@@ -17,7 +17,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/textView1"
                 android:layout_below="@+id/textView1"
-                android:fontFamily="sans-serif-light"
                 android:inputType="textMultiLine"
                 android:text="               									
 													Client by: Matteo Piergiovanni &amp; Andrea Benfatti
@@ -33,7 +32,8 @@
 	Car by: Nicoló Linder
                 "
 
-                android:textColor="#ffffff" />
+                		android:textStyle="bold"
+        android:textColor="#FFFF00" />
 
 
 

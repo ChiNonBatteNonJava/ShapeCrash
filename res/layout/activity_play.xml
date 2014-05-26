@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#ffffff"
+		android:textStyle="bold"
+        android:textColor="#FFFF00"
         android:layout_toRightOf="@+id/imageView1"
         android:text="CodeLearn Chapter 1"
         android:textSize="16sp" />
@@ -29,8 +29,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#ffffff"
+		android:textStyle="bold"
+        android:textColor="#FFFF00"
         android:layout_alignBottom="@+id/imageView1"
         android:layout_alignLeft="@+id/textView1"
         android:text="Description" />
