@@ -14,6 +14,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	
 	private String id;
 	private float radius;
+	private float initialRadius;
 	private Vector3 pos;
 	private float[] color;
 	
@@ -29,6 +30,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 		
 		this.id = id;
 		this.radius = radius;
+		this.initialRadius = radius;
 		this.pos = pos;
 		
 		color = new float[3];
@@ -75,17 +77,31 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	
 	@Override
 	public void update(float delta) {
-		Matrix.setIdentityM(mModelMatrix, 0);
-		Matrix.scaleM(mModelMatrix, 0, radius, radius, radius);
+		radius -= delta/2;
 		
-		Matrix.multiplyMM(mModelMatrix, 0, PhysicsWorld.instance("MainWorld").getMatrixName(id), 0, mModelMatrix, 0);
-		
-		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
-		
-		Matrix.invertM(mm, 0, mvpMatrix, 0);
-		Matrix.transposeM(mNormalMatrix, 0, mm, 0);
-		
-		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
+		if (radius > 0.25)
+		{
+			PhysicsWorld.instance("MainWorld").setSphereScaling(id, new Vector3(radius/initialRadius, radius/initialRadius, radius/initialRadius));
+
+			Matrix.setIdentityM(mModelMatrix, 0);
+
+			Matrix.scaleM(mModelMatrix, 0, radius, radius, radius);
+			
+			Matrix.multiplyMM(mModelMatrix, 0, PhysicsWorld.instance("MainWorld").getMatrixName(id), 0, mModelMatrix, 0);
+			
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
+			
+			Matrix.invertM(mm, 0, mvpMatrix, 0);
+			Matrix.transposeM(mNormalMatrix, 0, mm, 0);
+			
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
+		}
+		else
+		{
+			PhysicsWorld.instance("MainWorld").delete(id);
+    		GameState.getInstance().removeDrawable(this);
+    		GameState.getInstance().removeUpdatable(this);
+		}
 	}
 
 	@Override

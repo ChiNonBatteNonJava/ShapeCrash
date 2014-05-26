@@ -19,7 +19,8 @@ public class GameState {
 	private Set<IUpdatableGameComponent> updatables;
 	private ConcurrentHashMap<String, GameCamera> cameras;
 	private ConcurrentHashMap<String, GameLight> lights;
-
+	private Set<IDrawableGameComponent> tobeRemovedDrawables;
+	private Set<IUpdatableGameComponent> tobeRemovedUpdatables;
 	private ArrayList<Checkpoint> checkpoints;
 	private int nLap = 3; 
 	private boolean camState = false;
@@ -28,6 +29,8 @@ public class GameState {
 	{
 		drawables = new HashSet<IDrawableGameComponent>();
 		updatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent,Boolean>());
+		tobeRemovedDrawables = Collections.newSetFromMap(new ConcurrentHashMap<IDrawableGameComponent, Boolean>());
+		tobeRemovedUpdatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent, Boolean>());
 		cameras = new ConcurrentHashMap<String, GameCamera>();
 		lights = new ConcurrentHashMap<String, GameLight>();
 		checkpoints = new ArrayList<Checkpoint>();
@@ -65,15 +68,30 @@ public class GameState {
 	}
 	
 	public void removeUpdatable(IUpdatableGameComponent c){
-		synchronized(updatables){
-			updatables.remove(c);
+		synchronized(tobeRemovedUpdatables){
+			tobeRemovedUpdatables.add(c);
 		}
 	}
 	
 	public void removeDrawable(IDrawableGameComponent c){
-		synchronized(drawables){
-			drawables.remove(c);
+		synchronized(tobeRemovedDrawables){
+			tobeRemovedDrawables.add(c);
 		}
+	}
+	
+	public void cleanCollections()
+	{
+		for (IUpdatableGameComponent u : tobeRemovedUpdatables)
+		{
+			updatables.remove(u);
+		}
+		tobeRemovedUpdatables.clear();
+		
+		for (IDrawableGameComponent d : tobeRemovedDrawables)
+		{
+			drawables.remove(d);
+		}
+		tobeRemovedDrawables.clear();
 	}
 	
 	public int getLap(){

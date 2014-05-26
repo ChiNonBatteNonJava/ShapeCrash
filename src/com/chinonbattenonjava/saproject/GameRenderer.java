@@ -132,6 +132,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		gameGUI.Draw();
 		
+		GameState.getInstance().cleanCollections();
 		
 	}
 }

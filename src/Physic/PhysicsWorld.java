@@ -358,6 +358,12 @@ public class PhysicsWorld {
 		
 	}
 	
+	public void setSphereScaling(String name, Vector3 scale)
+	{
+		if (map.containsKey(name))
+			((btSphereShape)map.get(name).getCollisionShape()).setLocalScaling(scale);
+	}
+	
 	public void addBox(Vector3 position, String name, Vector3 size, float mass) {
 		long heapSize = Runtime.getRuntime().totalMemory();
 		

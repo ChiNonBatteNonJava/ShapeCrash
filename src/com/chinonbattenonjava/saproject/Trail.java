@@ -181,7 +181,7 @@ public class Trail implements IDrawableGameComponent, IUpdatableGameComponent {
 				if (area > 50)
 				{
 					if (area > 2500) area = 2500;
-					new Sphere(String.valueOf(hashCode() + System.nanoTime()), area/150, new Vector3((maxX + minX)/2, car.getCarPos().y + area/25, (maxY + minY)/2));
+					new Sphere(String.valueOf(hashCode() + System.nanoTime()), area/100, new Vector3((maxX + minX)/2, car.getCarPos().y + area/25, (maxY + minY)/2));
 				}
 				//reset trail
 				pathVertices.clear();
