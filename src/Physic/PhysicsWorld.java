@@ -350,6 +350,8 @@ public class PhysicsWorld {
 		map.put(name, myRigidBody);
 
 		dynamicsWorld.addRigidBody(myRigidBody);
+		myRigidBody.getCollisionShape().setLocalScaling(new Vector3(3,3,3));
+		
 		
 
 		
@@ -591,12 +593,16 @@ public class PhysicsWorld {
 	public void delete(String name){
 		if (cars.containsKey(name)){
 			
-			
+			cars.get(name).delete(dynamicsWorld);
 			
 			cars.remove(name);
 		}
 		else if (map.containsKey(name)){
+			dynamicsWorld.removeRigidBody(map.get(name));
 			map.remove(name);
+			GameState.getInstance().getDrawables().remove(this);
+			GameState.getInstance().getUpdatables().remove(this);
+			
 			
 			
 		}

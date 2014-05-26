@@ -377,6 +377,11 @@ public class PhysicCar {
 		return m_vehicle.getCurrentSpeedKmHour();
 	}
 
+	public void delete(btDiscreteDynamicsWorld world){
+		world.removeVehicle(m_vehicle);
+		world.removeRigidBody(m_carChassis);
+		
+	}
 	@Override
 	public void finalize(){
 		 m_tuning.dispose();;
