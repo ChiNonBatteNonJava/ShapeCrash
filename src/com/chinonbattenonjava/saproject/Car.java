@@ -88,11 +88,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		return mNormalMatrix;
 	}
 
-	public float[][] getMVPwhellMatrix(){
-		return whellMatrix;
-		
-	}
-
 	public Vector3 getCarPos(){
 		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
 	}
@@ -108,8 +103,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		}
 		return painter;
 	}
-	
-	float[][] whellMatrix;
 	
 	@Override
 	public void update(float delta) {
@@ -138,7 +131,6 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 					counterCheckpoint = GameState.getInstance().getCheckpoints().size();
 				}
 			}
-
 			
 		    mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
 			

@@ -17,6 +17,7 @@ public class GameState {
 	private Set<IUpdatableGameComponent> updatables;
 	private ConcurrentHashMap<String, GameCamera> cameras;
 	private ConcurrentHashMap<String, GameLight> lights;
+
 	private ArrayList<Checkpoint> checkpoints;
 	
 	private GameState()
@@ -25,6 +26,7 @@ public class GameState {
 		updatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent,Boolean>());
 		cameras = new ConcurrentHashMap<String, GameCamera>();
 		lights = new ConcurrentHashMap<String, GameLight>();
+		checkpoints = new ArrayList<Checkpoint>();
 		checkpoints = new ArrayList<Checkpoint>();
 	}
 	
