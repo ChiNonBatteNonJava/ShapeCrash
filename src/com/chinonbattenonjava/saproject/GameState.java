@@ -64,6 +64,18 @@ public class GameState {
 		}
 	}
 	
+	public void removeUpdatable(IUpdatableGameComponent c){
+		synchronized(updatables){
+			updatables.remove(c);
+		}
+	}
+	
+	public void removeDrawable(IDrawableGameComponent c){
+		synchronized(drawables){
+			drawables.remove(c);
+		}
+	}
+	
 	public int getLap(){
 		return nLap;
 	}

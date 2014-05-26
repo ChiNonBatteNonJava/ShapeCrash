@@ -60,8 +60,9 @@ class Recive extends Thread {
 	                		Long idl = (Long) json.get("player_id");
 	                		
 	                		PhysicsWorld.instance("MainWorld").delete(""+idl.intValue());
-	                		GameState.getInstance().getUpdatables().remove(""+idl.intValue());
-	            			GameState.getInstance().getDrawables().remove(""+idl.intValue());
+	                		Car c = GameResourceManager.getInstance().getCar(""+idl.intValue());
+	                		GameState.getInstance().removeDrawable(c);
+	                		GameState.getInstance().removeUpdatable(c);
 	            			GameResourceManager.getInstance().deletePlayer(""+idl.intValue());
 	            			
 	                		break;
