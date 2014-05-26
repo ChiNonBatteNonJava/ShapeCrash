@@ -66,12 +66,16 @@ class Recive extends Thread {
 	            			
 	                		break;
 	                	case 102:
-	                		Long idll = (Long) json.get("player_id");
-	                		
+	                		Long idll = null;
+	                		try{
+	                			idll = (Long) json.get("player_id");
+	                		}catch(Exception e){
+	                			Log.i("bnf",e.getMessage());
+	                		}
 	                		Vector3 pos = new Vector3();
-	                		pos.x=3*id;
-	                		pos.y=27;
-	                		pos.z=3*id;
+	                		pos.x=0;
+	                		pos.y=10;
+	                		pos.z=0;
 	                		new Car(""+idll.intValue(),pos);
 	                		
 	                		break;

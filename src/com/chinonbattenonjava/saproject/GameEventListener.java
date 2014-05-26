@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClientSide.Client;
+import Physic.PhysicCar;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 
 interface ICommand {
@@ -37,6 +39,7 @@ public class GameEventListener {
 		}
 		case MotionEvent.ACTION_UP:
 			commands.upTouch();
+			commands.upTouch(event.getX(), event.getY());
 			return true;
 		}
 		return true;
@@ -69,12 +72,14 @@ class CommandListDeclaration {
 	private List<ICommand>rightTouchCOmmand;
 	private List<ICommand>upTouchCOmmand;
 	private List<BoxCommand>boxTouchCOmmand;
+	private List<BoxCommand>boxUpTouchCOmmand;
 	
 	public CommandListDeclaration(){
 		leftTouchCOmmand=new ArrayList<ICommand>();
 		rightTouchCOmmand=new ArrayList<ICommand>();
 		upTouchCOmmand=new ArrayList<ICommand>();
 		boxTouchCOmmand=new ArrayList<BoxCommand>();
+		boxUpTouchCOmmand = new ArrayList<BoxCommand>();
 		
 	}
 	
@@ -90,6 +95,10 @@ class CommandListDeclaration {
 	public void addBoxTouchAction(ICommand c,Vector2 p1,Vector2 p2){
 		boxTouchCOmmand.add(new BoxCommand(p1,p2,c));
 	}
+	public void addBoxUpTouchAction(ICommand c,Vector2 p1,Vector2 p2){
+		boxUpTouchCOmmand.add(new BoxCommand(p1,p2,c));
+	}
+	
 	public void leftTouch(){
 		for(ICommand i :leftTouchCOmmand){
 			i.execute();
@@ -105,13 +114,21 @@ class CommandListDeclaration {
 			i.execute();
 		}	
 	}
+	
+	public void upTouch(float x,float y){
+		for(BoxCommand i :boxUpTouchCOmmand){
+			if(i.touchIn(new Vector2(x,y))){
+				i.command.execute();
+			}
+		}
+	}
+	
 	public void randomTouch(float x,float y){
 		for(BoxCommand i :boxTouchCOmmand){
 			if(i.touchIn(new Vector2(x,y))){
 				i.command.execute();
 			}
 		}
-		
 	}
 
 }
@@ -184,6 +201,21 @@ class ResetSteering implements ICommand {
 	
 }
 
+class ChangeCamera implements ICommand {
+
+	boolean back = false;
+	Car player1;
+
+	public ChangeCamera(Car c){
+		player1 = c;
+	}
+	
+	public void execute() {
+		Log.i("bnf",""+System.currentTimeMillis());
+		GameState.getInstance().changeCamState();
+	}
+	
+}
 
 
 
@@ -191,6 +223,7 @@ class ResetSteering implements ICommand {
  * 
  * Builder statico per creare azioni car
  */
+
 class CarActionBuilder{
 	static void Create(Car c,GameEventListener lin){
 		if(lin==null){
@@ -203,9 +236,8 @@ class CarActionBuilder{
 		lin.getListDeclaration().addRightTouchAction(new TournLeft(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
-		Log.i("bnf","4567");
 		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
-		Log.i("bnf","4577");
+		lin.getListDeclaration().addBoxUpTouchAction(new ChangeCamera(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
 		
 
 	//	lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))

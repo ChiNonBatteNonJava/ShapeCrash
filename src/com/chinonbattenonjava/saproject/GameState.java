@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import Physic.PhysicCar;
+
 import com.badlogic.gdx.math.Vector3;
 
 public class GameState {
@@ -19,6 +21,7 @@ public class GameState {
 	private ConcurrentHashMap<String, GameLight> lights;
 
 	private ArrayList<Checkpoint> checkpoints;
+	private boolean camState = false;
 	
 	private GameState()
 	{
@@ -33,8 +36,8 @@ public class GameState {
 	public void createCheckpoint(){
 		checkpoints.add(new Checkpoint(new Vector3(-150,-5,30), 0));
 		checkpoints.add(new Checkpoint(new Vector3(-150,2,850), 0));
-		checkpoints.add(new Checkpoint(new Vector3(-420,10,-866), 0));
-		checkpoints.add(new Checkpoint(new Vector3(-898,10,219), 0));
+		checkpoints.add(new Checkpoint(new Vector3(150,-5,-30), 0));
+		checkpoints.add(new Checkpoint(new Vector3(150,-1, 880), 0));
 	}
 	
 	public ArrayList<Checkpoint> getCheckpoints(){
@@ -85,6 +88,23 @@ public class GameState {
 	{
 		synchronized(updatables){
 			updatables.add(updatable);
+		}
+	}
+	
+	public boolean camState(){
+		return camState;
+	}
+	
+	public void changeCamState(){
+		Car car = GameResourceManager.getInstance().getCar( GameResourceManager.getInstance().getPlayerName());
+		Vector3 camPos=new Vector3();
+		Vector3 carPos = car.getCarPos();
+		if(camState){
+			camState = false;
+			GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);			
+		}else{
+			camState = true;
+			GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
 		}
 	}
 	
