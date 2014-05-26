@@ -3,3 +3,4 @@ terrain = terrain.vs, terrain.ps
 trail = trail.vs, trail.ps
 speed = speed.vs, speed.ps
 sphere = sphere.vs, sphere.ps
+black = black.vs, black.ps

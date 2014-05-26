@@ -1,5 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.ArrayList;
+
 import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
@@ -26,11 +28,16 @@ class BoxShape extends btBoxShape{
 	
 	
 }
+
 public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	// locals
 	private GameCarPainter painter;
-	
+	private int counterCheckpoint;
 	private float[] mvpMatrix;
+	private float[] mModelMatrix;
+	private float[] mNormalMatrix;
+	private float[] mm; //intermediate matrix for computation
+	
 	private int i=-40;
 	public String name;
 	Vector3 startPos;
@@ -40,9 +47,13 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
-	   
+		mModelMatrix = new float[16];
+		mNormalMatrix = new float[16];
+		mm = new float[16];
+		
 	    new Trail(this);
 	    this.name=name;
+	    counterCheckpoint = GameState.getInstance().getCheckpoints().size();
 	}
 	
 	
@@ -72,14 +83,20 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		return mvpMatrix;
 	}
 	
-	
+	public float[] getNormalMatrix()
+	{
+		return mNormalMatrix;
+	}
+
 	public float[][] getMVPwhellMatrix(){
 		return whellMatrix;
 		
 	}
+
 	public Vector3 getCarPos(){
 		  return PhysicsWorld.instance("MainWorld").getVheiclePosition(name);
 	}
+
 	public PhysicCar getCar(){
 		return PhysicsWorld.instance("MainWorld").getVheicle(name);
 	}
@@ -91,47 +108,42 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 		}
 		return painter;
 	}
+	
 	float[][] whellMatrix;
-	
-	
-	
 	
 	@Override
 	public void update(float delta) {
 		
 		if(PhysicsWorld.instance("MainWorld").getVheicle(name)!=null){
+			mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
 			
-		
-	
-		// TODO Auto-generated  method stub
-		whellMatrix=new float[4][16];
-		
-		
-		float[][] whellPos=PhysicsWorld.instance("MainWorld").getVheicleWhells(name);
-		
-		float[] mModelMatrix = new float[16];
-		//Matrix.setIdentityM(mModelMa trix, 0);
-	
-		
-		mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
-		
-		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
-		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
-		
-		Matrix.multiplyMM(whellMatrix[0], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[0], 0);
-		Matrix.multiplyMM(whellMatrix[0], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[0], 0);
-		
-		Matrix.multiplyMM(whellMatrix[1], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[1], 0);
-		Matrix.multiplyMM(whellMatrix[1], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[1], 0);
-		
-		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[2], 0);
-		Matrix.multiplyMM(whellMatrix[2], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[2], 0);
-		
-		Matrix.multiplyMM(whellMatrix[3], 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, whellPos[3], 0);
-		Matrix.multiplyMM(whellMatrix[3], 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, whellMatrix[3], 0);
-		
-		whellPos=null;
-		mModelMatrix=null;
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
+			
+			Matrix.invertM(mm, 0, mvpMatrix, 0);
+			Matrix.transposeM(mNormalMatrix, 0, mm, 0);
+			
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
+			
+			if(name.equals(GameResourceManager.getInstance().getPlayerName())){
+				ArrayList<Checkpoint> checkpoints = GameState.getInstance().getCheckpoints();
+				for(Checkpoint c: checkpoints){
+					if(c.checkCarPosition(this.getCarPos())){
+						counterCheckpoint--;
+					}
+				}
+				if(counterCheckpoint == 0){
+					for(Checkpoint c: checkpoints){
+						c.reset();
+					}
+					counterCheckpoint = GameState.getInstance().getCheckpoints().size();
+				}
+			}
+
+			
+		    mModelMatrix=PhysicsWorld.instance("MainWorld").getWheicleChaiss(name);
+			
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
+			Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 		}else{
 			this.initPhysics();
 		}

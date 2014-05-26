@@ -1,20 +1,16 @@
 package com.chinonbattenonjava.saproject;
 
 
-import com.badlogic.gdx.math.Vector3;
-
 import android.opengl.GLES20;
 
 public class GameCarPainter implements IPainter {
 	private static final String CAR_MODEL_FILE = "redCar.obj";
-	private static final String CAR_WHELL_FILE = "whell.obj";
 	private static final String CAR_COLOR_FILE = "red.png";
 
 	
 	private Car car;
 	
 	private Game3DModel m;
-	private Game3DModel whell;
 	private GameShaderProgram program;
 	private int texture;
 	public GameCarPainter(Car car)
@@ -23,49 +19,11 @@ public class GameCarPainter implements IPainter {
 		GameResourceManager.getInstance().load3DObjModel(CAR_MODEL_FILE);
 		m = GameResourceManager.getInstance().get3DModelByName(CAR_MODEL_FILE);
 		
-		GameResourceManager.getInstance().load3DObjModel(CAR_WHELL_FILE);
-		whell = GameResourceManager.getInstance().get3DModelByName(CAR_WHELL_FILE);
 		GameResourceManager.getInstance().loadTexture(CAR_COLOR_FILE);
 		texture= GameResourceManager.getInstance().getTexture(CAR_COLOR_FILE);
 
 		program = GameResourceManager.getInstance().getShaderProgramByName("car");
 	}
-	
-	private void drawWhell(){
-		float[][] whellPos=car.getMVPwhellMatrix();
-	
-		for (float[] mat:whellPos){
-			
-			
-			int mPositionHandle = GLES20.glGetAttribLocation(program.getProgram(), "vPosition");
-			
-			GLES20.glEnableVertexAttribArray(mPositionHandle);
-			
-			GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, whell.COORDS_PER_VERTEX * 4, whell.getVertexBuffer());
-			
-			// mvpMatrix
-			int mvpMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uMVPMatrix");
-			GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mat, 0);
-			
-			int cameraP = GLES20.glGetUniformLocation(program.getProgram(), "eyePos");
-			Vector3 carPos = car.getCarPos();
-			Vector3 camPos=car.getCar().getVectorForward().mul(10);
-			
-
-			
-			GLES20.glUniform3f(cameraP,carPos.x-camPos.x,carPos.y+3,carPos.z-camPos.z);
-			
-			
-			// draw
-			GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, whell.getVertexCount());
-			
-			GLES20.glDisableVertexAttribArray(mPositionHandle);
-			
-		}
-		whellPos=null;
-		
-	}
-	
 	
 	@Override
 	public void draw() {
@@ -106,6 +64,14 @@ public class GameCarPainter implements IPainter {
 				"uMVPMatrix");
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				car.getMVPMatrix(), 0);
+		
+		// normalMatrix
+		int normalMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uNormalMatrix");
+		GLES20.glUniformMatrix4fv(normalMatrixHandle, 1, false, car.getNormalMatrix(), 0);
+		
+		// lightPos
+		int lightPosHandle = GLES20.glGetUniformLocation(program.getProgram(), "uLightPos");
+		GLES20.glUniform4fv(lightPosHandle, 1, GameState.getInstance().getLight("MainLight").getEyeSpacePosition(), 0);
 
 		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -126,9 +92,6 @@ public class GameCarPainter implements IPainter {
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);
-		
-	
-		
 	}
 
 	 

@@ -61,18 +61,20 @@ public class Play extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-
 				ServerOnLine server1 = ServerListAdapter.getPosition(arg2);
-
 				JSONObject jsn = new JSONObject();
-				jsn.put("code", 1);	
+				jsn.put("code", 1);
 				// TODO controllare se va bene server1.room_id
 				jsn.put("room_id", server1.room_id);
-				Log.i("id", server1.room_id.toString());
 				// TODO code 1, player_id int boh, players:[id int boh, id int
 				// boh]
 				Client c1 = Client.getInstance();
-				String mess = c1.createRoom(jsn.toString());
+				Log.i("bnf", "05"+jsn.toJSONString());
+				if(c1 == null){
+					Log.i("bfn","qui null");
+				}
+				String mess = c1.createRoom(jsn.toJSONString());
+				Log.i("bnf", "06");
 				Log.i("messaggio", mess);
 				// GameResourceManager.getInstance().reset();
 				// GameState.getInstance().reset();
@@ -85,12 +87,17 @@ public class Play extends Activity {
 				Log.i("bnf",risp.toJSONString());
 				if ((Long) risp.get("code") == 1) {
 					Long pid = (Long) risp.get("player_id");
+					Log.i("bnf","p1");
 					Client.getInstance().startGame(pid.intValue());
+					Log.i("bnf","p2");
 					GameResourceManager.getInstance().addPlayer(""+pid);
+					Log.i("bnf","p3");
 					GameResourceManager.getInstance().setPlayerName("" + pid);
-					
+					Log.i("bnf","p4");
 					JSONArray plist = new JSONArray();
+					Log.i("bnf","p5");
 					plist = (JSONArray) risp.get("players");
+					Log.i("bnf","p6");
 					Iterator it = plist.iterator();
 					String listaPlayer[] = new String[plist.size()];
 					int count = 0;
@@ -103,6 +110,7 @@ public class Play extends Activity {
 					}
 					
 					GameResourceManager.getInstance().addPlayer(listaPlayer);
+					Log.i("bnf","prima");
 					Intent intent = new Intent(Play.this, Waiting_room.class);
 					startActivity(intent);
 				} else {

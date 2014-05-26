@@ -51,6 +51,14 @@ public class GameSpherePainter implements IPainter {
 		int normalMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uNormalMatrix");
 		GLES20.glUniformMatrix4fv(normalMatrixHandle, 1, false, sphere.getNormalMatrix(), 0);
 		
+		// color
+		int colorHandle = GLES20.glGetUniformLocation(program.getProgram(), "uColor");
+		GLES20.glUniform3fv(colorHandle, 1, sphere.getColor(), 0);
+		
+		// lightPos
+		int lightPosHandle = GLES20.glGetUniformLocation(program.getProgram(), "uLightPos");
+		GLES20.glUniform4fv(lightPosHandle, 1, GameState.getInstance().getLight("MainLight").getEyeSpacePosition(), 0);
+		
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);

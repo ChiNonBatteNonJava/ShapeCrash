@@ -1,27 +1,42 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.badlogic.gdx.math.Vector3;
 
 public class GameState {
 	// singleton instance
 	private static GameState instance;
 	
 	// locals
-	private RendererState rendererState;
 	private HashSet<IDrawableGameComponent> drawables;
 	private Set<IUpdatableGameComponent> updatables;
 	private ConcurrentHashMap<String, GameCamera> cameras;
+	private ConcurrentHashMap<String, GameLight> lights;
+	private ArrayList<Checkpoint> checkpoints;
 	
 	private GameState()
 	{
-		rendererState = RendererState.NOT_READY;
-		
 		drawables = new HashSet<IDrawableGameComponent>();
 		updatables = Collections.newSetFromMap(new ConcurrentHashMap<IUpdatableGameComponent,Boolean>());
 		cameras = new ConcurrentHashMap<String, GameCamera>();
+		lights = new ConcurrentHashMap<String, GameLight>();
+		checkpoints = new ArrayList<Checkpoint>();
+	}
+	
+	public void createCheckpoint(){
+		checkpoints.add(new Checkpoint(new Vector3(0,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(50,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(100,-10,0), 0));
+		checkpoints.add(new Checkpoint(new Vector3(150,-10,0), 0));
+	}
+	
+	public ArrayList<Checkpoint> getCheckpoints(){
+		return checkpoints;
 	}
 	
 	public static GameState getInstance()
@@ -29,16 +44,6 @@ public class GameState {
 		if (instance == null)
 			instance = new GameState();
 		return instance;
-	}
-	
-	public RendererState getRendererState()
-	{
-		return rendererState;
-	}
-	
-	public void setRendererState(RendererState state)
-	{
-		rendererState = state;
 	}
 	
 	public HashSet<IDrawableGameComponent> getDrawables()
@@ -58,6 +63,13 @@ public class GameState {
 		if (!cameras.containsKey(cameraName))
 			cameras.put(cameraName, new GameCamera());
 		return cameras.get(cameraName);
+	}
+	
+	public GameLight getLight(String lightName)
+	{
+		if (!lights.containsKey(lightName))
+			lights.put(lightName, new GameLight());
+		return lights.get(lightName);
 	}
 	
 	public void registerDrawable(IDrawableGameComponent drawable)

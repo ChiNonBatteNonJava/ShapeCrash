@@ -52,6 +52,10 @@ public class GameCheckpointPainter implements IPainter{
 		// color
 		int colorHandle = GLES20.glGetUniformLocation(program.getProgram(), "uColor");
 		GLES20.glUniform3fv(colorHandle, 1, checkpoint.getColor(), 0);
+		
+		// lightPos
+		int lightPosHandle = GLES20.glGetUniformLocation(program.getProgram(), "uLightPos");
+		GLES20.glUniform4fv(lightPosHandle, 1, GameState.getInstance().getLight("MainLight").getEyeSpacePosition(), 0);
 
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		

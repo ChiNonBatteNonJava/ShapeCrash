@@ -1,5 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.Random;
+
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
 
@@ -13,6 +15,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	private String id;
 	private float radius;
 	private Vector3 pos;
+	private float[] color;
 	
 	private float[] mvpMatrix;
 	private float[] mModelMatrix;
@@ -27,6 +30,12 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 		this.id = id;
 		this.radius = radius;
 		this.pos = pos;
+		
+		color = new float[3];
+		Random r = new Random();
+		color[0] = r.nextFloat();
+		color[1] = r.nextFloat();
+		color[2] = r.nextFloat();
 		
 		mvpMatrix = new float[16];
 		mModelMatrix = new float[16];
@@ -52,6 +61,11 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	public float[] getNormalMatrix()
 	{
 		return mNormalMatrix;
+	}
+	
+	public float[] getColor()
+	{
+		return color;
 	}
 	
 	public float getRadius()

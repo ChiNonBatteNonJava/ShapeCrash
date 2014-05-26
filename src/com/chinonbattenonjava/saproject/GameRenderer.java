@@ -43,6 +43,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameState.getInstance().getCamera("MainCam").setUp(0.0f, 1.0f, 0.0f);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
 		
+		GameState.getInstance().getLight("MainLight").setPosition(1, 1, 1);
+		GameState.getInstance().getLight("MainLight").updateEyeSpacePosition();
+		
 		for(IUpdatableGameComponent drawable : GameState.getInstance().getUpdatables()){
 			
 			drawable.initPhysics();
@@ -53,12 +56,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		
 		t = new Terrain();
-		new Checkpoint(new Vector3(0, 0, 0), 0);
+		GameState.getInstance().createCheckpoint();
 
 		//Client x=new Client(player1);
 		// rendSDFer initia lization
-
-		GameState.getInstance().setRendererState(RendererState.READY);
 
 		GameResourceManager.getInstance().loadShaders();
 		GameResourceManager.getInstance().compileShaders();
@@ -67,6 +68,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		// clear screen to white
 		GLES20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		GLES20.glEnable(GLES20.GL_CULL_FACE);
+		
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		GLES20.glDepthFunc(GLES20.GL_LEQUAL);
 		GLES20.glDepthMask(true);
@@ -103,6 +106,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 		GameState.getInstance().getCamera("MainCam").setTarget(0.01f+carPos.x, carPos.y, carPos.z);
 		GameState.getInstance().getCamera("MainCam").updateViewMatrix();
+		
+		GameState.getInstance().getLight("MainLight").updateEyeSpacePosition();
 
 		Iterator<IUpdatableGameComponent> iterUp = GameState.getInstance().getUpdatables().iterator();
 		
