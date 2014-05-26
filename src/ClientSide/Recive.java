@@ -24,6 +24,7 @@ class Recive extends Thread {
 	private SocketChannel sc;
 	private int id;
 	private boolean end = false;
+	private boolean game = false;
 
 	public Recive(SocketChannel sc, int id) {
 		this.sc = sc;
@@ -35,6 +36,10 @@ class Recive extends Thread {
 		Log.i("bnf", "eneenenenenenen");
 	}
 
+	public void gameStart(){
+		game = true;
+	}
+	
 	public void run(){
         while(!end) {
 
@@ -58,13 +63,13 @@ class Recive extends Thread {
 	                switch (code){
 	                	case 101:
 	                		Long idl = (Long) json.get("player_id");
-	                		
-	                		PhysicsWorld.instance("MainWorld").delete(""+idl.intValue());
-	                		Car c = GameResourceManager.getInstance().getCar(""+idl.intValue());
-	                		GameState.getInstance().removeDrawable(c);
-	                		GameState.getInstance().removeUpdatable(c);
-	            			GameResourceManager.getInstance().deletePlayer(""+idl.intValue());
-	            			
+	                		if(game){
+		                		PhysicsWorld.instance("MainWorld").delete(""+idl.intValue());
+		                		Car c = GameResourceManager.getInstance().getCar(""+idl.intValue());
+		                		GameState.getInstance().removeDrawable(c);
+		                		GameState.getInstance().removeUpdatable(c);
+		            			GameResourceManager.getInstance().deletePlayer(""+idl.intValue());
+	                		}
 	                		break;
 	                	case 102:
 	                		Long idll = null;
@@ -73,12 +78,13 @@ class Recive extends Thread {
 	                		}catch(Exception e){
 	                			Log.i("bnf",e.getMessage());
 	                		}
-	                		Vector3 pos = new Vector3();
-	                		pos.x=0;
-	                		pos.y=10;
-	                		pos.z=0;
-	                		new Car(""+idll.intValue(),pos);
-	                		
+	                		if(game){
+		                		Vector3 pos = new Vector3();
+		                		pos.x=0;
+		                		pos.y=10;
+		                		pos.z=0;
+		                		new Car(""+idll.intValue(),pos);
+	                		}
 	                		break;
 	                	case 6:
 	                		JSONArray jsonArray = (JSONArray) json.get("players");

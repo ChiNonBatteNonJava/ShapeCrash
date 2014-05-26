@@ -114,9 +114,13 @@ public class Client extends Thread {
     	send(json.toJSONString());
     }
     
-    public void startGame(int id){
-		rec = new Recive(sc, id);
+    public void waitRoom(int id){
+    	rec = new Recive(sc, id);
 		rec.start();
+    }
+    
+    public void startGame(int id){
+    	rec.gameStart();
 		snd = new Send(sc, id);
 		snd.start();
 		
