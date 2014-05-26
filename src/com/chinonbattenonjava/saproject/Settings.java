@@ -84,7 +84,7 @@ public class Settings extends Activity {
 				jsn.put("settings", set);
 
 				Client c1 = Client.getInstance();
-				String mess = c1.createRoom(jsn.toString());
+				String mess = c1.request(jsn.toString());
 				Log.i("bnfcroom", mess);
 				try {
 					JSONObject json = (JSONObject) new JSONParser().parse(mess);
@@ -94,12 +94,7 @@ public class Settings extends Activity {
 						Point size = new Point();
 						display.getSize(size);
 						GameResourceManager.getInstance().setSreenSize(new Point(size.x,size.y));
-						Long pid = (Long) json.get("player_id");
-						Log.i("bnf",pid.toString());
-						GameResourceManager.getInstance().addPlayer("" + pid);
-						GameResourceManager.getInstance().setPlayerName("" + pid);
-						
-						Client.getInstance().startGame(pid.intValue());
+
 						/*
 						 * JSONArray plist = new JSONArray(); plist =
 						 * (JSONArray) risp.get("players"); Iterator it =
@@ -114,6 +109,8 @@ public class Settings extends Activity {
 						 * );
 						 */
 						Intent intent = new Intent(Settings.this, Waiting_room.class);
+						
+						intent.putExtra("jsn", json.toString());
 						startActivity(intent);
 						Log.i("bnf","777");
 					} else {

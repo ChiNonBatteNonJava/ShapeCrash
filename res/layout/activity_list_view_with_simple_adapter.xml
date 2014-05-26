@@ -2,15 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#000000" >
+    android:background="@drawable/backs"
+    android:orientation="horizontal" >
 
     <ListView
         android:id="@+id/listView1"
-        android:layout_width="match_parent"
+        android:layout_width="338dp"
         android:layout_height="wrap_content"
+        android:layout_weight="0.28"
         android:fontFamily="sans-serif-light"
         android:textColor="#ffffff" >
     </ListView>
+    
+
+    <ImageButton
+        android:id="@+id/button1"
+        android:visibility="invisible"
+        android:layout_width="128dp"
+        android:layout_height="70dp"
+		android:onClick="playClicked"
+        android:src="@drawable/play" />
 
 </LinearLayout>

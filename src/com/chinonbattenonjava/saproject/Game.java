@@ -16,14 +16,14 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-public class Waiting_room extends Activity {
+public class Game extends Activity {
 	private GLSurfaceView mGLView;
 	private MediaPlayer mp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.activity_waiting_room);
-		mp = MediaPlayer.create(Waiting_room.this, R.raw.song);
+		mp = MediaPlayer.create(Game.this, R.raw.song);
 		mp.setLooping(true);
 		mp.start();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -36,14 +36,14 @@ public class Waiting_room extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.waiting_room, menu);
+		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
 
 	public void onDestroy() {
 		JSONObject json = new JSONObject();
 		json.put("code", 101);
-		Client.getInstance().createRoom(json.toJSONString());
+		Client.getInstance().request(json.toJSONString());
 		Client.getInstance().stopGame();
 		Client.reset();
 		GameState.getInstance().reset();

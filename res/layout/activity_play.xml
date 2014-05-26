@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-	android:background="@drawable/backs"
      >
 
     <ImageView
@@ -22,7 +21,7 @@
 		android:textStyle="bold"
         android:textColor="#FFFF00"
         android:layout_toRightOf="@+id/imageView1"
-        android:text="CodeLearn Chapter 1"
+        android:text="Title"
         android:textSize="16sp" />
 
     <TextView

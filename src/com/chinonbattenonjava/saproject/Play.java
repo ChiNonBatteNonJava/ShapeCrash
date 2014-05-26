@@ -30,7 +30,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class Play extends Activity {
 	private String msg;
-
 	public class ServerOnLine {
 		String Name;
 		String Description;
@@ -53,10 +52,10 @@ public class Play extends Activity {
 		Log.i("received", msg);
 		ServerListAdapter = new Adapter();
 
-		ListView codeLearnLessons = (ListView) findViewById(R.id.listView1);
-		codeLearnLessons.setAdapter(ServerListAdapter);
+		ListView Lista = (ListView) findViewById(R.id.listView1);
+		Lista.setAdapter(ServerListAdapter);
 
-		codeLearnLessons.setOnItemClickListener(new OnItemClickListener() {
+		Lista.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -70,12 +69,7 @@ public class Play extends Activity {
 				// boh]
 				Client c1 = Client.getInstance();
 				Log.i("bnf", "05"+jsn.toJSONString());
-				if(c1 == null){
-					Log.i("bfn","qui null");
-				}
-				String mess = c1.createRoom(jsn.toJSONString());
-				Log.i("bnf", "06");
-				Log.i("messaggio", mess);
+				String mess = c1.request(jsn.toJSONString());
 				// GameResourceManager.getInstance().reset();
 				// GameState.getInstance().reset();
 				JSONObject risp = new JSONObject();
@@ -87,31 +81,9 @@ public class Play extends Activity {
 				Log.i("bnf",risp.toJSONString());
 				if ((Long) risp.get("code") == 1) {
 					Long pid = (Long) risp.get("player_id");
-					Log.i("bnf","p1");
-					Client.getInstance().startGame(pid.intValue());
-					Log.i("bnf","p2");
-					GameResourceManager.getInstance().addPlayer(""+pid);
-					Log.i("bnf","p3");
-					GameResourceManager.getInstance().setPlayerName("" + pid);
-					Log.i("bnf","p4");
-					JSONArray plist = new JSONArray();
-					Log.i("bnf","p5");
-					plist = (JSONArray) risp.get("players");
-					Log.i("bnf","p6");
-					Iterator it = plist.iterator();
-					String listaPlayer[] = new String[plist.size()];
-					int count = 0;
-					while (it.hasNext()) {
-						JSONObject rum = new JSONObject();
-						rum = (JSONObject) it.next();
-						Long player1 = (Long) rum.get("id");
-						listaPlayer[count] = "" + player1;
-						count++;
-					}
 					
-					GameResourceManager.getInstance().addPlayer(listaPlayer);
-					Log.i("bnf","prima");
 					Intent intent = new Intent(Play.this, Waiting_room.class);
+					intent.putExtra("jsn", mess);
 					startActivity(intent);
 				} else {
 					Toast.makeText(Play.this, (String) risp.get("message"), Toast.LENGTH_SHORT).show();
@@ -202,6 +174,7 @@ public class Play extends Activity {
 					"errore per colpa del server di benfa... pa pa paaaaaa",
 					Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(Play.this, MainActivity.class);
+
 			startActivity(intent);
 		}
 		return ServerList;

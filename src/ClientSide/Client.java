@@ -7,6 +7,8 @@ import java.nio.channels.SocketChannel;
 
 import org.json.simple.JSONObject;
 
+import com.chinonbattenonjava.saproject.Waiting_room;
+
 import android.util.Log;
 import Physic.PhysicCar;
 
@@ -23,6 +25,7 @@ public class Client extends Thread {
     private Send snd;
     private int connectionStatus;
     private Send sender;
+    private Waiting_room wr;
     //Client must keep Car as parameter
     private Client(){
     	connectionStatus = 0;
@@ -44,7 +47,7 @@ public class Client extends Thread {
     public String listServer(){
     	JSONObject jsn = new JSONObject();
         jsn.put("code", 0);
-    	SingleRequest sq = new SingleRequest(sc, jsn.toString());
+    	SingleRequest sq = new SingleRequest(sc, jsn.toString(), true);
     	sq.start();
     	while (!sq.isEnded()){
     		;
@@ -52,13 +55,14 @@ public class Client extends Thread {
     	return sq.getResults();
     	
     }
+
     public JSONObject joinServer(int id){
     	
     	return null;
     }
-    public String createRoom(String msg){
+    public String request(String msg){
     	Log.i("bfn","aaaa");
-    	SingleRequest sq = new SingleRequest(sc, msg);
+    	SingleRequest sq = new SingleRequest(sc, msg, true);
     	Log.i("bfn","bbbb");
     	sq.start();
     	Log.i("bfn","cccc");
@@ -75,8 +79,15 @@ public class Client extends Thread {
     	buff.put(msg.getBytes());
     	buff.flip();
     	try{
-    		sc.write(buff);
+        	Log.i("bana", "6");
+        	if (sc!=null){
+        		
+        		Log.i("bana", "not null");
+        	}
+    		//sc.write(buff);
+        	Log.i("bana", "7");
     	}catch(Exception e ){
+    		
     		Log.i("err", e.getMessage());
     	}
     }
@@ -114,8 +125,9 @@ public class Client extends Thread {
     	send(json.toJSONString());
     }
     
-    public void waitRoom(int id){
-    	rec = new Recive(sc, id);
+    public void waitRoom(int id, Waiting_room wr){
+    	rec = new Recive(sc, id, wr);
+    	this.wr = wr;
 		rec.start();
     }
     
@@ -125,7 +137,10 @@ public class Client extends Thread {
 		snd.start();
 		
 	}
-	
+	public void sendNoRecive(String msg){
+		SingleRequest sq = new SingleRequest(sc, msg, false);
+		sq.start();
+	}
 	public void stopGame(){
 		rec.end();
 		snd.end();
@@ -149,8 +164,10 @@ class SingleRequest extends Thread{
 	private String recived;
 	private SocketChannel sc;
 	private boolean end;
-	public SingleRequest(SocketChannel sc, String msg){
+	private boolean ricevi;
+	public SingleRequest(SocketChannel sc, String msg, boolean ricevi){
 		this.sc = sc;
+		this.ricevi = ricevi;
 		this.msg = msg;		
 		end = false;
 	}
@@ -161,23 +178,27 @@ class SingleRequest extends Thread{
 	    	buff.put(msg.getBytes());
 	    	buff.flip();
 	    	sc.write(buff);
-	    	buff.flip();
-	    	buff.clear();
-            int nbyte = sc.read(buff);
-            String str = "";
-            Log.i("bnfSingle",""+nbyte);
-            if (nbyte != -1) {
-                buff.flip();
-                while (buff.hasRemaining()) {
-                    str += (char) buff.get();
-                }
-                recived = str;
-                end = true;
+	    	if (ricevi){
+	    		buff.flip();
+	    		buff.clear();
+	    		int nbyte = sc.read(buff);
+	    		String str = "";
+            	Log.i("bnfSingle",""+nbyte);
+            	if (nbyte != -1) {
+            		buff.flip();
+              	  	while (buff.hasRemaining()) {
+              	        str += (char) buff.get();
+              	  	}
+              	  recived = str;
+               	  end = true;
+            	}
             }
 		}
+		
 	    catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		
 		
 		
 	}
