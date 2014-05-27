@@ -8,6 +8,7 @@ import android.util.Log;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.collision.Collision;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btBroadphaseInterface;
 import com.badlogic.gdx.physics.bullet.collision.btBvhTriangleMeshShape;
@@ -341,6 +342,8 @@ public class PhysicsWorld {
 
 		RigidBody myRigidBody = new RigidBody(fallRigidBodyCI);
 
+		myRigidBody.setActivationState(Collision.DISABLE_DEACTIVATION);
+		
 		map.put(name, myRigidBody);
 
 		dynamicsWorld.addRigidBody(myRigidBody);

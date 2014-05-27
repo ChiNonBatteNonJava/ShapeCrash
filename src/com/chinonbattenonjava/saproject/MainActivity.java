@@ -39,7 +39,7 @@ public class MainActivity extends Activity{
         	Toast.makeText(MainActivity.this, "errore nella connessione",Toast.LENGTH_SHORT).show();
         }
         if (c1.getConnectionStatus()==1){
-        	Toast.makeText(MainActivity.this, "connessooooooooooooooooo",Toast.LENGTH_SHORT).show();
+        	Toast.makeText(MainActivity.this, "conneected",Toast.LENGTH_SHORT).show();
         }
         
         ImageButton bt1 = (ImageButton) findViewById(R.id.button1);

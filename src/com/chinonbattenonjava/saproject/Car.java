@@ -1,6 +1,7 @@
 package com.chinonbattenonjava.saproject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.simple.JSONObject;
 
@@ -47,6 +48,9 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 	public Car(String name,Vector3 startPos)
 	{
 		this.startPos=startPos;
+		Random r = new Random();
+		int a = r.nextInt(30) - 15;
+		this.startPos = new Vector3(a, 0, a);
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];

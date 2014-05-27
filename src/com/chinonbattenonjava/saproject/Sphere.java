@@ -79,6 +79,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 	@Override
 	public void update(float delta) {
 		
+		/*
 		lifeTime-=delta;
 		
 		Matrix.setIdentityM(mModelMatrix, 0);
@@ -99,7 +100,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
     		GameState.getInstance().removeDrawable(this);
     		GameState.getInstance().removeUpdatable(this);
 		}
-		/*
+		*/
 		radius -= delta/2;
 		
 		if (radius > 0.25)
@@ -125,7 +126,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
     		GameState.getInstance().removeDrawable(this);
     		GameState.getInstance().removeUpdatable(this);
 		}
-		*/
+		
 	}
 
 	@Override
