@@ -100,16 +100,6 @@ class VehicleTuning extends btVehicleTuning{
 	
 }
 
-class RigidBody extends btRigidBody{
-
-	public RigidBody(btRigidBodyConstructionInfo constructionInfo) {
-		super(constructionInfo);
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-}
-
 class RaycastVehicle extends btRaycastVehicle{
 
 	public RaycastVehicle(btVehicleTuning tuning, RigidBody chassis,
@@ -323,6 +313,10 @@ public class PhysicsWorld {
 		dynamicsWorld.setGravity(new Vector3(0, -9.8f, 0));
 
 	}
+	
+	public RigidBody getRigidBody(String name){
+		return map.get(name);
+	}
 
 	Map<String, RigidBody> map;
 	Map<String, PhysicCar> cars;
@@ -350,7 +344,7 @@ public class PhysicsWorld {
 		map.put(name, myRigidBody);
 
 		dynamicsWorld.addRigidBody(myRigidBody);
-		myRigidBody.getCollisionShape().setLocalScaling(new Vector3(3,3,3));
+		myRigidBody.getCollisionShape().setLocalScaling(new Vector3(1,1,1));
 		
 		
 

@@ -48,7 +48,7 @@ class Recive extends Thread {
 		while (!end) {
 
 			try {
-				ByteBuffer buff = ByteBuffer.allocate(2048);
+				ByteBuffer buff = ByteBuffer.allocate(4096);
 				buff.clear();
 				int nbyte = sc.read(buff);
 				String str = "";
@@ -66,84 +66,96 @@ class Recive extends Thread {
 						Long codel = (Long) json.get("code");
 						int code = codel == null ? -2 : codel.intValue();
 						switch (code) {
-						case 101:
-							final Long idl = (Long) json.get("player_id");
-							if (game) {
-								PhysicsWorld.instance("MainWorld").delete(
-										"" + idl.intValue());
-								Car c = GameResourceManager.getInstance()
-										.getCar("" + idl.intValue());
-								GameState.getInstance().removeDrawable(c);
-								GameState.getInstance().removeUpdatable(c);
-								GameResourceManager.getInstance().deletePlayer(
-										"" + idl.intValue());
-							} else {
-								Handler handler = wr.getHandler();
-								handler.post(new Runnable() {
-									public void run() {
-										wr.removePlayer(idl.intValue());
-									}
-								});
-							}
-							break;
-						case 102:
-							final Long idll;
-							try {
-								idll = (Long) json.get("player_id");
-
+							case 101:
+								final Long idl = (Long) json.get("player_id");
 								if (game) {
-									Vector3 pos = new Vector3();
-									pos.x = 0;
-									pos.y = 10;
-									pos.z = 0;
-									new Car("" + idll.intValue(), pos);
+									PhysicsWorld.instance("MainWorld").delete(
+											"" + idl.intValue());
+									Car c = GameResourceManager.getInstance()
+											.getCar("" + idl.intValue());
+									GameState.getInstance().removeDrawable(c);
+									GameState.getInstance().removeUpdatable(c);
+									GameResourceManager.getInstance().deletePlayer(
+											"" + idl.intValue());
 								} else {
-
 									Handler handler = wr.getHandler();
 									handler.post(new Runnable() {
 										public void run() {
-											wr.addPlayer(idll.intValue());
+											wr.removePlayer(idl.intValue());
 										}
 									});
 								}
-							} catch (Exception e) {
-								Log.i("bnf", e.getMessage());
-							}
-							break;
-						case 6:
-							JSONArray jsonArray = (JSONArray) json
-									.get("players");
-							Iterator i = jsonArray.iterator();
-							while (i.hasNext()) {
-								JSONObject j = (JSONObject) i.next();
-								Long pid = (Long) j.get("id");
-								PhysicCarStatus pcs = new PhysicCarStatus();
-								pcs.fromJSON(j);
-								if (id != pid) {
-									if (PhysicsWorld.instance("MainWorld")
-											.getVheicle("" + pid.intValue()) != null) {
-										try {
-											PhysicsWorld
-													.instance("MainWorld")
-													.getVheicle(
-															"" + pid.intValue())
-													.setStatus(pcs);
-										} catch (Exception e) {
-											;
+								break;
+							case 102:
+								final Long idll;
+								try {
+									idll = (Long) json.get("player_id");
+	
+									if (game) {
+										Vector3 pos = new Vector3();
+										pos.x = 0;
+										pos.y = 10;
+										pos.z = 0;
+										new Car("" + idll.intValue(), pos);
+									} else {
+	
+										Handler handler = wr.getHandler();
+										handler.post(new Runnable() {
+											public void run() {
+												wr.addPlayer(idll.intValue());
+											}
+										});
+									}
+								} catch (Exception e) {
+									Log.i("bnf", e.getMessage());
+								}
+								break;
+							case 6:
+								JSONArray jsonArray = (JSONArray) json
+										.get("players");
+								Iterator i = jsonArray.iterator();
+								while (i.hasNext()) {
+									JSONObject j = (JSONObject) i.next();
+									Long pid = (Long) j.get("id");
+									PhysicCarStatus pcs = new PhysicCarStatus();
+									pcs.fromJSON(j);
+									if (id != pid) {
+										if (PhysicsWorld.instance("MainWorld")
+												.getVheicle("" + pid.intValue()) != null) {
+											try {
+												PhysicsWorld
+														.instance("MainWorld")
+														.getVheicle(
+																"" + pid.intValue())
+														.setStatus(pcs);
+											} catch (Exception e) {
+												;
+											}
 										}
 									}
 								}
-							}
-							break;
-						case 5:
-							wr.startGame();
-							Log.i("start", "banana");
-							break;
-						case 9:
-							if(!game){
-								wr.getHandler().post(new Runnable(){public void run(){wr.enablePlay();}});
-							}
-							break;
+								break;
+							case 5:
+								wr.startGame();
+								break;
+							case 998:
+								Log.i("bnf","998");
+								GameState.getInstance().setGameStatus(false);
+								break;
+							case 999:
+								Log.i("bnf","999");
+								GameState.getInstance().setGameStatus(true);
+								break;
+							case 9:
+								if (!game) {
+									wr.getHandler().post(new Runnable() {
+										public void run() {
+											wr.enablePlay();
+										}
+									});
+								}
+								break;
+							
 						}
 					} catch (Exception e) {
 						;

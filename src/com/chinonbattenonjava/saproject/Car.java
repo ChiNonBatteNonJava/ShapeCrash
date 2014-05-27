@@ -2,6 +2,9 @@ package com.chinonbattenonjava.saproject;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
+import ClientSide.Client;
 import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.opengl.Matrix;
@@ -129,9 +132,11 @@ public class Car implements IDrawableGameComponent, IUpdatableGameComponent {
 						c.reset();						
 					}
 					counterCheckpoint = GameState.getInstance().getCheckpoints().size();
-					GameState.getInstance().decreseLap();;
+					GameState.getInstance().decreseLap();
 					if(GameState.getInstance().getLap() == 0){
-						Log.i("bnf","win");
+						JSONObject json = new JSONObject();
+						json.put("code", 8);
+						Client.getInstance().sendNoRecive(json.toJSONString());
 					}
 				}
 			}
