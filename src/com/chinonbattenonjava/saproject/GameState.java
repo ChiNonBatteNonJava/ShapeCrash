@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Physic.PhysicCar;
+import android.net.wifi.WifiConfiguration.Status;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -25,6 +26,8 @@ public class GameState {
 	private int nLap = 3; 
 	private String name;
 	private boolean camState = false;
+	private boolean gameStatus = true;
+	
 	private GameState()
 	{
 		drawables = new HashSet<IDrawableGameComponent>();
@@ -147,5 +150,13 @@ public class GameState {
 	public void reset(){
 		
 		instance=null;
+	}
+	
+	public void setGameStatus(boolean stat){
+		gameStatus = stat;
+	}
+	
+	public boolean getGameStatus(){
+		return gameStatus;
 	}
 }

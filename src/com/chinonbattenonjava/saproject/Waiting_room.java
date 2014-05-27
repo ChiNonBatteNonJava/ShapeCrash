@@ -14,16 +14,13 @@ import Physic.PhysicsWorld;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,6 +34,7 @@ import android.widget.Toast;
 public class Waiting_room extends Activity {
 	private String msg;
 	private Handler handler;
+	private ArrayList<Integer> players; 
 	public class PlayerOnLine {
 		String Player_id;
 	}
@@ -45,6 +43,7 @@ public class Waiting_room extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		players = new ArrayList<Integer>();
 		handler = new Handler();
 		Intent intent = getIntent();
 		String mess = intent.getStringExtra("jsn");
@@ -59,7 +58,7 @@ public class Waiting_room extends Activity {
 		}
 		
 		Long errors = (Long) jsn.get("code");
-			Long pid = (Long) jsn.get("player_id");
+		Long pid = (Long) jsn.get("player_id");
 		Client.getInstance().waitRoom(pid.intValue(), this);
 		setContentView(R.layout.activity_list_view_with_simple_adapter);
 		ServerListAdapter = new Adapter();
@@ -151,6 +150,7 @@ public class Waiting_room extends Activity {
 				rum = (JSONObject) it.next();
 				PlayerOnLine serv = new PlayerOnLine();
 				serv.Player_id = "Player:" +(Long) rum.get("id");
+				players.add(new Integer(((Long) rum.get("id")).intValue()));
 				Log.i("pierz", serv.Player_id);
 				PlayerList.add(serv);
 			}
@@ -172,7 +172,7 @@ public class Waiting_room extends Activity {
 		serv.Player_id = "Player:" +id;
 		ServerListAdapter.serverList.add(serv);
 		ListView Lista = (ListView) findViewById(R.id.listView1);
-		
+		players.add(id);
 		Lista.setAdapter(ServerListAdapter);
 		
 		Log.i("azz", "add");
@@ -210,29 +210,75 @@ public class Waiting_room extends Activity {
 		Long errors = (Long) jsn.get("code");
 		Long pid = (Long) jsn.get("player_id");
 		Client.getInstance().startGame(pid.intValue());
-		GameResourceManager.getInstance().addPlayer(""+pid);
+		GameResourceManager.getInstance().addPlayer(""+pid.intValue());		
+		GameResourceManager.getInstance().setPlayerName("" + pid.intValue());
+		String[] ple = new String[players.size()];
 		
-		GameResourceManager.getInstance().setPlayerName("" + pid);
+		for(int i=0; i<players.size(); i++){
+			ple[i] = ""+players.get(i);
+		}
+		GameResourceManager.getInstance().addPlayer(ple);
+		
+		/*
+		Iterator it = ServerListAdapter.serverList.iterator();
+		String[] pp = new String[(ServerListAdapter.serverList.size()-1)];
+		int count = 0;
+		while(it.hasNext()){
+			PlayerOnLine p = (PlayerOnLine)it.next();
+			if(!p.Player_id.equals(String.valueOf(pid))){
+				pp[count] = p.Player_id;
+				count++;
+			}
+		}
+		GameResourceManager.getInstance().addPlayer(pp);		*/
+		/*
 		if (errors == 1) {
 
-		JSONArray plist = new JSONArray();
+			
+			JSONArray plist = new JSONArray();
 
-		plist = (JSONArray) jsn.get("players");
+			plist = (JSONArray) jsn.get("players");
 
-		Iterator it = plist.iterator();
-		String listaPlayer[] = new String[plist.size()];
-		int count = 0;
-		while (it.hasNext()) {
-			JSONObject rum = new JSONObject();
-			rum = (JSONObject) it.next();
-			Long player1 = (Long) rum.get("id");
-			listaPlayer[count] = "" + player1;
-			count++;
+			Iterator it = plist.iterator();
+			String listaPlayer[] = new String[plist.size()];
+			int count = 0;
+			while (it.hasNext()) {
+				JSONObject rum = new JSONObject();
+				rum = (JSONObject) it.next();
+				Long player1 = (Long) rum.get("id");
+				listaPlayer[count] = "" + player1;
+				count++;
+			}
+			
+			
+			GameResourceManager.getInstance().addPlayer(listaPlayer);
 		}
+			/*
+			JSONArray plist = new JSONArray();
+	
+			plist = (JSONArray) jsn.get("players");
+	
+			
+			Iterator it = plist.iterator();
+			//Iterator it = ServerListAdapter.serverList.iterator();
+			String listaPlayer[] = new String[ServerListAdapter.serverList.size()];
+			int count = 0;
+			while (it.hasNext()) {
+				JSONObject rum = new JSONObject();
+				rum = (JSONObject) it.next();
+				Long player1 = (Long) rum.get("id");
+				listaPlayer[count] = ""+player1.intValue();
+				//String i = ((PlayerOnLine) it.next()).Player_id;
+				//if(!i.equals(""+pid)){
+					//listaPlayer[count] = "" + ((PlayerOnLine) it.next()).Player_id;
+					count++;
+				//}
+			}
+			GameResourceManager.getInstance().addPlayer(listaPlayer);
+		}
+		*/
 		
 		
-		GameResourceManager.getInstance().addPlayer(listaPlayer);
-		}
 		Intent intent = new Intent(Waiting_room.this, Game.class);
 		startActivity(intent);
 		Log.i("start", "parte ora");
@@ -240,6 +286,7 @@ public class Waiting_room extends Activity {
 	}
 	
 	public void onDestroy() {
+		/*
 		JSONObject json = new JSONObject();
 		json.put("code", 101);
 		Client.getInstance().request(json.toJSONString());
@@ -249,7 +296,9 @@ public class Waiting_room extends Activity {
 		GameResourceManager.getInstance().reset();
 		PhysicsWorld.reset();
 		
-		super.onDestroy();
+		
 		Log.i("bnf","close");
+		*/
+		super.onDestroy();
 	}
 }
