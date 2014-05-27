@@ -9,7 +9,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.badlogic.gdx.math.Vector3;
+
 import ClientSide.Client;
+import Physic.PhysicCar;
 import Physic.PhysicsWorld;
 import android.app.Activity;
 import android.content.Context;
@@ -198,7 +201,7 @@ public class Waiting_room extends Activity {
 		Lista.setAdapter(ServerListAdapter);
 		
 	}	
-	public void startGame(){
+	public void startGame(JSONObject json){
 		JSONObject jsn = new JSONObject();
 		try {
 			jsn = (JSONObject) new JSONParser().parse(msg);
@@ -218,66 +221,18 @@ public class Waiting_room extends Activity {
 			ple[i] = ""+players.get(i);
 		}
 		GameResourceManager.getInstance().addPlayer(ple);
-		
 		/*
-		Iterator it = ServerListAdapter.serverList.iterator();
-		String[] pp = new String[(ServerListAdapter.serverList.size()-1)];
-		int count = 0;
+		JSONArray arr = (JSONArray)json.get("players");
+		Iterator it = arr.iterator();
 		while(it.hasNext()){
-			PlayerOnLine p = (PlayerOnLine)it.next();
-			if(!p.Player_id.equals(String.valueOf(pid))){
-				pp[count] = p.Player_id;
-				count++;
-			}
-		}
-		GameResourceManager.getInstance().addPlayer(pp);		*/
-		/*
-		if (errors == 1) {
-
-			
-			JSONArray plist = new JSONArray();
-
-			plist = (JSONArray) jsn.get("players");
-
-			Iterator it = plist.iterator();
-			String listaPlayer[] = new String[plist.size()];
-			int count = 0;
-			while (it.hasNext()) {
-				JSONObject rum = new JSONObject();
-				rum = (JSONObject) it.next();
-				Long player1 = (Long) rum.get("id");
-				listaPlayer[count] = "" + player1;
-				count++;
-			}
-			
-			
-			GameResourceManager.getInstance().addPlayer(listaPlayer);
-		}
-			/*
-			JSONArray plist = new JSONArray();
-	
-			plist = (JSONArray) jsn.get("players");
-	
-			
-			Iterator it = plist.iterator();
-			//Iterator it = ServerListAdapter.serverList.iterator();
-			String listaPlayer[] = new String[ServerListAdapter.serverList.size()];
-			int count = 0;
-			while (it.hasNext()) {
-				JSONObject rum = new JSONObject();
-				rum = (JSONObject) it.next();
-				Long player1 = (Long) rum.get("id");
-				listaPlayer[count] = ""+player1.intValue();
-				//String i = ((PlayerOnLine) it.next()).Player_id;
-				//if(!i.equals(""+pid)){
-					//listaPlayer[count] = "" + ((PlayerOnLine) it.next()).Player_id;
-					count++;
-				//}
-			}
-			GameResourceManager.getInstance().addPlayer(listaPlayer);
+			JSONObject j = (JSONObject) it.next();
+			Long idp = (Long)j.get("id");
+			PhysicCar c= PhysicsWorld.instance("MainWorld").getVheicle(""+idp);
+			Long x = (Long) j.get("x");
+			Long z = (Long) j.get("z");
+			c.setCarPosition(new Vector3(x,10,z));
 		}
 		*/
-		
 		
 		Intent intent = new Intent(Waiting_room.this, Game.class);
 		startActivity(intent);

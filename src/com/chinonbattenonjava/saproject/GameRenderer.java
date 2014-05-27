@@ -1,5 +1,6 @@
 package com.chinonbattenonjava.saproject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -10,6 +11,7 @@ import Physic.PhysicsWorld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
@@ -30,10 +32,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 	Car player1;
 	Terrain t;
+	
+	ArrayList<GUIQuad> guiQuads;
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		gameGUI=new GameGUI();
+		guiQuads = new ArrayList<GUIQuad>();
 		
 		// logic initialization
 		delta = 0.000001f; // small value in case of division by delta
@@ -77,6 +82,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		
 		gameGUI.AddElement(player1);
 		// TODO load textures
+		
+		guiQuads.add(new GUIQuad(new Vector2(740, 360), new Vector2(1, 1),  "1.png"));
+		
+		
+		
 	}
 
 	long startTime = 0;
@@ -100,7 +110,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 			camPos=player1.getCar().getVectorForward().mul(15);
 		}
 		
-		if(GameState.getInstance().camState()){
+		if(!GameState.getInstance().camState()){
 			GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);
 		}else{
 			GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
@@ -132,6 +142,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		}
 
 		gameGUI.Draw();
+		
+		for (GUIQuad q : guiQuads)
+		{
+			q.draw();
+		}
 		
 		GameState.getInstance().cleanCollections();
 		

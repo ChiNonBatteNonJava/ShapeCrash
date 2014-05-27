@@ -136,7 +136,8 @@ class Recive extends Thread {
 								}
 								break;
 							case 5:
-								wr.startGame();
+								Log.i("bnfJSON",json.toJSONString());
+								wr.startGame(json);
 								break;
 							case 998:
 								Log.i("bnf","998");

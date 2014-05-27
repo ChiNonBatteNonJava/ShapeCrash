@@ -201,22 +201,6 @@ class ResetSteering implements ICommand {
 	
 }
 
-class ChangeCamera implements ICommand {
-
-	boolean back = false;
-	Car player1;
-
-	public ChangeCamera(Car c){
-		player1 = c;
-	}
-	
-	public void execute() {
-		Log.i("bnf",""+System.currentTimeMillis());
-		//GameState.getInstance().changeCamState();
-	}
-	
-}
-
 
 
 /**
@@ -237,7 +221,6 @@ class CarActionBuilder{
 		lin.getListDeclaration().addUpTouchAction(new ResetRetroCommand(c));
 		lin.getListDeclaration().addUpTouchAction(new ResetSteering(c));
 		lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
-		lin.getListDeclaration().addBoxUpTouchAction(new ChangeCamera(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50,0),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2+50,50));
 		
 
 	//	lin.getListDeclaration().addBoxTouchAction(new RetroCommand(c),new Vector2(GameResourceManager.getInstance().getScreenSize().x/2-50))

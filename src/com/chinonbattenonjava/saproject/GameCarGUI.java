@@ -19,6 +19,7 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 //	private GameShaderProgram program1;
 	private int texture;
 	private int texture1;
+	private int texture2;
 	public GameCarGUI(Car element) {
 		super(element);
 		GameResourceManager.getInstance().load3DObjModel(CAR_MODEL_FILE);
@@ -33,6 +34,9 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 		texture= GameResourceManager.getInstance().getTexture("car.png");
 		GameResourceManager.getInstance().loadTexture("quadrante.png");
 		texture1= GameResourceManager.getInstance().getTexture("quadrante.png");
+		GameResourceManager.getInstance().loadTexture("reverseButton.png");
+		texture2= GameResourceManager.getInstance().getTexture("reverseButton.png");
+		
 		
 		
 		
@@ -90,7 +94,7 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
 		// Bind the texture to this unit.
-		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture1 );
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture2 );
 		int mTextureUniformHandle;
 
 		//get set sample texture
@@ -98,6 +102,9 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 				"u_Texture");
 
 		GLES20.glUniform1i(mTextureUniformHandle, 0);
+		
+		GLES20.glEnable(GLES20.GL_BLEND);
+		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0,button.getVertexCount());
 
@@ -105,6 +112,8 @@ public class GameCarGUI extends GameComponentGUI<Car> {
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		GLES20.glDisableVertexAttribArray(mUvs);
+		
+		GLES20.glDisable(GLES20.GL_BLEND);
 	}
 	
 	private void drawQuadrants(float[] proj, float[] look) {
