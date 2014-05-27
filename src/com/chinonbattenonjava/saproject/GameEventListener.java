@@ -212,7 +212,7 @@ class ChangeCamera implements ICommand {
 	
 	public void execute() {
 		Log.i("bnf",""+System.currentTimeMillis());
-		GameState.getInstance().changeCamState();
+		//GameState.getInstance().changeCamState();
 	}
 	
 }
