@@ -130,7 +130,7 @@ public class Sphere implements IUpdatableGameComponent, IDrawableGameComponent {
 
 	@Override
 	public void initPhysics() {
-		PhysicsWorld.instance("MainWorld").addSphere(radius, pos, radius * MASS_PER_RADIUS, id);
+		PhysicsWorld.instance("MainWorld").addSphere(radius * 1.07f, pos, radius * MASS_PER_RADIUS, id);
 		
 	}
 	
