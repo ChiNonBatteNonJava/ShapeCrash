@@ -9,12 +9,25 @@ import com.badlogic.gdx.math.Vector3;
 public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent {
 	private GameTerrainPainter painter=null;
 	private float[] mvpMatrix;
+	private float[] mModelMatrix;
+	private float[] mNormalMatrix;
+	private float[] mm; //intermediate matrix for computation
+	
+	private float[] color;
 	
 	public Terrain(){
 
 		GameState.getInstance().registerDrawable(this);
 		GameState.getInstance().registerUpdatable(this);
 		mvpMatrix = new float[16];
+		mModelMatrix = new float[16];
+		mNormalMatrix = new float[16];
+		mm = new float[16];
+		
+		color = new float[3];
+		color[0] = 1;
+		color[1] = 0;
+		color[2] = 0;
 	
 	}
 	
@@ -25,11 +38,12 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 	}
 	@Override
 	public void update(float delta) {
-	float[] mModelMatrix = new float[16];
-	  // mModelMatrix=PhysicsWorld.instance("MainWorld").getM atrixName("terrain1");
-	    Matrix.setIdentityM(mModelMatrix, 0);
-	    mModelMatrix = PhysicsWorld.instance("MainWorld").getMatrixName("terrain1");
+		mModelMatrix = PhysicsWorld.instance("MainWorld").getMatrixName("terrain1");
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getViewMatrix(), 0, mModelMatrix, 0);
+		
+		Matrix.invertM(mm, 0, mvpMatrix, 0);
+		Matrix.transposeM(mNormalMatrix, 0, mm, 0);
+		
 		Matrix.multiplyMM(mvpMatrix, 0, GameState.getInstance().getCamera("MainCam").getProjectionMatrix(), 0, mvpMatrix, 0);
 		
 	}
@@ -45,6 +59,16 @@ public class Terrain implements IDrawableGameComponent, IUpdatableGameComponent 
 
 	public float[] getMVPMatrix() {
 		return mvpMatrix;
+	}
+	
+	public float[] getNormalMatrix()
+	{
+		return mNormalMatrix;
+	}
+	
+	public float[] getColor()
+	{
+		return color;
 	}
 
 }

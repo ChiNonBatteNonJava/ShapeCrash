@@ -3,7 +3,7 @@ package com.chinonbattenonjava.saproject;
 import android.opengl.GLES20;
 
 public class GameSpherePainter implements IPainter {
-	private static final String SPHERE_MODEL_FILE = "sphere.obj";
+	private static final String SPHERE_MODEL_FILE = "sphereSmooth.obj";
 
 	private Sphere sphere;
 	
@@ -59,12 +59,13 @@ public class GameSpherePainter implements IPainter {
 		int lightPosHandle = GLES20.glGetUniformLocation(program.getProgram(), "uLightPos");
 		GLES20.glUniform4fv(lightPosHandle, 1, GameState.getInstance().getLight("MainLight").getEyeSpacePosition(), 0);
 		
+		//draw
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
 		GLES20.glDisableVertexAttribArray(mPositionHandle);
 		GLES20.glDisableVertexAttribArray(mNormal);
 		
-		/*// draw outline
+		// draw outline
 		GameShaderProgram black = GameResourceManager.getInstance().getShaderProgramByName("black");
 		GLES20.glUseProgram(black.getProgram());
 		
@@ -84,7 +85,7 @@ public class GameSpherePainter implements IPainter {
 		
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, m.getVertexCount());
 		
-		GLES20.glDisableVertexAttribArray(mPosHandle);*/
+		GLES20.glDisableVertexAttribArray(mPosHandle);
 	}
 
 }

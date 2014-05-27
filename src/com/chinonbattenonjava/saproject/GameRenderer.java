@@ -25,7 +25,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		float ratio = (float) width / height;
 		GameResourceManager.getInstance().setAspectRatio(ratio);
 
-		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f, 260.0f, ratio);
+		GameState.getInstance().getCamera("MainCam").setFrustum(0.10f, 500.0f, ratio);
 	}
 
 	Car player1;
@@ -67,7 +67,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 		GameResourceManager.getInstance().releaseShaders();
 
 		// clear screen to white
-		GLES20.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		GLES20.glClearColor(0.19f, 0.65f, 0.85f, 1.0f);
 		GLES20.glEnable(GLES20.GL_CULL_FACE);
 		
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);

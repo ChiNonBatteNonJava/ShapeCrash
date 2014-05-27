@@ -39,7 +39,7 @@ public class GameTerrainPainter implements IPainter {
 				m.getVertexBuffer());
 		
 		
-		 m.getVertexBuffer().position(3);
+		m.getVertexBuffer().position(3);
 		int mUvs = GLES20.glGetAttribLocation(program.getProgram(),
 				"vUvs");
 		 GLES20.glEnableVertexAttribArray(mUvs);
@@ -62,15 +62,27 @@ public class GameTerrainPainter implements IPainter {
 		
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
 				terrain.getMVPMatrix(), 0);
+		
+		// normalMatrix
+		int normalMatrixHandle = GLES20.glGetUniformLocation(program.getProgram(), "uNormalMatrix");
+		GLES20.glUniformMatrix4fv(normalMatrixHandle, 1, false, terrain.getNormalMatrix(), 0);
+		
+		// color
+		int colorHandle = GLES20.glGetUniformLocation(program.getProgram(), "uColor");
+		GLES20.glUniform3fv(colorHandle, 1, terrain.getColor(), 0);
+		
+		// uLightPos
+		int lightPosHandle = GLES20.glGetUniformLocation(program.getProgram(), "uLightPos");
+		GLES20.glUniform4fv(lightPosHandle, 1, GameState.getInstance().getLight("MainLight").getEyeSpacePosition(), 0);
+		
 		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
 		// Bind the texture to this unit.
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
-		int mTextureUniformHandle;
 		
 		//get set sample texture
-		mTextureUniformHandle = GLES20.glGetUniformLocation(program.getProgram(),
+		int mTextureUniformHandle = GLES20.glGetUniformLocation(program.getProgram(),
 				"u_Texture");
 
 		GLES20.glUniform1i(mTextureUniformHandle, 0);

@@ -1,16 +1,18 @@
-attribute vec4 vPosition ;
+precision mediump float;
+
+attribute vec4 vPosition;
 attribute vec2 vUvs;
 attribute vec3 vNormal;
 varying vec3 vNorm;
-uniform mat4 uMVPMatrix ;
 varying vec2 vUv;
-varying vec3 pos;
+uniform mat4 uMVPMatrix;
+uniform mat4 uNormalMatrix;
+
 void main()
 {
+	vNorm = normalize(vec3(uNormalMatrix * vec4(vNormal, 0.0)));
+	
+	vUv = vUvs;
+	
 	gl_Position =  uMVPMatrix *  vPosition;
-	vNorm=vNormal;
-	vUv=vUvs;
-	pos=gl_Position.xyz;
-
-
 }
