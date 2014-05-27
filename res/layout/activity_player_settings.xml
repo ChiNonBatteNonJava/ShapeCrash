@@ -1,0 +1,82 @@
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backs"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Player_settings" 
+    android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top-down view"
+            android:textColor ="#ffff00"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android1:id="@+id/textView3"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:text=" "
+            android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+        <Switch
+            android:textColor ="#ffff00"
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select:" />
+
+        <TextView
+            android1:id="@+id/textView4"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:text=" "
+            android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+        <TextView
+            android:textColor ="#ffff00"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Put here your name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android1:id="@+id/textView5"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:text=" "
+            android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+        
+        <EditText
+            android:textColor ="#ffff00"
+            android:id="@+id/editText1"
+            android:layout_width="312dp"
+            android:textColorHint="#ffff00"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Player name" />
+
+        <ImageButton
+            android1:id="@+id/imageButton1"
+       		android:layout_width="280dp"
+        	android:layout_height="60dp"
+        	android:onClick="done"
+            android1:src="@drawable/done" />
+        
+    </LinearLayout>

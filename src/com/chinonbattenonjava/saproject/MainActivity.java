@@ -17,7 +17,11 @@ import android.widget.Toast;
 public class MainActivity extends Activity{
 	
 	
-	
+	public void settPlayer(View v){
+		Intent intent = new Intent(MainActivity.this, Player_settings.class);
+		startActivity(intent);
+		
+	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

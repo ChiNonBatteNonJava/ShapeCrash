@@ -8,4 +8,6 @@
     <string name="title_activity_credits">Credits</string>
     <string name="title_activity_play">Play</string>
     <string name="title_activity_waiting_room">Waiting_room</string>
+    <string name="title_activity_player_settings">Player_settings</string>
+
 </resources>

@@ -55,6 +55,11 @@
             android:label="@string/title_activity_waiting_room"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="com.chinonbattenonjava.saproject.Player_settings"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_player_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -23,8 +23,8 @@ public class GameState {
 	private Set<IUpdatableGameComponent> tobeRemovedUpdatables;
 	private ArrayList<Checkpoint> checkpoints;
 	private int nLap = 3; 
+	private String name;
 	private boolean camState = false;
-	
 	private GameState()
 	{
 		drawables = new HashSet<IDrawableGameComponent>();
@@ -78,7 +78,9 @@ public class GameState {
 			tobeRemovedDrawables.add(c);
 		}
 	}
-	
+	public void setName(String name){
+		this.name = name;
+	}
 	public void cleanCollections()
 	{
 		for (IUpdatableGameComponent u : tobeRemovedUpdatables)
@@ -138,17 +140,8 @@ public class GameState {
 		return camState;
 	}
 	
-	public void changeCamState(){
-		Car car = GameResourceManager.getInstance().getCar( GameResourceManager.getInstance().getPlayerName());
-		Vector3 camPos=new Vector3();
-		Vector3 carPos = car.getCarPos();
-		if(camState){
-			camState = false;
-			GameState.getInstance().getCamera("MainCam").setEye(carPos.x-camPos.x,carPos.y-camPos.y+6,carPos.z-camPos.z);			
-		}else{
-			camState = true;
-			GameState.getInstance().getCamera("MainCam").setEye(carPos.x,carPos.y+45,carPos.z);
-		}
+	public void changeCamState(boolean state){
+		camState = state;
 	}
 	
 	public void reset(){

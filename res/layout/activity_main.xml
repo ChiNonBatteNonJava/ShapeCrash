@@ -4,57 +4,111 @@
     android:layout_height="match_parent"
     android:alignmentMode="alignBounds"
     android:background="@drawable/back"
-    android:columnCount="7"
     android:columnOrderPreserved="false"
-    android:rowCount="13"
+    android:rowCount="11"
+    android:columnCount="7"
     android:useDefaultMargins="true" >
 
+    
     <Space
+        android:layout_row="1"
         android:layout_column="0"
         android:layout_columnSpan="7"
+        android:minHeight="30dp"
         android:layout_gravity="fill"
+        />
+    <Space
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_columnSpan="7"
+        android:minHeight="30dp"
+        android:layout_gravity="fill"
+        />
+    <Space
+        android:layout_row="2"
+        android:layout_column="0"
+
+        android:layout_gravity="fill"
+        android:layout_width="60dp" />
+    <Space
         android:layout_row="1"
-        android:minHeight="40dp" />
-
-    <Space
-        android:layout_width="75dp"
         android:layout_column="0"
+        android:layout_columnSpan="3"
         android:layout_gravity="fill"
-        android:layout_row="2" />
-
-    <Space
         android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_height="20dp" />
+    <Space
+        android:layout_row="6"
         android:layout_column="0"
-        android:layout_columnSpan="4"
+        android:layout_columnSpan="7"
+        android:minHeight="30dp"
         android:layout_gravity="fill"
-        android:layout_row="1" />
+        />
+    <Space
+        android:layout_row="8"
+        android:layout_column="0"
+        android:layout_columnSpan="7"
+        android:minHeight="40dp"
+        android:layout_gravity="fill"
+        />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_column="6"
-        android:layout_row="12"
-        android:background="@android:color/transparent"
-        android:height="75dp"
-        android:text=""
-        android:width="100dp" />
+    <Space
+        android:layout_row="2"
+        android:layout_column="0"
+
+        android:layout_gravity="fill"
+        android:layout_width="60dp" />
+    <Space
+        android:layout_row="4"
+        android:layout_column="3"
+
+        android:layout_gravity="fill"
+        android:layout_width="120dp" />
+
+    <Space
+        android:layout_row="6"
+        android:layout_column="0"
+        android:layout_columnSpan="7"
+        android:minHeight="40dp"
+        android:layout_gravity="fill"
+        />
+    <ImageButton
+        android:id="@+id/button1"
+        android:layout_width="195dp"
+        android:layout_height="37dp"
+        android:gravity="right"
+        android:layout_row="4"
+        android:layout_column="4"
+        android:src="@drawable/create" />
 
     <ImageButton
         android:id="@+id/button3"
         android:layout_width="150dp"
         android:layout_height="37dp"
+        android:gravity="right"
         android:layout_column="5"
-        android:layout_gravity="right|top"
         android:layout_row="2"
         android:src="@drawable/join" />
 
     <ImageButton
-        android:id="@+id/button1"
-        android:layout_width="195dp"
-        android:layout_height="37dp"
+        android:id="@+id/imageButton1"
+        android:layout_width="144dp"
+        android:layout_height="40dp"
+        android:gravity="right"
+        android:layout_row="7"
         android:layout_column="1"
-        android:layout_gravity="left|top"
-        android:layout_row="12"
-        android:src="@drawable/create" />
+        android:onClick="settPlayer"
+        android:src="@drawable/settings" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_column="5"
+        android:layout_gravity="fill_horizontal|fill_vertical"
+        android:layout_row="7"
+        android:background="@android:color/transparent"
+        android:height="75dp"
+        android:width="100dp" />
 
 </GridLayout>

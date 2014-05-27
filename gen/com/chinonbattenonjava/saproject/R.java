@@ -25,24 +25,30 @@ public final class R {
         public static final int backc=0x7f020001;
         public static final int backs=0x7f020002;
         public static final int create=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int join=0x7f020005;
-        public static final int play=0x7f020006;
-        public static final int room=0x7f020007;
-        public static final int track=0x7f020008;
+        public static final int done=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int join=0x7f020006;
+        public static final int play=0x7f020007;
+        public static final int room=0x7f020008;
+        public static final int settings=0x7f020009;
+        public static final int track=0x7f02000a;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000a;
+        public static final int action_settings=0x7f09000e;
         public static final int button1=0x7f090001;
-        public static final int button2=0x7f090002;
-        public static final int button3=0x7f090003;
-        public static final int editText1=0x7f090008;
-        public static final int imageView1=0x7f090004;
+        public static final int button2=0x7f090004;
+        public static final int button3=0x7f090002;
+        public static final int editText1=0x7f09000c;
+        public static final int imageButton1=0x7f090003;
+        public static final int imageView1=0x7f090005;
         public static final int listView1=0x7f090000;
-        public static final int seekBar1=0x7f090009;
-        public static final int textView1=0x7f090005;
-        public static final int textView2=0x7f090006;
-        public static final int textView3=0x7f090007;
+        public static final int seekBar1=0x7f09000d;
+        public static final int switch1=0x7f090009;
+        public static final int textView1=0x7f090006;
+        public static final int textView2=0x7f090007;
+        public static final int textView3=0x7f090008;
+        public static final int textView4=0x7f09000a;
+        public static final int textView5=0x7f09000b;
     }
     public static final class layout {
         public static final int activity_credits=0x7f030000;
@@ -50,8 +56,9 @@ public final class R {
         public static final int activity_list_view_with_simple_adapter=0x7f030002;
         public static final int activity_main=0x7f030003;
         public static final int activity_play=0x7f030004;
-        public static final int activity_settings=0x7f030005;
-        public static final int activity_waiting_room=0x7f030006;
+        public static final int activity_player_settings=0x7f030005;
+        public static final int activity_settings=0x7f030006;
+        public static final int activity_waiting_room=0x7f030007;
     }
     public static final class menu {
         public static final int credits=0x7f080000;
@@ -59,8 +66,9 @@ public final class R {
         public static final int list_view_with_simple_adapter=0x7f080002;
         public static final int main=0x7f080003;
         public static final int play=0x7f080004;
-        public static final int settings=0x7f080005;
-        public static final int waiting_room=0x7f080006;
+        public static final int player_settings=0x7f080005;
+        public static final int settings=0x7f080006;
+        public static final int waiting_room=0x7f080007;
     }
     public static final class raw {
         public static final int song=0x7f040000;
@@ -71,6 +79,7 @@ public final class R {
         public static final int hello_world=0x7f060002;
         public static final int title_activity_credits=0x7f060004;
         public static final int title_activity_play=0x7f060005;
+        public static final int title_activity_player_settings=0x7f060007;
         public static final int title_activity_settings=0x7f060003;
         public static final int title_activity_waiting_room=0x7f060006;
     }
